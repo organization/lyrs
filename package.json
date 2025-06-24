@@ -59,7 +59,7 @@
     "eslint-plugin-import": "2.32.0",
     "eslint-plugin-prettier": "5.5.0",
     "eslint-plugin-solid": "0.14.5",
-    "node-abi": "4.9.0",
+    "node-abi": "4.10.0",
     "node-addon-api": "8.4.0",
     "patch-package": "8.0.0",
     "postcss": "8.5.6",
@@ -123,7 +123,7 @@
     "@electron/get": "4.0.1",
     "electron": "36.5.0",
     "http-errors": "2.0.0",
-    "node-abi": "4.9.0"
+    "node-abi": "4.10.0"
   },
   "build": {
     "productName": "Lyrs",
