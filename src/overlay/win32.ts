@@ -53,6 +53,7 @@ class Win32AttachedOverlay implements AttachedOverlay {
   private readonly provider: LyricWindowProvider;
   private readonly configWatcher: () => void;
 
+  private closed = false;
   private constructor(
     private viewIndex: number,
     private readonly overlay: Overlay,
@@ -66,6 +67,11 @@ class Win32AttachedOverlay implements AttachedOverlay {
           useSharedTexture: true,
         },
       },
+    });
+    overlay.event.on('destroyed', () => {
+      this.closed = true;
+      config.unwatch(this.configWatcher);
+      this.provider.close();
     });
     const webContents = this.provider.window.webContents;
     webContents.on('paint', (e, __, image: Electron.NativeImage) => {
@@ -227,9 +233,9 @@ class Win32AttachedOverlay implements AttachedOverlay {
   }
 
   close(): void {
-    config.unwatch(this.configWatcher);
+    if (this.closed) return;
+    this.closed = true;
     this.overlay.destroy();
-    this.provider.close();
   }
 
   static async initialize(

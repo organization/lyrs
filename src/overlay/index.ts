@@ -128,13 +128,12 @@ export class OverlayManager {
     if (index < 0) return false;
 
     this.registeredProcessList.splice(index, 1);
-    this.event.emit('unregister-process', pid);
-
     const overlay = this.attachedMap.get(pid);
     if (overlay) {
       this.attachedMap.delete(pid);
       overlay.close();
     }
+    this.event.emit('unregister-process', pid);
     return true;
   }
 
