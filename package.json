@@ -120,7 +120,7 @@
     "xml2js": "0.6.2",
     "axios": "1.10.0",
     "simple-update-notifier": "2.0.0",
-    "@electron/get": "4.0.1",
+    "@electron/get": "4.0.2",
     "electron": "37.2.3",
     "http-errors": "2.0.0",
     "node-abi": "4.12.0"
