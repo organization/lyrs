@@ -43,7 +43,7 @@
     "@stylistic/eslint-plugin-js": "4.4.1",
     "@total-typescript/ts-reset": "0.6.1",
     "@types/color": "4.2.0",
-    "@types/electron-progressbar": "1.2.7",
+    "@types/electron-progressbar": "2.2.0",
     "@types/node": "22.16.5",
     "@types/node-forge": "1.3.13",
     "@types/stylis": "4.2.7",
@@ -106,11 +106,11 @@
     "tstl": "3.0.0",
     "ws": "8.18.3",
     "zip-lib": "1.1.2",
-    "zod": "4.0.8"
+    "zod": "3.25.76"
   },
   "optionalDependencies": {
     "@jellybrick/wql-process-monitor": "1.4.8",
-    "asdf-overlay-node": "0.7.5",
+    "asdf-overlay-node": "0.7.6",
     "extract-file-icon": "0.3.2",
     "hmc-win32": "1.4.92",
     "mica-electron": "1.5.16",
