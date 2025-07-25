@@ -1,6 +1,6 @@
 {
   "name": "lyrs",
-  "version": "0.26.2",
+  "version": "0.26.3",
   "description": "Lyrs is a lyric viewer for YouTube Music / Spotify.",
   "main": "./dist/index.js",
   "scripts": {
