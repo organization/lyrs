@@ -19,7 +19,7 @@ jobs:
         os: [macos-latest, ubuntu-latest, windows-latest]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Setup NodeJS
         uses: actions/setup-node@v4
@@ -90,7 +90,7 @@ jobs:
     if: github.repository == 'organization/lyrs' && github.ref == 'refs/heads/master'
     needs: build
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
