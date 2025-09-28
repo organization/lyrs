@@ -76,7 +76,7 @@
     "@codemirror/lang-css": "6.3.1",
     "@codemirror/lang-sass": "6.0.2",
     "@codemirror/state": "6.5.2",
-    "@codemirror/view": "6.38.3",
+    "@codemirror/view": "6.38.4",
     "@farmfe/core": "1.7.11",
     "@floating-ui/dom": "1.7.4",
     "@hono/node-server": "1.19.4",
