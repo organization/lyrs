@@ -122,7 +122,7 @@
     "simple-update-notifier": "2.0.0",
     "@electron/get": "4.0.2",
     "electron": "37.7.1",
-    "http-errors": "2.0.0",
+    "http-errors": "2.0.1",
     "node-abi": "4.15.0"
   },
   "build": {
