@@ -47,9 +47,9 @@ export class LrclibLyricProvider implements LyricProvider {
     if (params.page && params.page > 1) return null;
 
     const query = new URLSearchParams();
-    if (params.title) query.set('track_name', this.encode(params.title));
-    if (params.artist) query.set('artist_name', this.encode(params.artist));
-    if (params.album) query.set('album_name', this.encode(params.album));
+    if (params.title) query.set('track_name', params.title);
+    if (params.artist) query.set('artist_name', params.artist);
+    if (params.album) query.set('album_name', params.album);
 
     const response = await fetch(
       `https://lrclib.net/api/search?${query.toString()}`,
@@ -82,9 +82,9 @@ export class LrclibLyricProvider implements LyricProvider {
     if (params.page && params.page > 1) return [];
 
     const query = new URLSearchParams();
-    if (params.title) query.set('track_name', this.encode(params.title));
-    if (params.artist) query.set('artist_name', this.encode(params.artist));
-    if (params.album) query.set('album_name', this.encode(params.album));
+    if (params.title) query.set('track_name', params.title);
+    if (params.artist) query.set('artist_name', params.artist);
+    if (params.album) query.set('album_name', params.album);
 
     const response = await fetch(
       `https://lrclib.net/api/search?${query.toString()}`,
@@ -108,10 +108,6 @@ export class LrclibLyricProvider implements LyricProvider {
   }
 
   public onOptionChange(options: Record<string, unknown>) {}
-
-  private encode(str: string): string {
-    return encodeURIComponent(str).replace(/%20/g, '+');
-  }
 
   private responseToMetadata(
     lyric: z.infer<typeof LyricResponseSchema>,
