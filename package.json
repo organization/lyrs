@@ -105,7 +105,7 @@
     "oxlint-tsgolint": "0.23.0",
     "patch-package": "8.0.1",
     "postcss": "8.5.16",
-    "tailwindcss": "3.4.19",
+    "tailwindcss": "4.3.2",
     "type-fest": "5.7.0",
     "typescript": "6.0.3",
     "utf-8-validate": "6.0.6",
