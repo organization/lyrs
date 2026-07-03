@@ -16,15 +16,12 @@ const nodeBuiltins = [
 ];
 
 const nativeModules = [
-  '@alexssmusica/ffi-napi',
-  '@alexssmusica/ref-napi',
   '@jellybrick/wql-process-monitor',
   '@asdf-overlay/core',
   'extract-file-icon',
   'glasstron',
   'hmc-win32',
   'mica-electron',
-  'node-window-manager',
 ];
 
 export default defineConfig(({ mode }) => {
