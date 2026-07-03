@@ -20,7 +20,7 @@ const nativeModules = [
   '@jellybrick/wql-process-monitor',
   '@asdf-overlay/core',
   'extract-file-icon',
-  'glasstron',
+  '@jellybrick/glasstron',
   'hmc-win32',
   'mica-electron',
 ];

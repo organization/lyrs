@@ -1,7 +1,7 @@
 import path from 'node:path';
 
 import { app } from 'electron';
-import { type GlasstronOptions } from 'glasstron';
+import { type GlasstronOptions } from '@jellybrick/glasstron';
 import { MicaBrowserWindow } from 'mica-electron';
 
 import { PlatformBrowserWindow } from './platform-browser-window';

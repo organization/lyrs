@@ -1,5 +1,5 @@
+import { BrowserWindow as GlassBrowserWindow } from '@jellybrick/glasstron';
 import { BrowserWindow } from 'electron';
-import { BrowserWindow as GlassBrowserWindow } from 'glasstron';
 import { IS_WINDOWS_11, MicaBrowserWindow } from 'mica-electron';
 
 import { isWin32, isXfce } from '../../utils/is';

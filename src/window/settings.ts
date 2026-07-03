@@ -1,7 +1,7 @@
 import path from 'node:path';
 
-import { app, shell } from 'electron';
-import { type GlasstronOptions } from 'glasstron';
+import { type GlasstronOptions } from '@jellybrick/glasstron';
+import { app, type BrowserWindow, shell } from 'electron';
 import { MicaBrowserWindow } from 'mica-electron';
 
 import { PlatformBrowserWindow } from './platform-browser-window';
@@ -25,7 +25,7 @@ const micaOptions = {
 const iconPath = getFile('./assets/icon_square.png');
 
 export class SettingWindowProvider implements WindowProvider {
-  public window: Electron.BrowserWindow;
+  public window: BrowserWindow;
 
   constructor() {
     this.window = new PlatformBrowserWindow({
