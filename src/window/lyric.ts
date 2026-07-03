@@ -1,4 +1,4 @@
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'node:events';
 import path from 'node:path';
 
 import { app, BrowserWindow, Menu, screen } from 'electron';

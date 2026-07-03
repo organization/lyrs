@@ -1,6 +1,6 @@
 import type { ButtonOption, SettingOption } from '../../plugins';
 import type { UpdateData } from '../../schema';
-import type { EventEmitter } from 'events';
+import type { EventEmitter } from 'node:events';
 
 export interface SourceProviderEventMap {
   start: [];

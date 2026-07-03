@@ -1,4 +1,4 @@
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'node:events';
 
 import { getProcMonitor, type ProcMonitor } from './monitor';
 

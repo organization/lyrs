@@ -1,4 +1,4 @@
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'node:events';
 
 export type ProcMonitorEventEmitter = EventEmitter<{
   'creation': [pid: number, name: string, path: string];
