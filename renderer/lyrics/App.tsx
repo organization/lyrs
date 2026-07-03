@@ -219,7 +219,7 @@ const LyricsMapEditor = () => {
                 </>
               </Match>
             </Switch>
-            <button class={'btn-text btn-icon !min-w-0'} type={'submit'}>
+            <button class={'btn-text btn-icon min-w-0!'} type={'submit'}>
               <svg
                 fill="none"
                 height="16"
@@ -251,7 +251,7 @@ const LyricsMapEditor = () => {
               {(item) => (
                 <Card
                   class={`flex flex-row justify-start items-center gap-1
-                  ${lyricData()?.id === item.id ? '!bg-primary-100 dark:!bg-primary-800 hover:!bg-primary-200 hover:dark:!bg-primary-700' : ''}
+                  ${lyricData()?.id === item.id ? 'bg-primary-100! dark:bg-primary-800! hover:bg-primary-200! hover:dark:bg-primary-700!' : ''}
                   `}
                   onClick={() => onSelect(item)}
                 >
@@ -273,7 +273,7 @@ const LyricsMapEditor = () => {
                   <div class={'flex-1'} />
                   <div
                     class={
-                      'flex flex-col justify-end items-end mr-3 self-center flex-shrink-0'
+                      'flex flex-col justify-end items-end mr-3 self-center shrink-0'
                     }
                   >
                     <div
@@ -307,7 +307,7 @@ const LyricsMapEditor = () => {
                   <Show
                     fallback={
                       <svg
-                        class={'w-6 h-6 fill-none self-center flex-shrink-0'}
+                        class={'w-6 h-6 fill-none self-center shrink-0'}
                         viewBox="0 -960 960 960"
                         xmlns="http://www.w3.org/2000/svg"
                       >
@@ -320,7 +320,7 @@ const LyricsMapEditor = () => {
                     when={lyricData()?.id !== item.id}
                   >
                     <svg
-                      class={'w-6 h-6 fill-none self-center flex-shrink-0'}
+                      class={'w-6 h-6 fill-none self-center shrink-0'}
                       fill="none"
                       height="16"
                       viewBox="0 0 24 24"

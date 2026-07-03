@@ -215,7 +215,7 @@ const ThemeContainer = () => {
                 style={{ 'font-family': option }}
               >
                 <Show when={isSelected}>
-                  <div class={'bg-primary-500 rounded w-1 h-4'} />
+                  <div class={'bg-primary-500 rounded-sm w-1 h-4'} />
                 </Show>
                 <div class={'px-2'}>{option}</div>
               </li>
@@ -255,7 +255,7 @@ const ThemeContainer = () => {
                 style={{ 'font-family': theme()?.font, 'font-weight': option }}
               >
                 <Show when={isSelected}>
-                  <div class={'bg-primary-500 rounded w-1 h-4'} />
+                  <div class={'bg-primary-500 rounded-sm w-1 h-4'} />
                 </Show>
                 <div class={'px-2'}>
                   <Trans
@@ -556,7 +556,7 @@ const ThemeContainer = () => {
                         'justify-center',
                       anchor.includes('right') && 'justify-end',
                       theme()?.position.availableAnchor.includes(anchor) &&
-                        '!bg-primary-500/50 hover:!bg-primary-500/60 active:!bg-primary-500/40',
+                        'bg-primary-500/50! hover:bg-primary-500/60! active:bg-primary-500/40!',
                     )}
                     onClick={() => {
                       const list = theme()?.position.availableAnchor ?? [];

@@ -99,7 +99,7 @@ const Switch = (props: SwitchProps) => {
         class={cx(
           'absolute w-[10px] h-[10px] left-[4px] top-[4px] rounded-full bg-black/30 dark:bg-white transition-transform',
           move() ? 'scale-[120%] w-[12px]' : 'transition-all',
-          local.value && 'scale-[120%] !bg-white',
+          local.value && 'scale-[120%] bg-white!',
         )}
         ref={thumb}
         style={{

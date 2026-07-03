@@ -46,15 +46,15 @@ const Card = (props: CardProps) => {
       class={cx(
         `
           relative w-full min-h-[67px] px-4 py-3
-          shadow-sm select-none
+          shadow-xs select-none
           bg-gray-100/60 hover:bg-gray-100/40 active:bg-gray-100/20
           dark:bg-white/5 dark:hover:bg-white/10 dark:active:bg-white/[2.5%]
         `,
         leftProps.class,
         isSubCard() &&
-          'rounded-t hover:shadow-[0_0_0_1px] hover:shadow-white/10',
-        !isSubCard() && 'rounded',
-        isSubCard() && !expand() && 'rounded-b',
+          'rounded-t-sm hover:shadow-[0_0_0_1px] hover:shadow-white/10',
+        !isSubCard() && 'rounded-sm',
+        isSubCard() && !expand() && 'rounded-b-sm',
       )}
       onClick={onClick}
     >
@@ -97,10 +97,10 @@ const Card = (props: CardProps) => {
             <For each={local.subCards}>
               {(element, index) => (
                 <Card
-                  class={'hover:!bg-white/[7.5%]'}
+                  class={'hover:bg-white/[7.5%]!'}
                   classList={{
-                    '!rounded-none': index() !== local.subCards!.length - 1,
-                    '!rounded-t-none rounded-b':
+                    'rounded-none!': index() !== local.subCards!.length - 1,
+                    'rounded-t-none! rounded-b-sm':
                       index() === local.subCards!.length - 1,
                   }}
                 >

@@ -42,7 +42,7 @@ const TitleBar = () => {
     >
       <button
         class={cx(
-          'flex justify-center items-center rounded ml-1 hover:bg-black/10 dark:hover:bg-white/10',
+          'flex justify-center items-center rounded-sm ml-1 hover:bg-black/10 dark:hover:bg-white/10',
           isMac ? 'w-6 h-6 ml-[70px] mt-[4px]' : 'w-8 h-8',
         )}
         onClick={() => history.back()}

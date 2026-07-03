@@ -18,7 +18,7 @@ export const DebugContainer = () => {
   return (
     <div
       class={
-        'w-full h-full flex flex-col justify-start items-stretch gap-2 p-4 fluent-scrollbar !overflow-x-hidden'
+        'w-full h-full flex flex-col justify-start items-stretch gap-2 p-4 fluent-scrollbar overflow-x-hidden!'
       }
     >
       <Header title={t('tray.devtools.label')} />

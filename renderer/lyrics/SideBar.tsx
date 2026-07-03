@@ -76,7 +76,7 @@ const SideBar = () => {
       <div class={'text-xl'}>
         <Trans key={'lyrics.current-playing-track'} />
       </div>
-      <LyricProgressBar class={'!w-[280px]'} />
+      <LyricProgressBar class={'w-[280px]!'} />
       <div class={'text-xl mt-4'}>
         <Trans key={'lyrics.current-applied-lyric'} />
       </div>

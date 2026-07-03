@@ -24,13 +24,13 @@ const MenuSegmentedControl = <T extends string>(
           <label
             class={cx(
               `
-              flex-1 p-1 rounded text-center
+              flex-1 p-1 rounded-sm text-center
               bg-gray-100/60 hover:bg-gray-100/40 active:bg-gray-100/20
               dark:bg-white/5 dark:hover:bg-white/10 dark:active:bg-white/[2.5%]
             `,
               props.value === item.key &&
                 `
-              !bg-primary-100 dark:!bg-primary-800 hover:!bg-primary-200 hover:dark:!bg-primary-700
+              bg-primary-100! dark:bg-primary-800! hover:bg-primary-200! hover:dark:bg-primary-700!
             `,
             )}
           >

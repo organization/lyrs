@@ -1,6 +1,7 @@
 import { builtinModules } from 'node:module';
 import { resolve } from 'node:path';
 
+import tailwindcss from '@tailwindcss/vite';
 import {
   defineConfig,
   type MainViteConfig,
@@ -69,6 +70,7 @@ export default defineConfig(({ mode }) => {
   const rendererConfig: RendererViteConfig = {
     root: './renderer/',
     plugins: [
+      tailwindcss(),
       withFilter(solidPlugin(), {
         load: { id: [/\.(tsx|jsx)$/, '/@solid-refresh'] },
       }),

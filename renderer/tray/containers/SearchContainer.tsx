@@ -161,7 +161,7 @@ export const SearchContainer = () => {
             <Card
               class={`
               flex flex-row justify-start items-center gap-1
-              ${currentLyricID() === item.id ? '!bg-primary-100 dark:!bg-primary-800 hover:!bg-primary-200 hover:dark:!bg-primary-700' : ''}
+              ${currentLyricID() === item.id ? 'bg-primary-100! dark:bg-primary-800! hover:bg-primary-200! hover:dark:bg-primary-700!' : ''}
             `}
               onClick={() => onSelect(item)}
             >
@@ -181,9 +181,7 @@ export const SearchContainer = () => {
               <Show
                 fallback={
                   <svg
-                    class={
-                      'w-[24px] h-[24px] fill-none self-center flex-shrink-0'
-                    }
+                    class={'w-[24px] h-[24px] fill-none self-center shrink-0'}
                     viewBox="0 -960 960 960"
                     xmlns="http://www.w3.org/2000/svg"
                   >
@@ -196,9 +194,7 @@ export const SearchContainer = () => {
                 when={currentLyricID() !== item.id}
               >
                 <svg
-                  class={
-                    'w-[16px] h-[16px] fill-none self-center flex-shrink-0'
-                  }
+                  class={'w-[16px] h-[16px] fill-none self-center shrink-0'}
                   viewBox="0 0 24 24"
                   xmlns="http://www.w3.org/2000/svg"
                 >

@@ -80,6 +80,7 @@
   "devDependencies": {
     "@babel/runtime": "8.0.0",
     "@stylistic/eslint-plugin": "5.10.0",
+    "@tailwindcss/vite": "4.3.2",
     "@total-typescript/ts-reset": "0.6.1",
     "@types/color": "4.2.1",
     "@types/electron-progressbar": "2.2.0",
@@ -89,7 +90,6 @@
     "@types/semver": "7.7.1",
     "@types/stylis": "4.2.7",
     "@types/ws": "8.18.1",
-    "autoprefixer": "10.5.2",
     "bufferutil": "4.1.0",
     "del-cli": "7.0.0",
     "electron": "43.0.0",
@@ -103,8 +103,7 @@
     "oxlint": "1.71.0",
     "oxlint-tsgolint": "0.23.0",
     "patch-package": "8.0.1",
-    "postcss": "8.5.16",
-    "tailwindcss": "3.4.19",
+    "tailwindcss": "4.3.2",
     "type-fest": "5.7.0",
     "typescript": "6.0.3",
     "utf-8-validate": "6.0.6",
@@ -112,8 +111,8 @@
     "vite-plugin-solid": "2.11.12"
   },
   "optionalDependencies": {
-    "@jellybrick/wql-process-monitor": "3.0.0",
     "@asdf-overlay/core": "1.2.5",
+    "@jellybrick/wql-process-monitor": "3.0.0",
     "extract-file-icon": "0.3.2",
     "hmc-win32": "1.4.92",
     "mica-electron": "1.5.17"

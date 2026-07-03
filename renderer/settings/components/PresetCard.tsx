@@ -17,7 +17,7 @@ const PresetCard = (props: PresetCardProps) => {
     <Card
       {...leftProps}
       class={cx(
-        'relative group h-full aspect-square !p-0 overflow-hidden z-0 cursor-pointer',
+        'relative group h-full aspect-square p-0! overflow-hidden z-0 cursor-pointer',
         leftProps.class,
       )}
     >
@@ -29,7 +29,7 @@ const PresetCard = (props: PresetCardProps) => {
       <div
         class={`
           absolute left-0 right-0 bottom-0
-          text-lg z-0 p-3 bg-gradient-to-t from-black/100 to-black/0
+          text-lg z-0 p-3 bg-linear-to-t from-black/100 to-black/0
           flex flex-row justify-start items-center gap-1
         `}
         classList={{
@@ -56,7 +56,7 @@ const PresetCard = (props: PresetCardProps) => {
       <Show when={local.selected}>
         <div
           class={
-            'absolute inset-0 pointer-events-none shadow-[0_0_0_4px_var(--tw-shadow-color)_inset] shadow-primary-500 rounded z-[1]'
+            'absolute inset-0 pointer-events-none shadow-[0_0_0_4px_var(--tw-shadow-color)_inset] shadow-primary-500 rounded-sm z-[1]'
           }
         />
       </Show>

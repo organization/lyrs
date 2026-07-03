@@ -188,9 +188,9 @@ export const ViewContainer = () => {
                             'justify-center',
                           anchor.includes('right') && 'justify-end',
                           !theme?.position.availableAnchor.includes(anchor) &&
-                            '!opacity-30 !bg-gray-100/60 dark:!bg-white/5',
+                            'opacity-30! bg-gray-100/60! dark:bg-white/5!',
                           view.position.anchor === anchor &&
-                            '!bg-primary-500/50 hover:!bg-primary-500/60 active:!bg-primary-500/40',
+                            'bg-primary-500/50! hover:bg-primary-500/60! active:bg-primary-500/40!',
                         )}
                         onClick={() => {
                           const isEnable =

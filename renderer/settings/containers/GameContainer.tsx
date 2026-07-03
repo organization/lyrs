@@ -179,7 +179,7 @@ const GameContainer = () => {
           <Trans key={'setting.game.search-game'} />
         </span>
         <button
-          class={'hover:!bg-white/[7.5%] rounded'}
+          class={'hover:bg-white/[7.5%]! rounded-sm'}
           onClick={() => refetch()}
         >
           <svg

@@ -256,7 +256,7 @@ const Selector = <T extends string>(props: SelectProps<T>) => {
                       onKeyDown={() => onSelect(option, index())}
                     >
                       <Show when={option === local.value}>
-                        <div class={'bg-primary-500 rounded w-1 h-4'} />
+                        <div class={'bg-primary-500 rounded-sm w-1 h-4'} />
                       </Show>
                       <div class={'px-2'}>
                         {local.format?.(option) ?? option}

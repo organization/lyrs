@@ -58,7 +58,7 @@ const Modal = (props: ModalProps) => {
               {...leftProps}
               class={cx(
                 `
-                w-fit h-fit max-h-[80vh] flex flex-col rounded overflow-hidden
+                w-fit h-fit max-h-[80vh] flex flex-col rounded-sm overflow-hidden
                 shadow-xl shadow-black/10 border-[1px]
                 bg-stone-100 border-black/10 dark:bg-stone-700 dark:border-white/10
               `,
