@@ -34,7 +34,7 @@ export class SettingWindowProvider implements WindowProvider {
       width: 1000,
       height: 800,
       webPreferences: {
-        preload: path.join(__dirname, '../preload/preload.js'),
+        preload: path.join(import.meta.dirname, '../preload/preload.js'),
         nodeIntegration: true,
       },
       title: getTranslation('title.setting', config.get().language),
@@ -60,7 +60,7 @@ export class SettingWindowProvider implements WindowProvider {
     if (!app.isPackaged && process.env.ELECTRON_RENDERER_URL) {
       this.window.loadURL(`${process.env.ELECTRON_RENDERER_URL}/settings.html`);
     } else {
-      this.window.loadFile(path.join(__dirname, '../renderer/settings.html'));
+      this.window.loadFile(path.join(import.meta.dirname, '../renderer/settings.html'));
     }
   }
 }

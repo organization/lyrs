@@ -1,6 +1,5 @@
 import { builtinModules } from 'node:module';
-import { dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { resolve } from 'node:path';
 
 import {
   defineConfig,
@@ -10,8 +9,6 @@ import {
 } from 'electron-vite';
 import { withFilter } from 'vite';
 import solidPlugin from 'vite-plugin-solid';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const nodeBuiltins = [
   ...builtinModules,
@@ -37,7 +34,7 @@ export default defineConfig(({ mode }) => {
     build: {
       lib: {
         entry: 'index.ts',
-        formats: ['cjs'],
+        formats: ['es'],
       },
       outDir: 'dist/main',
       rolldownOptions: {
@@ -83,10 +80,10 @@ export default defineConfig(({ mode }) => {
       outDir: 'dist/renderer',
       rolldownOptions: {
         input: {
-          main: resolve(__dirname, 'renderer/main.html'),
-          settings: resolve(__dirname, 'renderer/settings.html'),
-          lyrics: resolve(__dirname, 'renderer/lyrics.html'),
-          tray: resolve(__dirname, 'renderer/tray.html'),
+          main: resolve(import.meta.dirname, 'renderer/main.html'),
+          settings: resolve(import.meta.dirname, 'renderer/settings.html'),
+          lyrics: resolve(import.meta.dirname, 'renderer/lyrics.html'),
+          tray: resolve(import.meta.dirname, 'renderer/tray.html'),
         },
       },
       minify: !isDev,

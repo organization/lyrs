@@ -34,7 +34,7 @@ export class LyricSearchWindowProvider implements WindowProvider {
       width: 1000,
       height: 600,
       webPreferences: {
-        preload: path.join(__dirname, '../preload/preload.js'),
+        preload: path.join(import.meta.dirname, '../preload/preload.js'),
         nodeIntegration: true,
       },
       title: getTranslation('title.lyrics', config.get().language),
@@ -54,7 +54,7 @@ export class LyricSearchWindowProvider implements WindowProvider {
     if (!app.isPackaged && process.env.ELECTRON_RENDERER_URL) {
       this.window.loadURL(`${process.env.ELECTRON_RENDERER_URL}/lyrics.html`);
     } else {
-      this.window.loadFile(path.join(__dirname, '../renderer/lyrics.html'));
+      this.window.loadFile(path.join(import.meta.dirname, '../renderer/lyrics.html'));
     }
   }
 }

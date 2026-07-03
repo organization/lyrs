@@ -16,7 +16,7 @@
     "alvin0319 <alvin7810@naver.com>",
     "STGR <scgtdy7151@gmail.com>"
   ],
-  "main": "./dist/main/index.js",
+  "main": "./dist/main/index.mjs",
   "scripts": {
     "postinstall": "install-electron",
     "dev": "electron-vite dev --watch",
@@ -113,7 +113,7 @@
     "vite-plugin-solid": "2.11.12"
   },
   "optionalDependencies": {
-    "@jellybrick/wql-process-monitor": "1.4.8",
+    "@jellybrick/wql-process-monitor": "3.0.0",
     "@asdf-overlay/core": "1.2.5",
     "extract-file-icon": "0.3.2",
     "hmc-win32": "1.4.92",
@@ -139,9 +139,7 @@
     "node-window-manager@2.2.4": true,
     "unrs-resolver@1.12.2": true,
     "utf-8-validate@6.0.6": true,
-    "fsevents@2.3.3": true,
-    "@jellybrick/ffi-napi@4.0.18": true,
-    "@jellybrick/ref-napi@4.0.10": true
+    "fsevents@2.3.3": true
   },
   "build": {
     "productName": "Lyrs",
@@ -163,12 +161,6 @@
       "node_modules/node-gyp-build/**",
       "node_modules/ref-struct-di/lib/*",
       "node_modules/ref-struct-di/package.json",
-      "node_modules/@jellybrick/ffi-napi/package.json",
-      "node_modules/@jellybrick/ffi-napi/lib/*",
-      "node_modules/@jellybrick/ffi-napi/prebuilds/**",
-      "node_modules/@jellybrick/ref-napi/package.json",
-      "node_modules/@jellybrick/ref-napi/lib/*",
-      "node_modules/@jellybrick/ref-napi/prebuilds/**",
       "node_modules/@jellybrick/wql-process-monitor/**",
       "node_modules/@asdf-overlay/core/**",
       "node_modules/emittery/**",

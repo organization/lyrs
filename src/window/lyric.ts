@@ -31,7 +31,7 @@ const LYRIC_WINDOW_OPTIONS = {
   hiddenInMissionControl: true,
   roundedCorners: false,
   webPreferences: {
-    preload: path.join(__dirname, '../preload/preload.js'),
+    preload: path.join(import.meta.dirname, '../preload/preload.js'),
     nodeIntegration: true,
   },
   show: false,
@@ -93,7 +93,7 @@ export class LyricWindowProvider
     if (!app.isPackaged && process.env.ELECTRON_RENDERER_URL) {
       this.window.loadURL(`${process.env.ELECTRON_RENDERER_URL}/main.html`);
     } else {
-      this.window.loadFile(path.join(__dirname, '../renderer/main.html'));
+      this.window.loadFile(path.join(import.meta.dirname, '../renderer/main.html'));
     }
 
     screen.addListener('display-metrics-changed', this.onUpdateWindowConfig);
