@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 
-import { getProcMonitor, ProcMonitor } from './monitor';
+import { getProcMonitor, type ProcMonitor } from './monitor';
 
 import { config, gameList } from '../config';
 

@@ -1,14 +1,13 @@
 import { splitProps } from 'solid-js';
 
+import { usePlayingInfo } from '../../components/PlayingInfoProvider';
+import { useClassStyle } from '../../hooks/useClassStyle';
+import useCurrent from '../../hooks/useCurrent';
 import useStyle from '../../hooks/useStyle';
-
 import {
   userCSSSelectors,
   userCSSVariables,
 } from '../../utils/userCSSSelectors';
-import { usePlayingInfo } from '../../components/PlayingInfoProvider';
-import { useClassStyle } from '../../hooks/useClassStyle';
-import useCurrent from '../../hooks/useCurrent';
 
 import type { JSX } from 'solid-js/jsx-runtime';
 
@@ -67,7 +66,6 @@ const AnchoredView = (props: AnchoredViewProps) => {
 
   return (
     <div
-      data-anchor={view()?.position.anchor}
       classList={{
         ...filteredProps.classList,
         [userCSSSelectors['wrapper']]: true,
@@ -75,6 +73,7 @@ const AnchoredView = (props: AnchoredViewProps) => {
         [userCSSSelectors['wrapper--idle']]: status() === 'idle',
         [userCSSSelectors['wrapper--playing']]: status() === 'playing',
       }}
+      data-anchor={view()?.position.anchor}
       {...containerProps}
     >
       {props.children}

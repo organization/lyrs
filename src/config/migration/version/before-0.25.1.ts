@@ -1,5 +1,5 @@
-import { Migrator } from '../types';
-import { Config } from '../../../../common/schema';
+import { type Config } from '../../../../common/schema';
+import { type Migrator } from '../types';
 
 export const LEGACY_migrator0_25_1: Migrator = {
   config: (data: unknown) => {

@@ -1,4 +1,4 @@
-import { Accessor, createEffect, on, onCleanup, onMount } from 'solid-js';
+import { type Accessor, createEffect, on, onCleanup, onMount } from 'solid-js';
 
 export const useClassStyle = (className: string, style: Accessor<string>) => {
   const stylesheet = new CSSStyleSheet();

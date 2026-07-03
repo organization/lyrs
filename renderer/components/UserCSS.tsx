@@ -11,7 +11,7 @@ import {
   stringify,
   prefixer,
   middleware,
-  Middleware,
+  type Middleware,
 } from 'stylis';
 
 import useStyle from '../hooks/useStyle';

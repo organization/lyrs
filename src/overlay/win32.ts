@@ -5,24 +5,28 @@ import {
   length,
   Overlay,
   percent,
-  PercentLength,
-} from 'asdf-overlay-node';
-import { NativeImage, TextureInfo } from 'electron';
-import hmc from 'hmc-win32';
+  type PercentLength,
+} from '@asdf-overlay/core';
 import * as wql from '@jellybrick/wql-process-monitor';
-import { AsyncReturnType } from 'type-fest';
+import { type NativeImage, type TextureInfo } from 'electron';
+import hmc from 'hmc-win32';
+import { type AsyncReturnType } from 'type-fest';
 
-import { AttachedOverlay, OverlayFactory } from '.';
-import { ProcessInfo, ProcMonitor, ProcMonitorEventEmitter } from './monitor';
+import { type AttachedOverlay, type OverlayFactory } from '.';
+import {
+  type ProcessInfo,
+  type ProcMonitor,
+  type ProcMonitorEventEmitter,
+} from './monitor';
 
-import { LyricWindowProvider } from '../window/lyric';
-import { config, themeList } from '../config';
 import {
   DEFAULT_CONFIG,
   DEFAULT_STYLE,
   PRESET_PREFIX,
 } from '../../common/constants';
 import presetThemes from '../../common/presets';
+import { config, themeList } from '../config';
+import { LyricWindowProvider } from '../window';
 
 export class Win32OverlayFactory implements OverlayFactory {
   private corsCallback?: (webContents: Electron.WebContents) => void;
@@ -207,7 +211,7 @@ class Win32AttachedOverlay implements AttachedOverlay {
           this.hwnd,
           sharedTexture.codedSize.width,
           sharedTexture.codedSize.height,
-          sharedTexture.sharedTextureHandle,
+          sharedTexture.handle.ntHandle!,
           {
             dstX: rect.x,
             dstY: rect.y,

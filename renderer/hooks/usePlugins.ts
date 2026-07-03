@@ -1,6 +1,6 @@
 import { createSignal } from 'solid-js';
 
-import { Plugin, PluginEventMap } from '../../common/plugins';
+import { type Plugin, type PluginEventMap } from '../../common/plugins';
 
 type UsePluginResult = {
   plugins: () => Plugin[];

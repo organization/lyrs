@@ -1,6 +1,7 @@
 import { indentWithTab } from '@codemirror/commands';
 import { sass } from '@codemirror/lang-sass';
 import { keymap } from '@codemirror/view';
+import { Trans } from '@jellybrick/solid-i18next';
 import { CodeMirror } from '@solid-codemirror/codemirror';
 import { githubDarkInit } from '@uiw/codemirror-theme-github';
 import { basicSetup, EditorView } from 'codemirror';
@@ -12,7 +13,6 @@ import {
   runWithOwner,
   untrack,
 } from 'solid-js';
-import { Trans } from '@jellybrick/solid-i18next';
 
 import {
   userCSSSelectors,
@@ -141,8 +141,8 @@ const UserCSSEditor = (props: UserCSSEditorProps) => {
             {(selectorName) => (
               <button
                 class="btn-text flex-auto"
-                type="button"
                 onClick={() => addUserCSSSelector(selectorName)}
+                type="button"
               >
                 {selectorName}
               </button>
@@ -153,8 +153,8 @@ const UserCSSEditor = (props: UserCSSEditorProps) => {
             {(transitionName) => (
               <button
                 class="btn-text flex-auto"
-                type="button"
                 onClick={() => addUserCSSTransition(transitionName)}
+                type="button"
               >
                 {transitionName}
               </button>
@@ -165,8 +165,8 @@ const UserCSSEditor = (props: UserCSSEditorProps) => {
             {([variableName, variableValue]) => (
               <button
                 class="btn-text flex-auto"
-                type="button"
                 onClick={() => addUserCSSVariable(variableValue)}
+                type="button"
               >
                 {variableName}
               </button>
@@ -176,12 +176,12 @@ const UserCSSEditor = (props: UserCSSEditorProps) => {
       </div>
 
       <CodeMirror
+        class="mt-10 min-h-[300px] rounded-md overflow-hidden"
         extensions={[basicSetup, sass(), keymap.of([indentWithTab])]}
+        onEditorMount={setEditor}
+        onValueChange={onUpdateDebounced}
         theme={[githubTheme, userCSSTheme]}
         value={initialUserCSS() ?? ''}
-        onValueChange={onUpdateDebounced}
-        onEditorMount={setEditor}
-        class="mt-10 min-h-[300px] rounded-md overflow-hidden"
       />
     </>
   );

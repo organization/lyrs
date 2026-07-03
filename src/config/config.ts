@@ -5,7 +5,7 @@ import { app } from 'electron';
 import { State } from './state';
 
 import { DEFAULT_CONFIG } from '../../common/constants';
-import { Config, ConfigSchema } from '../../common/schema';
+import { type Config, ConfigSchema } from '../../common/schema';
 
 export const defaultConfigDirectory = app.getPath('userData');
 const getCurrentLocale = () =>

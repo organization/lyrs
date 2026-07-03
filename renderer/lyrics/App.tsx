@@ -1,4 +1,10 @@
 import {
+  Trans,
+  TransProvider,
+  useTransContext,
+} from '@jellybrick/solid-i18next';
+import { Marquee } from '@suyongs/solid-utility';
+import {
   createEffect,
   createSignal,
   For,
@@ -9,32 +15,25 @@ import {
   startTransition,
   Switch,
 } from 'solid-js';
-import {
-  Trans,
-  TransProvider,
-  useTransContext,
-} from '@jellybrick/solid-i18next';
-import { Marquee } from '@suyongs/solid-utility';
 
 import SideBar from './SideBar';
 
+import { LangResource } from '../../common/intl';
+import { type LyricMetadata } from '../../common/provider';
 import Card from '../components/Card';
 import Layout from '../components/Layout';
 import PlayingInfoProvider, {
   usePlayingInfo,
 } from '../components/PlayingInfoProvider';
+import Selector from '../components/Select';
 import Spinner from '../components/Spinner';
 import UserCSS from '../components/UserCSS';
-import useLyricMapper from '../hooks/useLyricMapper';
 import useConfig from '../hooks/useConfig';
+import useLyricMapper from '../hooks/useLyricMapper';
+import { useLyricProvider } from '../hooks/useLyricProvider';
 import usePluginOverride from '../hooks/usePluginOverride';
 import usePluginsCSS from '../hooks/usePluginsCSS';
 import { formatTime } from '../utils/formatTime';
-
-import { LangResource } from '../../common/intl';
-import { useLyricProvider } from '../hooks/useLyricProvider';
-import { LyricMetadata } from '../../common/provider';
-import Selector from '../components/Select';
 
 const LyricsMapEditor = () => {
   usePluginsCSS();
@@ -184,28 +183,28 @@ const LyricsMapEditor = () => {
             }}
           >
             <Selector
-              mode={'select'}
-              placeholder={t('lyrics.search-mode')}
               class={'select min-w-[90px] w-16 basis-1/5'}
-              options={['default', 'id'] as const}
-              value={searchMode()}
-              onChange={setSearchMode}
               format={(str) => t(`lyrics.search-mode.${str}`)}
+              mode={'select'}
+              onChange={setSearchMode}
+              options={['default', 'id'] as const}
+              placeholder={t('lyrics.search-mode')}
+              value={searchMode()}
             />
             <Switch>
               <Match when={searchMode() === 'default'}>
                 <>
                   <input
                     class={'input w-16 basis-1/5'}
+                    onInput={(event) => setArtist(event.target.value)}
                     placeholder={t('lyrics.artist')}
                     value={artist()}
-                    onInput={(event) => setArtist(event.target.value)}
                   />
                   <input
                     class={'input w-16 basis-1/5 flex-1'}
+                    onInput={(event) => setTitle(event.target.value)}
                     placeholder={t('lyrics.title')}
                     value={title()}
-                    onInput={(event) => setTitle(event.target.value)}
                   />
                 </>
               </Match>
@@ -213,24 +212,24 @@ const LyricsMapEditor = () => {
                 <>
                   <input
                     class={'input flex-1 w-16 basis-1/5'}
+                    onInput={(event) => setId(event.target.value)}
                     placeholder={t('lyrics.id')}
                     value={id()}
-                    onInput={(event) => setId(event.target.value)}
                   />
                 </>
               </Match>
             </Switch>
-            <button type={'submit'} class={'btn-text btn-icon !min-w-0'}>
+            <button class={'btn-text btn-icon !min-w-0'} type={'submit'}>
               <svg
-                width="16"
-                height="16"
                 fill="none"
+                height="16"
                 viewBox="0 0 24 24"
+                width="16"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M10 2.5a7.5 7.5 0 0 1 5.964 12.048l4.743 4.745a1 1 0 0 1-1.32 1.497l-.094-.083-4.745-4.743A7.5 7.5 0 1 1 10 2.5Zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z"
                   class={'fill-black dark:fill-white'}
+                  d="M10 2.5a7.5 7.5 0 0 1 5.964 12.048l4.743 4.745a1 1 0 0 1-1.32 1.497l-.094-.083-4.745-4.743A7.5 7.5 0 1 1 10 2.5Zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z"
                 />
               </svg>
             </button>
@@ -306,31 +305,31 @@ const LyricsMapEditor = () => {
                     </Show>
                   </div>
                   <Show
-                    when={lyricData()?.id !== item.id}
                     fallback={
                       <svg
                         class={'w-6 h-6 fill-none self-center flex-shrink-0'}
-                        xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 -960 960 960"
+                        xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"
                           class={'fill-green-500'}
+                          d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"
                         />
                       </svg>
                     }
+                    when={lyricData()?.id !== item.id}
                   >
                     <svg
-                      width="16"
-                      height="16"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
                       class={'w-6 h-6 fill-none self-center flex-shrink-0'}
+                      fill="none"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        d="M8.293 4.293a1 1 0 0 0 0 1.414L14.586 12l-6.293 6.293a1 1 0 1 0 1.414 1.414l7-7a1 1 0 0 0 0-1.414l-7-7a1 1 0 0 0-1.414 0Z"
                         class={'fill-black dark:fill-white'}
+                        d="M8.293 4.293a1 1 0 0 0 0 1.414L14.586 12l-6.293 6.293a1 1 0 1 0 1.414 1.414l7-7a1 1 0 0 0 0-1.414l-7-7a1 1 0 0 0-1.414 0Z"
                       />
                     </svg>
                   </Show>

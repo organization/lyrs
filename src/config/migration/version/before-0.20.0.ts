@@ -1,13 +1,13 @@
-import { Migrator } from '../types';
-import {
-  GameList,
-  LEGACY_Config0_20_0,
-  LEGACY_Config0_22_0,
-  LEGACY_GameList0_20_0,
-  LEGACY_StyleConfig0_20_0,
-  LEGACY_StyleConfig0_24_0,
-} from '../../../../common/schema';
 import { DEFAULT_CONFIG, DEFAULT_STYLE } from '../../../../common/constants';
+import {
+  type GameList,
+  type LEGACY_Config0_20_0,
+  type LEGACY_Config0_22_0,
+  type LEGACY_GameList0_20_0,
+  type LEGACY_StyleConfig0_20_0,
+  type LEGACY_StyleConfig0_24_0,
+} from '../../../../common/schema';
+import { type Migrator } from '../types';
 
 export const LEGACY_migrator0_20_0: Migrator = {
   config: (data: unknown) => {

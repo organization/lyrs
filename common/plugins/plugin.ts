@@ -1,7 +1,7 @@
-import { PluginProvider, PluginState } from './context';
-import { PluginEventMap, OverrideMap } from './event';
-import { PluginLog } from './logger';
-import { SettingOption } from './option';
+import { type PluginProvider, type PluginState } from './context';
+import { type PluginEventMap, type OverrideMap } from './event';
+import { type PluginLog } from './logger';
+import { type SettingOption } from './option';
 
 import type { Json } from '../../utils/types';
 import type { LyricProvider, SourceProvider } from '../provider';

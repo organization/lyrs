@@ -1,9 +1,8 @@
+import { Trans, useTransContext } from '@jellybrick/solid-i18next';
 import { For } from 'solid-js';
 
-import { Trans, useTransContext } from '@jellybrick/solid-i18next';
-
-import { Header } from '../components';
 import useConfig from '../../hooks/useConfig';
+import { Header } from '../components';
 
 export const DebugContainer = () => {
   const [config] = useConfig();

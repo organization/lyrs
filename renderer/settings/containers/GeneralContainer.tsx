@@ -1,21 +1,20 @@
 import { Trans, useTransContext } from '@jellybrick/solid-i18next';
-
 import { createResource, createSignal } from 'solid-js';
 
-import Card from '../../components/Card';
-import Selector from '../../components/Select';
-
-import useConfig from '../../hooks/useConfig';
-import { getTranslation } from '../../../common/intl';
-import Modal from '../../components/Modal';
-import Switch from '../../components/Switch';
-import useServer from '../../hooks/useServer';
-import { SettingOption } from '../../../common/plugins';
-import { SettingOptionRenderer } from '../components/SettingOptionRenderer';
-import { useLyricProvider } from '../../hooks/useLyricProvider';
 import { DEFAULT_CONFIG } from '../../../common/constants';
+import { getTranslation } from '../../../common/intl';
+import { type SettingOption } from '../../../common/plugins';
+import Card from '../../components/Card';
+import Modal from '../../components/Modal';
+import Selector from '../../components/Select';
+import Switch from '../../components/Switch';
+import useConfig from '../../hooks/useConfig';
+import { useLyricProvider } from '../../hooks/useLyricProvider';
+import useServer from '../../hooks/useServer';
+import { SettingOptionRenderer } from '../components/SettingOptionRenderer';
 
 const GeneralContainer = () => {
+  // eslint-disable-next-line @typescript-eslint/unbound-method
   const [t, { changeLanguage }] = useTransContext();
   const [config, setConfig] = useConfig();
   const [, restartServer] = useServer();
@@ -75,17 +74,17 @@ const GeneralContainer = () => {
             <Trans key={'setting.general.select-language'} />
           </div>
           <Selector
-            mode={'select'}
-            placeholder={t('setting.general.placeholder')}
             class={'select min-w-[210px]'}
-            options={['ko', 'en', 'ja', 'de']}
-            value={config()?.language ?? 'ko'}
+            format={(str) => getTranslation('language.name', str)}
+            mode={'select'}
             onChange={(value) => {
               setConfig({ language: value });
               changeLanguage(value);
               setOpen(true);
             }}
-            format={(str) => getTranslation('language.name', str)}
+            options={['ko', 'en', 'ja', 'de']}
+            placeholder={t('setting.general.placeholder')}
+            value={config()?.language ?? 'ko'}
           />
         </Card>
         <Card class={'flex flex-row justify-between items-center gap-1'}>
@@ -93,8 +92,8 @@ const GeneralContainer = () => {
             <Trans key={'setting.general.streaming-mode'} />
           </div>
           <Switch
-            value={config()?.streamingMode}
             onChange={(checked) => setConfig({ streamingMode: checked })}
+            value={config()?.streamingMode}
           />
         </Card>
         <Card class={'flex flex-row justify-between items-center gap-1'}>
@@ -102,15 +101,15 @@ const GeneralContainer = () => {
             <Trans key={'setting.general.app-theme'} />
           </div>
           <Selector
-            mode={'select'}
-            placeholder={t('setting.general.placeholder')}
             class={'select min-w-[210px]'}
-            options={['system', 'dark', 'light']}
-            value={config()?.appTheme}
+            format={(str) => t(`setting.general.app-theme.${str}`)}
+            mode={'select'}
             onChange={(value) => {
               setConfig({ appTheme: value });
             }}
-            format={(str) => t(`setting.general.app-theme.${str}`)}
+            options={['system', 'dark', 'light']}
+            placeholder={t('setting.general.placeholder')}
+            value={config()?.appTheme}
           />
         </Card>
         <Card
@@ -118,12 +117,6 @@ const GeneralContainer = () => {
           subCards={sourceProviderOptions().map((option) => (
             <div class={'flex flex-row justify-start items-center gap-1'}>
               <SettingOptionRenderer
-                option={option}
-                value={
-                  config()?.providers?.source?.config[
-                    sourceProvider()?.name ?? ''
-                  ][option.key]
-                }
                 onChange={(value) => {
                   setConfig({
                     providers: {
@@ -143,6 +136,12 @@ const GeneralContainer = () => {
                     },
                   });
                 }}
+                option={option}
+                value={
+                  config()?.providers?.source?.config[
+                    sourceProvider()?.name ?? ''
+                  ][option.key]
+                }
               />
             </div>
           ))}
@@ -152,19 +151,19 @@ const GeneralContainer = () => {
           </div>
           <div class={'flex-1'} />
           <Selector
-            mode={'select'}
-            placeholder={t('setting.general.placeholder')}
             class={'select min-w-[210px]'}
-            options={sourceProviders().map((it) => it.name)}
-            value={config()?.sourceProvider}
-            onChange={(value) => {
-              setConfig({ sourceProvider: value });
-            }}
             format={(str) =>
               t(`setting.general.source-provider.${str}`, {
                 defaultValue: str,
               })
             }
+            mode={'select'}
+            onChange={(value) => {
+              setConfig({ sourceProvider: value });
+            }}
+            options={sourceProviders().map((it) => it.name)}
+            placeholder={t('setting.general.placeholder')}
+            value={config()?.sourceProvider}
           />
         </Card>
         <Card
@@ -172,12 +171,6 @@ const GeneralContainer = () => {
           subCards={lyricProviderOptions()?.map((option) => (
             <div class={'flex flex-row justify-start items-center gap-1'}>
               <SettingOptionRenderer
-                option={option}
-                value={
-                  config()?.providers?.lyric?.config[
-                    lyricProvider()?.name ?? ''
-                  ][option.key]
-                }
                 onChange={(value) => {
                   setConfig({
                     providers: {
@@ -197,6 +190,12 @@ const GeneralContainer = () => {
                     },
                   });
                 }}
+                option={option}
+                value={
+                  config()?.providers?.lyric?.config[
+                    lyricProvider()?.name ?? ''
+                  ][option.key]
+                }
               />
             </div>
           ))}
@@ -206,19 +205,19 @@ const GeneralContainer = () => {
           </div>
           <div class={'flex-1'} />
           <Selector
-            mode={'select'}
-            placeholder={t('setting.general.placeholder')}
             class={'select min-w-[210px]'}
-            options={lyricProviderList()}
-            value={config()?.lyricProvider}
-            onChange={(value) => {
-              setConfig({ lyricProvider: value });
-            }}
             format={(str) =>
               t(`setting.general.lyric-provider.${str}`, {
                 defaultValue: str,
               })
             }
+            mode={'select'}
+            onChange={(value) => {
+              setConfig({ lyricProvider: value });
+            }}
+            options={lyricProviderList()}
+            placeholder={t('setting.general.placeholder')}
+            value={config()?.lyricProvider}
           />
         </Card>
       </div>
@@ -232,8 +231,8 @@ const GeneralContainer = () => {
               <Trans key={'setting.general.fix-always-on-top.title'} />
               <svg
                 class={'w-4 h-4 fill-current opacity-50'}
-                xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 -960 960 960"
+                xmlns="http://www.w3.org/2000/svg"
               >
                 <path d="M200-120q-51 0-72.5-45.5T138-250l222-270v-240h-40q-17 0-28.5-11.5T280-800q0-17 11.5-28.5T320-840h320q17 0 28.5 11.5T680-800q0 17-11.5 28.5T640-760h-40v240l222 270q32 39 10.5 84.5T760-120H200Zm80-120h400L544-400H416L280-240Zm-80 40h560L520-492v-268h-80v268L200-200Zm280-280Z" />
               </svg>
@@ -243,10 +242,10 @@ const GeneralContainer = () => {
             </div>
           </div>
           <Switch
-            value={!!config()?.experimental.alwaysOnTopFix}
             onChange={(checked) =>
               setConfig({ experimental: { alwaysOnTopFix: checked } })
             }
+            value={!!config()?.experimental.alwaysOnTopFix}
           />
         </Card>
       </div>
@@ -276,16 +275,17 @@ const GeneralContainer = () => {
           </div>
           <div class={'flex-1'} />
           <Switch
-            value={config()?.hardwareAcceleration}
             onChange={(checked) => {
               setConfig({ hardwareAcceleration: checked });
               setTimeout(() => {
                 setRequireOpen(true);
               }, 0);
             }}
+            value={config()?.hardwareAcceleration}
           />
         </Card>
         <Card
+          class={'flex flex-row justify-between items-center gap-1'}
           expand={config()?.developer}
           subCards={
             config()?.developer
@@ -306,8 +306,8 @@ const GeneralContainer = () => {
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        d="M6.25 4.75a1.5 1.5 0 0 0-1.5 1.5v11.5a1.5 1.5 0 0 0 1.5 1.5h11.5a1.5 1.5 0 0 0 1.5-1.5v-4a1 1 0 1 1 2 0v4a3.5 3.5 0 0 1-3.5 3.5H6.25a3.5 3.5 0 0 1-3.5-3.5V6.25a3.5 3.5 0 0 1 3.5-3.5h4a1 1 0 1 1 0 2h-4Zm6.5-1a1 1 0 0 1 1-1h6.5a1 1 0 0 1 1 1v6.5a1 1 0 1 1-2 0V6.164l-4.793 4.793a1 1 0 1 1-1.414-1.414l4.793-4.793H13.75a1 1 0 0 1-1-1Z"
                         class={'fill-black dark:fill-white'}
+                        d="M6.25 4.75a1.5 1.5 0 0 0-1.5 1.5v11.5a1.5 1.5 0 0 0 1.5 1.5h11.5a1.5 1.5 0 0 0 1.5-1.5v-4a1 1 0 1 1 2 0v4a3.5 3.5 0 0 1-3.5 3.5H6.25a3.5 3.5 0 0 1-3.5-3.5V6.25a3.5 3.5 0 0 1 3.5-3.5h4a1 1 0 1 1 0 2h-4Zm6.5-1a1 1 0 0 1 1-1h6.5a1 1 0 0 1 1 1v6.5a1 1 0 1 1-2 0V6.164l-4.793 4.793a1 1 0 1 1-1.414-1.414l4.793-4.793H13.75a1 1 0 0 1-1-1Z"
                       />
                     </svg>
                   </div>,
@@ -327,23 +327,22 @@ const GeneralContainer = () => {
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        d="M6.25 4.75a1.5 1.5 0 0 0-1.5 1.5v11.5a1.5 1.5 0 0 0 1.5 1.5h11.5a1.5 1.5 0 0 0 1.5-1.5v-4a1 1 0 1 1 2 0v4a3.5 3.5 0 0 1-3.5 3.5H6.25a3.5 3.5 0 0 1-3.5-3.5V6.25a3.5 3.5 0 0 1 3.5-3.5h4a1 1 0 1 1 0 2h-4Zm6.5-1a1 1 0 0 1 1-1h6.5a1 1 0 0 1 1 1v6.5a1 1 0 1 1-2 0V6.164l-4.793 4.793a1 1 0 1 1-1.414-1.414l4.793-4.793H13.75a1 1 0 0 1-1-1Z"
                         class={'fill-black dark:fill-white'}
+                        d="M6.25 4.75a1.5 1.5 0 0 0-1.5 1.5v11.5a1.5 1.5 0 0 0 1.5 1.5h11.5a1.5 1.5 0 0 0 1.5-1.5v-4a1 1 0 1 1 2 0v4a3.5 3.5 0 0 1-3.5 3.5H6.25a3.5 3.5 0 0 1-3.5-3.5V6.25a3.5 3.5 0 0 1 3.5-3.5h4a1 1 0 1 1 0 2h-4Zm6.5-1a1 1 0 0 1 1-1h6.5a1 1 0 0 1 1 1v6.5a1 1 0 1 1-2 0V6.164l-4.793 4.793a1 1 0 1 1-1.414-1.414l4.793-4.793H13.75a1 1 0 0 1-1-1Z"
                       />
                     </svg>
                   </div>,
                 ]
               : undefined
           }
-          class={'flex flex-row justify-between items-center gap-1'}
         >
           <div class={'text-md'}>
             <Trans key={'setting.general.developer'} />
           </div>
           <div class={'flex-1'} />
           <Switch
-            value={config()?.developer}
             onChange={(checked) => setConfig({ developer: checked })}
+            value={config()?.developer}
           />
         </Card>
       </div>
@@ -361,9 +360,6 @@ const GeneralContainer = () => {
         </Card>
       </div>
       <Modal
-        open={requireOpen()}
-        onClose={() => setRequireOpen(false)}
-        class={'max-w-[500px]'}
         buttons={[
           {
             type: 'positive',
@@ -371,15 +367,15 @@ const GeneralContainer = () => {
             onClick: () => setRequireOpen(false),
           },
         ]}
+        class={'max-w-[500px]'}
+        onClose={() => setRequireOpen(false)}
+        open={requireOpen()}
       >
         <div class={'text-white text-lg'}>
           {t('setting.general.require-alert')}
         </div>
       </Modal>
       <Modal
-        open={restartOpen()}
-        onClose={() => setRestartOpen(false)}
-        class={'max-w-[500px]'}
         buttons={[
           {
             name: t('common.cancel'),
@@ -394,6 +390,9 @@ const GeneralContainer = () => {
             },
           },
         ]}
+        class={'max-w-[500px]'}
+        onClose={() => setRestartOpen(false)}
+        open={restartOpen()}
       >
         <div class={'text-xl mb-2'}>
           <Trans key={'setting.general.restart-alert-title'} />
@@ -403,9 +402,6 @@ const GeneralContainer = () => {
         </div>
       </Modal>
       <Modal
-        open={resetOpen()}
-        onClose={() => setResetOpen(false)}
-        class={'max-w-[500px]'}
         buttons={[
           {
             name: t('common.cancel'),
@@ -420,6 +416,9 @@ const GeneralContainer = () => {
             },
           },
         ]}
+        class={'max-w-[500px]'}
+        onClose={() => setResetOpen(false)}
+        open={resetOpen()}
       >
         <div class={'text-xl mb-2'}>
           <Trans key={'setting.general.reset-alert-title'} />
@@ -429,9 +428,6 @@ const GeneralContainer = () => {
         </div>
       </Modal>
       <Modal
-        open={resetLastOpen()}
-        onClose={() => setResetLastOpen(false)}
-        class={'max-w-[500px]'}
         buttons={[
           {
             type: 'negative',
@@ -445,6 +441,9 @@ const GeneralContainer = () => {
             onClick: () => setResetLastOpen(false),
           },
         ]}
+        class={'max-w-[500px]'}
+        onClose={() => setResetLastOpen(false)}
+        open={resetLastOpen()}
       >
         <div class={'text-xl mb-2'}>
           <Trans key={'setting.general.reset-alert-title'} />
@@ -454,8 +453,6 @@ const GeneralContainer = () => {
         </div>
       </Modal>
       <Modal
-        open={open()}
-        onClose={() => setOpen(false)}
         buttons={[
           {
             type: 'positive',
@@ -463,6 +460,8 @@ const GeneralContainer = () => {
             onClick: () => setOpen(false),
           },
         ]}
+        onClose={() => setOpen(false)}
+        open={open()}
       >
         <div class={'text-white text-lg'}>
           {t('setting.general.language.alert')}

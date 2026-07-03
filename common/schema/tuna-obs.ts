@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import * as z from 'zod';
 
 export type TunaOBSUpdateData = z.infer<typeof TunaOBSUpdateDataSchema>;
 export const TunaOBSUpdateDataSchema = z.object({

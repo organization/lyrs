@@ -1,12 +1,12 @@
-import { deepmerge } from '../../../../utils/merge';
-import {
-  LEGACY_Config0_16_0,
-  LEGACY_Config0_20_0,
-  StyleConfig,
-} from '../../../../common/schema';
-import { getTranslation } from '../../../../common/intl';
 import { DEFAULT_CONFIG, DEFAULT_STYLE } from '../../../../common/constants';
-import { Migrator } from '../types';
+import { getTranslation } from '../../../../common/intl';
+import {
+  type LEGACY_Config0_16_0,
+  type LEGACY_Config0_20_0,
+  type StyleConfig,
+} from '../../../../common/schema';
+import { deepmerge } from '../../../../utils/merge';
+import { type Migrator } from '../types';
 
 export const LEGACY_migrator0_16_0: Migrator = {
   config: (data: unknown) => {

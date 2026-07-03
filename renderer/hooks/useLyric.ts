@@ -1,11 +1,10 @@
 import { createMemo } from 'solid-js';
 
+import useLyricMapper from './useLyricMapper';
 import useStyle from './useStyle';
 
-import useLyricMapper from './useLyricMapper';
-
-import { usePlayingInfo } from '../components/PlayingInfoProvider';
 import { getLyricMapperId } from '../../common/utils';
+import { usePlayingInfo } from '../components/PlayingInfoProvider';
 
 const BIAS = 225; // ms
 const TRANSITION_DURATION = 225; // ms

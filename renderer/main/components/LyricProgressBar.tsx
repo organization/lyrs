@@ -1,23 +1,19 @@
-import { createEffect, createSignal, splitProps } from 'solid-js';
-
 import { Marquee } from '@suyongs/solid-utility';
+import { createEffect, createSignal, splitProps } from 'solid-js';
 
 import icon from '../../../assets/icon_music.png';
 import { usePlayingInfo } from '../../components/PlayingInfoProvider';
+import { useClassStyle } from '../../hooks/useClassStyle';
 import useStyle from '../../hooks/useStyle';
 import { cx } from '../../utils/classNames';
-
 import { formatTime } from '../../utils/formatTime';
-
 import {
   userCSSSelectors,
   userCSSVariables,
 } from '../../utils/userCSSSelectors';
 
-import { useClassStyle } from '../../hooks/useClassStyle';
-
-import type { JSX } from 'solid-js/jsx-runtime';
 import type { StyleConfig } from '../../../common/schema';
+import type { JSX } from 'solid-js/jsx-runtime';
 
 interface LyricProgressBarProps extends JSX.HTMLAttributes<HTMLDivElement> {
   style?: string;
@@ -161,16 +157,16 @@ const LyricProgressBar = (props: LyricProgressBarProps) => {
 
   return (
     <div
+      classList={{
+        [userCSSSelectors.nowplaying]: true,
+        [style.class ?? '']: !!style.class,
+      }}
       style={`
         ${userCSSVariables['var-nowplaying-percent']}: ${duration() > 0 ? (progress() / duration()) * 100 : 0}%;
         ${userCSSVariables['var-nowplaying-duration']}: '${formatTime(duration())}';
         ${userCSSVariables['var-nowplaying-progress']}: '${formatTime(progress())}';
         ${style.style ?? ''}
       `}
-      classList={{
-        [userCSSSelectors.nowplaying]: true,
-        [style.class ?? '']: !!style.class,
-      }}
       {...containerProps}
     >
       <div class={userCSSSelectors['nowplaying-progress-bar']}>
@@ -184,15 +180,15 @@ const LyricProgressBar = (props: LyricProgressBarProps) => {
       </div>
       <div class={userCSSSelectors['nowplaying-container']}>
         <img
-          src={coverUrl() ?? icon}
+          alt={'Thumbnail'}
           classList={{
             [userCSSSelectors['nowplaying-cover']]: true,
             [userCSSSelectors['nowplaying-cover--empty']]: !coverUrl(),
           }}
+          src={coverUrl() ?? icon}
           style={`${userCSSVariables['var-cover-url']}: '${coverUrl() ?? icon}';`}
-          alt={'Thumbnail'}
         />
-        <Marquee gap={32} class={userCSSSelectors['nowplaying-marquee']}>
+        <Marquee class={userCSSSelectors['nowplaying-marquee']} gap={32}>
           <div
             class={userCSSSelectors['nowplaying-playing-text']}
             style={style.textStyle}

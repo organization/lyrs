@@ -1,3 +1,5 @@
+import { Trans, useTransContext } from '@jellybrick/solid-i18next';
+import { useNavigate } from '@solidjs/router';
 import {
   createResource,
   createSignal,
@@ -6,16 +8,13 @@ import {
   Show,
   Switch,
 } from 'solid-js';
-import { Trans, useTransContext } from '@jellybrick/solid-i18next';
-
-import { useNavigate } from '@solidjs/router';
 
 import Card from '../../components/Card';
+import Modal from '../../components/Modal';
+import useConfig from '../../hooks/useConfig';
 import useGameList from '../../hooks/useGameList';
 import usePlayingGame from '../../hooks/usePlayingGame';
 import GameCard from '../components/GameCard';
-import Modal from '../../components/Modal';
-import useConfig from '../../hooks/useConfig';
 
 interface ProcessData {
   name: string;
@@ -162,15 +161,15 @@ const GameContainer = () => {
           </div>
         </div>
         <svg
-          width="18"
-          height="18"
           fill="none"
+          height="18"
           viewBox="0 0 24 24"
+          width="18"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M8.47 4.22a.75.75 0 0 0 0 1.06L15.19 12l-6.72 6.72a.75.75 0 1 0 1.06 1.06l7.25-7.25a.75.75 0 0 0 0-1.06L9.53 4.22a.75.75 0 0 0-1.06 0Z"
             class={'fill-black dark:fill-white'}
+            d="M8.47 4.22a.75.75 0 0 0 0 1.06L15.19 12l-6.72 6.72a.75.75 0 1 0 1.06 1.06l7.25-7.25a.75.75 0 0 0 0-1.06L9.53 4.22a.75.75 0 0 0-1.06 0Z"
           />
         </svg>
       </Card>
@@ -184,18 +183,18 @@ const GameContainer = () => {
           onClick={() => refetch()}
         >
           <svg
-            width="18"
-            height="18"
-            fill="none"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
             classList={{
               ['animate-spin']: processList.loading,
             }}
+            fill="none"
+            height="18"
+            viewBox="0 0 24 24"
+            width="18"
+            xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
               class={'fill-black dark:fill-white'}
+              d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
             />
           </svg>
         </button>
@@ -211,7 +210,6 @@ const GameContainer = () => {
                 path={process.path}
               >
                 <Show
-                  when={gameList()[process.path]}
                   fallback={
                     <button
                       class={'btn-primary'}
@@ -220,6 +218,7 @@ const GameContainer = () => {
                       <Trans key={'setting.game.register-game'} />
                     </button>
                   }
+                  when={gameList()[process.path]}
                 >
                   <button
                     class={'btn-text'}
@@ -248,8 +247,8 @@ const GameContainer = () => {
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d="M4.22 8.47a.75.75 0 0 1 1.06 0L12 15.19l6.72-6.72a.75.75 0 1 1 1.06 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L4.22 9.53a.75.75 0 0 1 0-1.06Z"
                 class={'fill-black dark:fill-white'}
+                d="M4.22 8.47a.75.75 0 0 1 1.06 0L12 15.19l6.72-6.72a.75.75 0 1 1 1.06 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L4.22 9.53a.75.75 0 0 1 0-1.06Z"
               />
             </svg>
             {processViewMode() === 'available'
@@ -270,9 +269,9 @@ const GameContainer = () => {
       </Switch>
 
       <Modal
-        open={!!target()}
-        onClose={() => setTarget(null)}
         class={'max-w-[500px]'}
+        onClose={() => setTarget(null)}
+        open={!!target()}
       >
         <div class={'text-white text-xl mb-2'}>
           {t('setting.game.select-view-to-show-game-overlay')}

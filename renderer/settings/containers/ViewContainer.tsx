@@ -1,22 +1,17 @@
-import { createSignal, For } from 'solid-js';
 import { Trans, useTransContext } from '@jellybrick/solid-i18next';
-
-import { t } from 'i18next';
-
-import Card from '../../components/Card';
-import Switch from '../../components/Switch';
-import presetThemes from '../../../common/presets';
-import { DEFAULT_CONFIG, PRESET_PREFIX } from '../../../common/constants';
-
-import useConfig from '../../hooks/useConfig';
-import { cx } from '../../utils/classNames';
-import Selector from '../../components/Select';
-import useThemeList from '../../hooks/useThemeList';
+import { createSignal, For } from 'solid-js';
 
 import icon from '../../../assets/icon_music.png';
-
+import { DEFAULT_CONFIG, PRESET_PREFIX } from '../../../common/constants';
+import presetThemes from '../../../common/presets';
+import Card from '../../components/Card';
 import Modal from '../../components/Modal';
+import Selector from '../../components/Select';
+import Switch from '../../components/Switch';
+import useConfig from '../../hooks/useConfig';
 import useGameList from '../../hooks/useGameList';
+import useThemeList from '../../hooks/useThemeList';
+import { cx } from '../../utils/classNames';
 
 import type { screen as electronScreen } from 'electron';
 
@@ -108,12 +103,12 @@ export const ViewContainer = () => {
       <For each={views()}>
         {(view, index) => (
           <Card
+            class={'flex flex-row justify-start items-center gap-4'}
             expand={expand() === index()}
             setExpand={(isExpand) => {
               if (isExpand) setExpand(index());
               else setExpand(-1);
             }}
-            class={'flex flex-row justify-start items-center gap-4'}
             subCards={[
               <div
                 class={
@@ -125,7 +120,7 @@ export const ViewContainer = () => {
                 </div>
                 <div class={'flex-1'} />
                 <Selector
-                  value={view.theme}
+                  class={'select'}
                   format={(theme) => {
                     if (theme.startsWith(PRESET_PREFIX)) {
                       return t(
@@ -149,7 +144,7 @@ export const ViewContainer = () => {
                     ),
                     ...Object.keys(themeList()),
                   ]}
-                  class={'select'}
+                  value={view.theme}
                 />
               </div>,
               <div
@@ -225,10 +220,7 @@ export const ViewContainer = () => {
                 <div />
                 <label class={'input-group group'}>
                   <input
-                    type={'number'}
                     class={'input w-full h-full'}
-                    placeholder={t('setting.position.top-margin')}
-                    value={view.position.top ?? undefined}
                     onChange={(event) => {
                       const newViews = [...views()];
                       newViews[index()].position.top = Number(
@@ -239,6 +231,9 @@ export const ViewContainer = () => {
                         views: newViews,
                       });
                     }}
+                    placeholder={t('setting.position.top-margin')}
+                    type={'number'}
+                    value={view.position.top ?? undefined}
                   />
                   <span class={'suffix group-focus-within:suffix-focus-within'}>
                     px
@@ -247,10 +242,7 @@ export const ViewContainer = () => {
                 <div />
                 <label class={'input-group group'}>
                   <input
-                    type={'number'}
                     class={'input w-full h-full'}
-                    placeholder={t('setting.position.left-margin')}
-                    value={view.position.left ?? undefined}
                     onChange={(event) => {
                       const newViews = [...views()];
                       newViews[index()].position.left = Number(
@@ -261,24 +253,24 @@ export const ViewContainer = () => {
                         views: newViews,
                       });
                     }}
+                    placeholder={t('setting.position.left-margin')}
+                    type={'number'}
+                    value={view.position.left ?? undefined}
                   />
                   <span class={'suffix group-focus-within:suffix-focus-within'}>
                     px
                   </span>
                 </label>
                 <img
-                  src={icon}
+                  alt={'Icon'}
                   class={
                     'w-12 h-12 object-contain self-center justify-self-center'
                   }
-                  alt={'Icon'}
+                  src={icon}
                 />
                 <label class={'input-group group'}>
                   <input
-                    type={'number'}
                     class={'input w-full h-full'}
-                    placeholder={t('setting.position.right-margin')}
-                    value={view.position.right ?? undefined}
                     onChange={(event) => {
                       const newViews = [...views()];
                       newViews[index()].position.right = Number(
@@ -289,6 +281,9 @@ export const ViewContainer = () => {
                         views: newViews,
                       });
                     }}
+                    placeholder={t('setting.position.right-margin')}
+                    type={'number'}
+                    value={view.position.right ?? undefined}
                   />
                   <span class={'suffix group-focus-within:suffix-focus-within'}>
                     px
@@ -297,10 +292,7 @@ export const ViewContainer = () => {
                 <div />
                 <label class={'input-group group'}>
                   <input
-                    type={'number'}
                     class={'input w-full h-full'}
-                    placeholder={t('setting.position.bottom-margin')}
-                    value={view.position.bottom ?? undefined}
                     onChange={(event) => {
                       const newViews = [...views()];
                       newViews[index()].position.bottom = Number(
@@ -311,6 +303,9 @@ export const ViewContainer = () => {
                         views: newViews,
                       });
                     }}
+                    placeholder={t('setting.position.bottom-margin')}
+                    type={'number'}
+                    value={view.position.bottom ?? undefined}
                   />
                   <span class={'suffix group-focus-within:suffix-focus-within'}>
                     px
@@ -329,6 +324,25 @@ export const ViewContainer = () => {
                 </div>
                 <div class={'flex-1'} />
                 <Selector
+                  class={'select'}
+                  onChange={(value, displayIndex) => {
+                    const display =
+                      displayIndex === 0
+                        ? null
+                        : displays()[displayIndex - 1].id;
+                    const newViews = [...views()];
+                    newViews[index()].position.display = display;
+
+                    setConfig({
+                      views: newViews,
+                    });
+                  }}
+                  options={[
+                    t('setting.position.use-primary-monitor'),
+                    ...displays().map(
+                      (display, index) => `${index + 1} - ${display.label}`,
+                    ),
+                  ]}
                   value={
                     !view.position.display
                       ? t('setting.position.use-primary-monitor')
@@ -349,25 +363,6 @@ export const ViewContainer = () => {
                             id: view.position.display,
                           })
                   }
-                  onChange={(value, displayIndex) => {
-                    const display =
-                      displayIndex === 0
-                        ? null
-                        : displays()[displayIndex - 1].id;
-                    const newViews = [...views()];
-                    newViews[index()].position.display = display;
-
-                    setConfig({
-                      views: newViews,
-                    });
-                  }}
-                  options={[
-                    t('setting.position.use-primary-monitor'),
-                    ...displays().map(
-                      (display, index) => `${index + 1} - ${display.label}`,
-                    ),
-                  ]}
-                  class={'select'}
                 />
               </div>,
               <div
@@ -408,7 +403,6 @@ export const ViewContainer = () => {
             </div>
             <div class={'flex-1'} />
             <Switch
-              value={view.enabled}
               onChange={(checked) => {
                 const newViews = [...views()];
                 newViews[index()].enabled = checked;
@@ -417,6 +411,7 @@ export const ViewContainer = () => {
                   views: newViews,
                 });
               }}
+              value={view.enabled}
             />
           </Card>
         )}
@@ -434,8 +429,6 @@ export const ViewContainer = () => {
       </Card>
 
       <Modal
-        open={target() !== null}
-        onClose={() => setTarget(null)}
         buttons={[
           {
             name: t('common.close'),
@@ -447,6 +440,8 @@ export const ViewContainer = () => {
             onClick: onRenameView,
           },
         ]}
+        onClose={() => setTarget(null)}
+        open={target() !== null}
       >
         <div class={'text-xl mb-2'}>{t('setting.view.rename-alert-title')}</div>
         <div class={'text-md mb-1'}>
@@ -454,19 +449,19 @@ export const ViewContainer = () => {
         </div>
         <input
           class={'input w-full'}
-          value={name()}
           onChange={(event) => setName(event.target.value)}
+          value={name()}
         />
       </Modal>
       <Modal
-        open={nameConflictOpen()}
-        onClose={() => setNameConflictOpen(false)}
         buttons={[
           {
             name: t('common.okay'),
             onClick: () => setNameConflictOpen(false),
           },
         ]}
+        onClose={() => setNameConflictOpen(false)}
+        open={nameConflictOpen()}
       >
         <div class={'text-xl mb-2'}>
           {t('setting.view.rename-conflict-title')}

@@ -1,21 +1,25 @@
-import { experimental } from 'tstl';
 import {
-  Accessor,
+  type Accessor,
   createContext,
   createEffect,
   createMemo,
   createSignal,
-  JSX,
+  type JSX,
   on,
   onCleanup,
   useContext,
 } from 'solid-js';
+import { experimental } from 'tstl';
 
+import { type LyricData, type LyricMetadata } from '../../common/provider';
+import {
+  type PausedData,
+  type PlayingData,
+  type UpdateData,
+} from '../../common/schema';
 import useLyricMapper from '../hooks/useLyricMapper';
-import usePluginOverride from '../hooks/usePluginOverride';
-import { PausedData, PlayingData, UpdateData } from '../../common/schema';
 import { useLyricProvider } from '../hooks/useLyricProvider';
-import { LyricData, LyricMetadata } from '../../common/provider';
+import usePluginOverride from '../hooks/usePluginOverride';
 
 export type Status = UpdateData['data']['type'];
 export type LyricMode = 'auto' | 'manual' | 'player' | 'none';

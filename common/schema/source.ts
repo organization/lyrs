@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import * as z from 'zod';
 
 export type PlayerLyricFormat = z.infer<typeof PlayerLyricFormatSchema>;
 export const PlayerLyricFormatSchema = z.record(z.string(), z.string().array());

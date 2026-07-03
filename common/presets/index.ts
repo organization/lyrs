@@ -6,7 +6,7 @@ import multipleLyric from './multiple-lyric.json';
 import overwatch from './overwatch.json';
 
 import { DEFAULT_STYLE } from '../constants';
-import { StyleConfig } from '../schema';
+import { type StyleConfig } from '../schema';
 
 export default {
   'default': DEFAULT_STYLE,

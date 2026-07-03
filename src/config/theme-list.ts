@@ -1,12 +1,10 @@
+import fs from 'node:fs/promises';
 import path from 'node:path';
 
-import fs from 'node:fs/promises';
-
+import { defaultConfigDirectory } from './config';
 import { State } from './state';
 
-import { defaultConfigDirectory } from './config';
-
-import { StyleConfig, ThemeList } from '../../common/schema';
+import { type StyleConfig, type ThemeList } from '../../common/schema';
 
 let throttleTimer: NodeJS.Timeout | null = null;
 export const themeList = new State<ThemeList>(

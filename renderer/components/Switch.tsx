@@ -1,11 +1,13 @@
-import { JSX, createSignal, splitProps } from 'solid-js';
+import { type JSX, createSignal, splitProps } from 'solid-js';
 
 import { cx } from '../utils/classNames';
 
 const MAX_MOVE_OFFSET = 40 - 20;
 
-export interface SwitchProps
-  extends Omit<JSX.InputHTMLAttributes<HTMLDivElement>, 'value' | 'onChange'> {
+export interface SwitchProps extends Omit<
+  JSX.InputHTMLAttributes<HTMLDivElement>,
+  'value' | 'onChange'
+> {
   value?: boolean;
   onChange?: (value: boolean) => void;
 }
@@ -89,17 +91,17 @@ const Switch = (props: SwitchProps) => {
           ? 'bg-primary-500 border-primary-500 active:bg-primary-600'
           : 'border-black/30 dark:border-white',
       )}
-      onPointerDown={onMoveStart}
       onClick={(event) => event.stopPropagation()}
+      onPointerDown={onMoveStart}
       style={`--offset: ${offset() * MAX_MOVE_OFFSET}px`}
     >
       <div
-        ref={thumb}
         class={cx(
           'absolute w-[10px] h-[10px] left-[4px] top-[4px] rounded-full bg-black/30 dark:bg-white transition-transform',
           move() ? 'scale-[120%] w-[12px]' : 'transition-all',
           local.value && 'scale-[120%] !bg-white',
         )}
+        ref={thumb}
         style={{
           'translate': 'var(--offset) 0',
         }}

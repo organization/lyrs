@@ -1,10 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument */
 import fs from 'node:fs';
 
 import {
   contextBridge,
   ipcRenderer,
-  IpcRendererEvent,
+  type IpcRendererEvent,
   webUtils,
 } from 'electron';
 import { getFonts } from 'font-list';

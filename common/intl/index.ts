@@ -1,7 +1,7 @@
-import ko from './translations/ko.json';
+import de from './translations/de.json';
 import en from './translations/en.json';
 import ja from './translations/ja.json';
-import de from './translations/de.json';
+import ko from './translations/ko.json';
 
 import type { Resource } from 'i18next';
 

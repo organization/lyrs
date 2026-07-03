@@ -4,7 +4,10 @@
 
 @layer base {
   html {
-    font-family: "Pretendard JP Variable", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-family:
+      'Pretendard JP Variable', ui-sans-serif, system-ui, sans-serif,
+      'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+      'Noto Color Emoji';
   }
 }
 
@@ -21,14 +24,14 @@
     focus:outline-none;
   }
 
-  .btn-primary-disabled, .btn-primary[disabled]:not([disable="false"]) {
+  .btn-primary-disabled,
+  .btn-primary[disabled]:not([disable='false']) {
     @apply min-w-[130px] px-3 py-2 rounded opacity-50
     text-black/50 bg-primary-300
     dark:text-white/50 dark:bg-primary-700
     outline-none select-none cursor-pointer
     focus:outline-none;
   }
-
 
   .btn-error {
     @apply min-w-[130px] px-3 py-2 rounded text-black
@@ -52,7 +55,9 @@
     focus:outline-none;
   }
 
-  .btn-disabled, .btn-text[disabled]:not([disable="false"]), .btn-error[disabled]:not([disable="false"]) {
+  .btn-disabled,
+  .btn-text[disabled]:not([disable='false']),
+  .btn-error[disabled]:not([disable='false']) {
     @apply px-3 py-2 bg-gray-400 text-gray-100 dark:bg-gray-600 dark:text-gray-900 font-semibold rounded-lg
     outline-none select-none;
   }
@@ -60,11 +65,11 @@
   .checkbox {
     @apply appearance-none w-[20px] h-[20px] bg-gray-100/5 rounded-[4px] border-[1px]
     dark:border-gray-100/20 dark:hover:bg-gray-100/10 dark:focus:bg-black/10
-    border-black/20 hover:bg-black/10 focus:bg-white/10
+    border-black/20 hover:bg-black/10 focus:bg-white/10;
   }
 
   .checkbox:checked {
-    @apply shadow-[inset_0_0_0_3px] shadow-primary-600
+    @apply shadow-[inset_0_0_0_3px] shadow-primary-600;
   }
 
   .input-group {
@@ -76,7 +81,7 @@
     dark:bg-gray-600/60 dark:text-white dark:hover:bg-gray-600/50 dark:focus:bg-gray-600/40
     border-[1px] border-black/10 border-b-black/30 focus:border-b-2 focus:border-b-primary-500
     dark:border-white/5 dark:border-b-gray-400/50
-    outline-none py-1 px-3 mb-[1px] focus:mb-[0px] rounded-[4px]
+    outline-none py-1 px-3 mb-[1px] focus:mb-[0px] rounded-[4px];
   }
 
   .input.color {
@@ -110,7 +115,7 @@
     dark:border-white/5 dark:border-b-gray-400/50;
   }
 
-  .select-container[data-active="true"] {
+  .select-container[data-active='true'] {
     @apply border-b-primary-500 border-b-2;
   }
 
@@ -147,7 +152,9 @@
 }
 
 /* reset */
-html, body, #app {
+html,
+body,
+#app {
   padding: 0;
   margin: 0;
 

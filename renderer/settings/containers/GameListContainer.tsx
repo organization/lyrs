@@ -1,15 +1,13 @@
-import { createEffect, createSignal, For, JSX } from 'solid-js';
 import { Trans } from '@jellybrick/solid-i18next';
-
-import { t } from 'i18next';
 import { useNavigate } from '@solidjs/router';
+import { t } from 'i18next';
+import { createEffect, createSignal, For, type JSX } from 'solid-js';
 
-import useGameList from '../../hooks/useGameList';
-import useConfig from '../../hooks/useConfig';
-
-import GameCard from '../components/GameCard';
-import Modal from '../../components/Modal';
 import Card from '../../components/Card';
+import Modal from '../../components/Modal';
+import useConfig from '../../hooks/useConfig';
+import useGameList from '../../hooks/useGameList';
+import GameCard from '../components/GameCard';
 
 interface GameList {
   path: string;
@@ -166,8 +164,8 @@ const GameListContainer = () => {
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M8.47 4.22a.75.75 0 0 0 0 1.06L15.19 12l-6.72 6.72a.75.75 0 1 0 1.06 1.06l7.25-7.25a.75.75 0 0 0 0-1.06L9.53 4.22a.75.75 0 0 0-1.06 0Z"
             class={'fill-black dark:fill-white'}
+            d="M8.47 4.22a.75.75 0 0 0 0 1.06L15.19 12l-6.72 6.72a.75.75 0 1 0 1.06 1.06l7.25-7.25a.75.75 0 0 0 0-1.06L9.53 4.22a.75.75 0 0 0-1.06 0Z"
           />
         </svg>
         <span class={'text-3xl'}>
@@ -196,21 +194,21 @@ const GameListContainer = () => {
           </GameCard>
         )}
       </For>
-      <label for={'game-selector'} class={'btn-primary text-center'}>
+      <label class={'btn-primary text-center'} for={'game-selector'}>
         <Trans key={'setting.game.registered-game-list.adding-manually'} />
         <input
-          ref={setFileInput}
-          id={'game-selector'}
-          type={'file'}
           accept={'.exe'}
           class={'hidden'}
+          id={'game-selector'}
           onInput={onSelectGame}
+          ref={setFileInput}
+          type={'file'}
         />
       </label>
       <Modal
-        open={gameOpen()}
-        onClose={() => setGameOpen(false)}
         class={'max-w-[500px]'}
+        onClose={() => setGameOpen(false)}
+        open={gameOpen()}
       >
         <div class={'text-white text-xl mb-2'}>
           {t('setting.game.select-view-to-show-game-overlay')}
@@ -229,9 +227,9 @@ const GameListContainer = () => {
         </For>
       </Modal>
       <Modal
-        open={target() !== null}
-        onClose={() => setTarget(null)}
         class={'max-w-[500px]'}
+        onClose={() => setTarget(null)}
+        open={target() !== null}
       >
         <div class={'text-white text-xl mb-2'}>
           {t('setting.game.select-view-to-show-game-overlay')}

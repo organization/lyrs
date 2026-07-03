@@ -1,4 +1,11 @@
-import { createEffect, For, JSX, onCleanup, Show, splitProps } from 'solid-js';
+import {
+  createEffect,
+  For,
+  type JSX,
+  onCleanup,
+  Show,
+  splitProps,
+} from 'solid-js';
 import { Portal } from 'solid-js/web';
 import { Transition } from 'solid-transition-group';
 
@@ -49,7 +56,6 @@ const Modal = (props: ModalProps) => {
           >
             <div
               {...leftProps}
-              ref={content}
               class={cx(
                 `
                 w-fit h-fit max-h-[80vh] flex flex-col rounded overflow-hidden
@@ -58,6 +64,7 @@ const Modal = (props: ModalProps) => {
               `,
                 leftProps.class,
               )}
+              ref={content}
             >
               <div
                 class={'text-black dark:text-white px-6 py-5 fluent-scrollbar'}

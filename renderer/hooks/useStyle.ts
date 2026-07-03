@@ -1,10 +1,9 @@
-import { Accessor, createMemo } from 'solid-js';
+import { type Accessor, createMemo } from 'solid-js';
 
-import useThemeList from './useThemeList';
 import useCurrent from './useCurrent';
+import useThemeList from './useThemeList';
 
 import { DEFAULT_STYLE, PRESET_PREFIX } from '../../common/constants';
-
 import presetThemes from '../../common/presets';
 
 import type { StyleConfig } from '../../common/schema';

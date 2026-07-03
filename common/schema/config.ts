@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import * as z from 'zod';
 
 import { DEFAULT_CONFIG, DEFAULT_STYLE } from '../constants';
 
@@ -110,24 +110,24 @@ export const ConfigSchema = z.object({
   streamingMode: z.boolean().catch(DEFAULT_CONFIG.streamingMode),
   hardwareAcceleration: z.boolean().catch(DEFAULT_CONFIG.hardwareAcceleration),
 
-  experimental: z.record(z.unknown()),
+  experimental: z.record(z.string(), z.unknown()),
 
   lyricProvider: z.string().catch(DEFAULT_CONFIG.lyricProvider),
   sourceProvider: z.string().catch(DEFAULT_CONFIG.sourceProvider),
 
   providers: z.object({
     source: z.object({
-      config: z.record(z.record(z.unknown())),
+      config: z.record(z.string(), z.record(z.string(), z.unknown())),
     }),
     lyric: z.object({
-      config: z.record(z.record(z.unknown())),
+      config: z.record(z.string(), z.record(z.string(), z.unknown())),
     }),
   }),
 
   plugins: z.object({
-    list: z.record(z.string().optional()),
-    disabled: z.record(z.boolean().optional()),
-    config: z.record(z.record(z.unknown())),
+    list: z.record(z.string(), z.string().optional()),
+    disabled: z.record(z.string(), z.boolean().optional()),
+    config: z.record(z.string(), z.record(z.string(), z.unknown())),
   }),
 
   __internal__: InternalConfigSchema.optional(),
@@ -149,6 +149,7 @@ export const LyricMapperModeSchema = z.union([
   LyricMapperModeProviderSchema,
 ]);
 export const LyricMapperSchema = z.record(
+  z.string(),
   z
     .object({
       mode: LyricMapperModeSchema.optional().nullable(),
@@ -157,8 +158,12 @@ export const LyricMapperSchema = z.record(
     .optional(),
 );
 
-export const ThemeListSchema = z.record(StyleConfigSchema.optional());
+export const ThemeListSchema = z.record(
+  z.string(),
+  StyleConfigSchema.optional(),
+);
 export const GameListSchema = z.record(
+  z.string(),
   z
     .object({
       name: z.string(),

@@ -1,6 +1,9 @@
 import { Match, Switch, Show } from 'solid-js';
 
-import { Plugin, PluginLog as PluginLogType } from '../../../common/plugins';
+import {
+  type Plugin,
+  type PluginLog as PluginLogType,
+} from '../../../common/plugins';
 
 export interface PluginLogProps {
   log: PluginLogType;

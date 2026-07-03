@@ -1,4 +1,4 @@
-import { Placement, offset } from '@floating-ui/dom';
+import { type Placement, offset } from '@floating-ui/dom';
 import { useFloating } from 'solid-floating-ui';
 import {
   For,
@@ -10,17 +10,17 @@ import {
   onMount,
   splitProps,
 } from 'solid-js';
-
-import { Transition } from 'solid-transition-group';
-
 import { Dynamic } from 'solid-js/web';
+import { Transition } from 'solid-transition-group';
 
 import { cx } from '../utils/classNames';
 
 import type { JSX } from 'solid-js/jsx-runtime';
 
-export interface SelectProps<T extends string>
-  extends Omit<JSX.HTMLAttributes<HTMLElement>, 'value' | 'onChange'> {
+export interface SelectProps<T extends string> extends Omit<
+  JSX.HTMLAttributes<HTMLElement>,
+  'value' | 'onChange'
+> {
   mode?: 'select' | 'autocomplete';
 
   placeholder?: string;
@@ -166,54 +166,55 @@ const Selector = <T extends string>(props: SelectProps<T>) => {
   return (
     <>
       <div
-        ref={setAnchor}
         class={'select-container'}
+        data-active={open()}
         onClick={onClick}
         onKeyDown={onKeydown}
-        data-active={open()}
+        ref={setAnchor}
       >
         <Show
-          when={local.mode === 'autocomplete'}
           fallback={
             <div
               {...leftProps}
-              ref={setInput}
               class={cx('select', leftProps.class)}
+              ref={setInput}
             >
               {keyword() ??
                 local.format?.(local.value ?? ('' as T)) ??
                 local.value}
             </div>
           }
+          when={local.mode === 'autocomplete'}
         >
           <input
             {...leftProps}
-            ref={setInput}
             class={cx('select', leftProps.class)}
+            onFocusIn={onOpen}
+            onInput={(event) => setKeyword(event.target.value)}
+            ref={setInput}
             value={
               keyword() ??
               local.format?.(local.value ?? ('' as T)) ??
               local.value
             }
-            onInput={(event) => setKeyword(event.target.value)}
-            onFocusIn={onOpen}
           />
         </Show>
         <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
           class={cx(
             'w-4 h-4 fill-none transition-transform',
             open() && 'rotate-180',
           )}
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M4.293 8.293a1 1 0 0 1 1.414 0L12 14.586l6.293-6.293a1 1 0 1 1 1.414 1.414l-7 7a1 1 0 0 1-1.414 0l-7-7a1 1 0 0 1 0-1.414Z"
             class={'fill-black dark:fill-white'}
+            d="M4.293 8.293a1 1 0 0 1 1.414 0L12 14.586l6.293-6.293a1 1 0 1 1 1.414 1.414l-7 7a1 1 0 0 1-1.414 0l-7-7a1 1 0 0 1 0-1.414Z"
           />
         </svg>
       </div>
       <div
+        class={'z-50'}
         ref={setPopper}
         style={{
           'position': position.strategy,
@@ -224,12 +225,10 @@ const Selector = <T extends string>(props: SelectProps<T>) => {
               ? `${((itemHeight() * selectIndex() + itemHeight() / 2) / Math.max(popper()?.clientHeight ?? 0, 1)) * 100}%`
               : '0%',
         }}
-        class={'z-50'}
       >
         <Transition name={'selector'}>
           <Show when={open()}>
             <ul
-              style={`width: ${anchor()?.clientWidth ? `${anchor()?.clientWidth ?? 0}px` : 'fit-content'}; ${popup.popupStyle ?? ''};`}
               class={cx(
                 `
                 w-full max-h-[50vh]
@@ -239,6 +238,7 @@ const Selector = <T extends string>(props: SelectProps<T>) => {
               `,
                 popup.popupClass,
               )}
+              style={`width: ${anchor()?.clientWidth ? `${anchor()?.clientWidth ?? 0}px` : 'fit-content'}; ${popup.popupStyle ?? ''};`}
             >
               <For each={options()}>
                 {(option, index) =>

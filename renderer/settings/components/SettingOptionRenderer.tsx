@@ -1,5 +1,5 @@
-import { Match, Switch as SwitchFlow } from 'solid-js';
 import { Marquee } from '@suyongs/solid-utility';
+import { Match, Switch as SwitchFlow } from 'solid-js';
 
 import Selector from '../../components/Select';
 import Switch from '../../components/Switch';
@@ -37,41 +37,41 @@ export const SettingOptionRenderer = <Type,>(
       <SwitchFlow>
         <Match when={props.option.type === 'select'}>
           <Selector
-            options={(props.option as SelectOption).options.map(
-              ({ value }) => value,
-            )}
-            value={props.value as string}
-            onChange={(value) => props.onChange?.(value as Type)}
             format={(option) =>
               (props.option as SelectOption).options.find(
                 (it) => it.value === option,
               )?.label ?? option
             }
+            onChange={(value) => props.onChange?.(value as Type)}
+            options={(props.option as SelectOption).options.map(
+              ({ value }) => value,
+            )}
+            value={props.value as string}
           />
         </Match>
         <Match when={props.option.type === 'string'}>
           <input
-            type={'text'}
             class={'input'}
-            value={props.value as string}
             onChange={(event) => props.onChange?.(event.target.value as Type)}
+            type={'text'}
+            value={props.value as string}
           />
         </Match>
         <Match when={props.option.type === 'number'}>
           <input
-            type={'number'}
             class={'input'}
-            min={(props.option as NumberOption).min}
             max={(props.option as NumberOption).max}
-            step={(props.option as NumberOption).step}
-            value={props.value as string}
+            min={(props.option as NumberOption).min}
             onChange={(event) => props.onChange?.(event.target.value as Type)}
+            step={(props.option as NumberOption).step}
+            type={'number'}
+            value={props.value as string}
           />
         </Match>
         <Match when={props.option.type === 'boolean'}>
           <Switch
-            value={props.value as boolean}
             onChange={(checked) => props.onChange?.(checked as Type)}
+            value={props.value as boolean}
           />
         </Match>
         <Match when={props.option.type === 'button'}>

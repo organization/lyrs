@@ -1,10 +1,10 @@
-import { Migrator } from '../types';
-import {
-  LEGACY_LyricMapper0_18_0,
-  LyricMapper,
-  LyricMapperMode,
-} from '../../../../common/schema';
 import { DEFAULT_CONFIG } from '../../../../common/constants';
+import {
+  type LEGACY_LyricMapper0_18_0,
+  type LyricMapper,
+  type LyricMapperMode,
+} from '../../../../common/schema';
+import { type Migrator } from '../types';
 
 export const LEGACY_migrator0_18_0: Migrator = {
   lyricMapper: (data: unknown) => {

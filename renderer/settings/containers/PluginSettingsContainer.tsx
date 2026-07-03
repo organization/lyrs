@@ -1,18 +1,16 @@
 import { Trans, useTransContext } from '@jellybrick/solid-i18next';
 import { useNavigate, useParams } from '@solidjs/router';
-
+import { Marquee } from '@suyongs/solid-utility';
 import { For, Switch as SwitchFlow, Match, Show, createSignal } from 'solid-js';
 
-import { Marquee } from '@suyongs/solid-utility';
-
 import {
-  ButtonOption,
+  type ButtonOption,
   SelectOption,
-  SettingOption,
+  type SettingOption,
 } from '../../../common/plugins';
 import Card from '../../components/Card';
-import Switch from '../../components/Switch';
 import Selector from '../../components/Select';
+import Switch from '../../components/Switch';
 import useConfig from '../../hooks/useConfig';
 import usePlugins from '../../hooks/usePlugins';
 import PluginLog from '../components/PluginLog';
@@ -31,17 +29,17 @@ const PluginSettingsContainer = () => {
 
   const togglePluginState = async () => {
     const newState = plugin()?.state === 'enable' ? 'disable' : 'enable';
-    await window.ipcRenderer.invoke('set-plugin-state', params.id, newState);
+    await window.ipcRenderer.invoke('set-plugin-state', params.id!, newState);
 
     refresh();
   };
   const deletePlugin = async () => {
-    await window.ipcRenderer.invoke('remove-plugin', params.id);
+    await window.ipcRenderer.invoke('remove-plugin', params.id!);
     refresh();
     navigate('/plugin');
   };
   const reloadPlugin = async () => {
-    await window.ipcRenderer.invoke('reload-plugin', params.id);
+    await window.ipcRenderer.invoke('reload-plugin', params.id!);
     refresh();
   };
   const onPluginPage = () => {
@@ -83,8 +81,8 @@ const PluginSettingsContainer = () => {
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M8.47 4.22a.75.75 0 0 0 0 1.06L15.19 12l-6.72 6.72a.75.75 0 1 0 1.06 1.06l7.25-7.25a.75.75 0 0 0 0-1.06L9.53 4.22a.75.75 0 0 0-1.06 0Z"
             class={'fill-black dark:fill-white'}
+            d="M8.47 4.22a.75.75 0 0 0 0 1.06L15.19 12l-6.72 6.72a.75.75 0 1 0 1.06 1.06l7.25-7.25a.75.75 0 0 0 0-1.06L9.53 4.22a.75.75 0 0 0-1.06 0Z"
           />
         </svg>
         <span class={'text-3xl'}>
@@ -159,8 +157,8 @@ const PluginSettingsContainer = () => {
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M12 1.999c5.524 0 10.002 4.478 10.002 10.002 0 5.523-4.478 10.001-10.002 10.001-5.524 0-10.002-4.478-10.002-10.001C1.998 6.477 6.476 1.999 12 1.999Zm0 1.5a8.502 8.502 0 1 0 0 17.003A8.502 8.502 0 0 0 12 3.5Zm-.004 7a.75.75 0 0 1 .744.648l.007.102.003 5.502a.75.75 0 0 1-1.493.102l-.007-.101-.003-5.502a.75.75 0 0 1 .75-.75ZM12 7.003a.999.999 0 1 1 0 1.997.999.999 0 0 1 0-1.997Z"
             class={'fill-black dark:fill-white'}
+            d="M12 1.999c5.524 0 10.002 4.478 10.002 10.002 0 5.523-4.478 10.001-10.002 10.001-5.524 0-10.002-4.478-10.002-10.001C1.998 6.477 6.476 1.999 12 1.999Zm0 1.5a8.502 8.502 0 1 0 0 17.003A8.502 8.502 0 0 0 12 3.5Zm-.004 7a.75.75 0 0 1 .744.648l.007.102.003 5.502a.75.75 0 0 1-1.493.102l-.007-.101-.003-5.502a.75.75 0 0 1 .75-.75ZM12 7.003a.999.999 0 1 1 0 1.997.999.999 0 0 1 0-1.997Z"
           />
         </svg>
         <div class={'text-lg'}>
@@ -173,8 +171,8 @@ const PluginSettingsContainer = () => {
       <Card class={'flex flex-row justify-between items-center gap-1'}>
         <Trans key={'setting.plugin.enable-plugin'} />
         <Switch
-          value={plugin()?.state === 'enable'}
           onChange={togglePluginState}
+          value={plugin()?.state === 'enable'}
         />
       </Card>
       <Card class={'flex flex-row justify-between items-center gap-1'}>
@@ -185,9 +183,9 @@ const PluginSettingsContainer = () => {
       </Card>
       <Show when={config()?.developer}>
         <Card
+          class={'flex flex-row justify-between items-center gap-1'}
           expand={showLog()}
           setExpand={setShowLog}
-          class={'flex flex-row justify-between items-center gap-1'}
           subCards={[
             <div class={'w-full max-h-[400px] fluent-scrollbar'}>
               <For each={plugin()?.logs}>
@@ -206,10 +204,10 @@ const PluginSettingsContainer = () => {
         {(option) => (
           <Card class={'flex flex-row justify-start items-center gap-1'}>
             <SettingOptionRenderer
-              option={option}
-              value={config()?.plugins.config[plugin()?.id ?? '']?.[option.key]}
               onChange={(value) => setOption(option, value)}
               onClick={() => onButtonClick(option as ButtonOption)}
+              option={option}
+              value={config()?.plugins.config[plugin()?.id ?? '']?.[option.key]}
             />
           </Card>
         )}

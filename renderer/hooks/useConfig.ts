@@ -2,8 +2,8 @@ import { createSignal } from 'solid-js';
 
 import { createIpcListener } from './createIpcListener';
 
-import type { PartialDeep } from 'type-fest';
 import type { Config } from '../../common/schema';
+import type { PartialDeep } from 'type-fest';
 
 const useConfig = () => {
   const [config, setConfig] = createSignal<Config | null>(null);

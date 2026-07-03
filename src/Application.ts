@@ -1,25 +1,30 @@
 import path from 'node:path';
 
-import ProgressBar from 'electron-progressbar';
-import { autoUpdater, UpdateInfo } from 'electron-updater';
 import {
   app,
   BrowserWindow,
   dialog,
   ipcMain,
   Menu,
-  MenuItem,
-  MenuItemConstructorOptions,
+  type MenuItem,
+  type MenuItemConstructorOptions,
   nativeImage,
-  Rectangle,
+  type Rectangle,
   screen,
   Tray,
 } from 'electron';
-import { PartialDeep } from 'type-fest';
+import ProgressBar from 'electron-progressbar';
+import { autoUpdater, type UpdateInfo } from 'electron-updater';
+import { type PartialDeep } from 'type-fest';
 
-import PluginManager from './plugins/plugin-manager';
 import { config, gameList, lyricMapper, themeList } from './config';
-
+import { type OverlayManager } from './overlay';
+import PluginManager from './plugins/plugin-manager';
+import {
+  LrclibLyricProvider,
+  TunaObsProvider,
+  WebNowPlayingProvider,
+} from './provider';
 import {
   LyricSearchWindowProvider,
   LyricWindowProvider,
@@ -27,24 +32,20 @@ import {
   TrayWindowProvider,
 } from './window';
 
-import { OverlayManager } from './overlay';
-
-import {
-  LrclibLyricProvider,
-  TunaObsProvider,
-  WebNowPlayingProvider,
-} from './provider';
-
 import { DEFAULT_CONFIG } from '../common/constants';
 import { getTranslation } from '../common/intl';
-
-import { Config, GameList, LyricMapper, StyleConfig } from '../common/schema';
-import { LyricProvider, SourceProvider } from '../common/provider';
+import { type LyricProvider, type SourceProvider } from '../common/provider';
+import {
+  type Config,
+  type GameList,
+  type LyricMapper,
+  type StyleConfig,
+  type UpdateData,
+} from '../common/schema';
+import { isMacOS, isWin32 } from '../utils/is';
 import { pure } from '../utils/pure';
 import { getFile } from '../utils/resource';
-import { isMacOS, isWin32 } from '../utils/is';
 
-import type { UpdateData } from '../common/schema';
 import type {
   OverrideMap,
   OverrideParameterMap,
@@ -515,9 +516,7 @@ class Application {
   }
 
   initSourceProvider() {
-    console.log(
-      `[Lyrs] init source provider "${this.sourceProvider.name}"`,
-    );
+    console.log(`[Lyrs] init source provider "${this.sourceProvider.name}"`);
     this.sourceProvider.start(
       config.get().providers.source.config[this.sourceProvider.name],
     );

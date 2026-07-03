@@ -1,21 +1,20 @@
-import path from 'node:path';
-
 import { EventEmitter } from 'events';
+import path from 'node:path';
 
 import { app, BrowserWindow, Menu, screen } from 'electron';
 
-import { WindowProvider } from './types';
+import { type WindowProvider } from './types';
 
-import { config, themeList } from '../config';
-import { deepmerge } from '../../utils/merge';
 import {
   DEFAULT_CONFIG,
   DEFAULT_STYLE,
   PRESET_PREFIX,
 } from '../../common/constants';
-import { getFile } from '../../utils/resource';
 import presetThemes from '../../common/presets';
 import { isMacOS, isWin32 } from '../../utils/is';
+import { deepmerge } from '../../utils/merge';
+import { getFile } from '../../utils/resource';
+import { config, themeList } from '../config';
 
 const iconPath = getFile('./assets/icon_square.png');
 const LYRIC_WINDOW_OPTIONS = {
@@ -32,7 +31,7 @@ const LYRIC_WINDOW_OPTIONS = {
   hiddenInMissionControl: true,
   roundedCorners: false,
   webPreferences: {
-    preload: path.join(__dirname, './preload.js'),
+    preload: path.join(__dirname, '../preload/preload.js'),
     nodeIntegration: true,
   },
   show: false,
@@ -91,10 +90,10 @@ export class LyricWindowProvider
     });
     this.window.setIgnoreMouseEvents(true, { forward: true });
 
-    if (app.isPackaged && !process.env.FARM_DEV_SERVER_URL) {
-      this.window.loadFile(path.join(__dirname, 'main.html'));
+    if (!app.isPackaged && process.env.ELECTRON_RENDERER_URL) {
+      this.window.loadURL(`${process.env.ELECTRON_RENDERER_URL}/main.html`);
     } else {
-      this.window.loadURL(`${process.env.FARM_DEV_SERVER_URL}/main.html`);
+      this.window.loadFile(path.join(__dirname, '../renderer/main.html'));
     }
 
     screen.addListener('display-metrics-changed', this.onUpdateWindowConfig);

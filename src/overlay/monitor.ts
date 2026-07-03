@@ -43,7 +43,7 @@ if (process.platform === 'win32') {
   console.log('applying wql process monitor fix');
   // HACK: import statement is not work because Electron's threading model is different from Windows COM's
   const wql =
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    // oxlint-disable-next-line typescript/no-require-imports
     require('@jellybrick/wql-process-monitor') as typeof import('@jellybrick/wql-process-monitor');
   wql.promises.createEventSink();
 }

@@ -1,13 +1,12 @@
-import { SafeParseReturnType } from 'zod';
-import { PartialDeep } from 'type-fest';
+import { type PartialDeep } from 'type-fest';
+import { type ZodSafeParseResult } from 'zod';
 
 import { config } from './config';
-import { lyricMapper } from './lyric-mapper';
-import { themeList } from './theme-list';
 import { gameList } from './game-list';
+import { lyricMapper } from './lyric-mapper';
 import { createMigrator, migrateTable } from './migration';
-
-import { State } from './state';
+import { type State } from './state';
+import { themeList } from './theme-list';
 
 import { VERSION } from '../../common/constants';
 import {
@@ -60,12 +59,7 @@ const tryMigration = () => {
         ? internalConfig.version
         : '0.0.0';
     const nowVersion = VERSION;
-    console.log(
-      '[Lyrs] prepare for migration',
-      prevVersion,
-      '->',
-      nowVersion,
-    );
+    console.log('[Lyrs] prepare for migration', prevVersion, '->', nowVersion);
 
     const migrator = createMigrator(migrateTable, prevVersion);
     const result = migrator({
@@ -81,8 +75,8 @@ const tryMigration = () => {
     const gameListParsed = GameListSchema.safeParse(result.gameList);
 
     let isFailed = false;
-    const applyMigration = <I, O>(
-      parsed: SafeParseReturnType<I, O>,
+    const applyMigration = <O>(
+      parsed: ZodSafeParseResult<O>,
       state: State<O>,
     ) => {
       if (parsed.success) {

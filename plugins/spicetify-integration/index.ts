@@ -1,5 +1,5 @@
-import runner from './script';
 import manifest from './manifest.json';
+import runner from './script';
 
 export const SpiceifyIntegrationPlugin = {
   provider: runner,

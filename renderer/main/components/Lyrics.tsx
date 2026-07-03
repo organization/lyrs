@@ -1,11 +1,14 @@
-import { Accessor, For, splitProps } from 'solid-js';
+import { type Accessor, For, type JSX, splitProps } from 'solid-js';
 import { TransitionGroup } from 'solid-transition-group';
 
 import LyricsTransition from './LyricsTransition';
 
 import { usePlayingInfo } from '../../components/PlayingInfoProvider';
+import { useClassStyle } from '../../hooks/useClassStyle';
+import useConfig from '../../hooks/useConfig';
+import useCurrent from '../../hooks/useCurrent';
 import useLyric from '../../hooks/useLyric';
-
+import useStyle from '../../hooks/useStyle';
 import { cx } from '../../utils/classNames';
 import {
   userCSSSelectors,
@@ -13,12 +16,6 @@ import {
   userCSSVariables,
 } from '../../utils/userCSSSelectors';
 
-import useConfig from '../../hooks/useConfig';
-import useStyle from '../../hooks/useStyle';
-import useCurrent from '../../hooks/useCurrent';
-import { useClassStyle } from '../../hooks/useClassStyle';
-
-import type { JSX } from 'solid-js/jsx-runtime';
 import type { Config, StyleConfig } from '../../../common/schema';
 
 type LyricsProps = {
@@ -172,17 +169,17 @@ const Lyrics = (props: LyricsProps) => {
       class={cx(userCSSSelectors['lyrics-container'], props.class)}
       {...containerProps}
     >
-      <TransitionGroup name={animation()} appear>
+      <TransitionGroup appear name={animation()}>
         <For each={lyricsRange()}>
           {(lyrics, index) => (
             <div
+              class={userCSSSelectors['lyrics-transition-wrapper']}
               onTransitionStart={(event) =>
                 event.currentTarget.style.setProperty(
                   '--top',
                   `${event.currentTarget?.offsetTop}px`,
                 )
               }
-              class={userCSSSelectors['lyrics-transition-wrapper']}
             >
               <div
                 classList={{

@@ -1,12 +1,9 @@
 import Color from 'color';
 import { createEffect, createSignal } from 'solid-js';
 
-import colors from 'tailwindcss/colors';
-
 import type { JSX } from 'solid-js/jsx-runtime';
 
-export interface ColorPickerProps
-  extends JSX.InputHTMLAttributes<HTMLInputElement> {
+export interface ColorPickerProps extends JSX.InputHTMLAttributes<HTMLInputElement> {
   value?: string;
   onColorChange?: (color: string) => void;
 }
@@ -64,23 +61,23 @@ const ColorPicker = (props: ColorPickerProps) => {
   return (
     <div class={'flex flex-row justify-center items-center gap-2 mr-[6px]'}>
       <input
-        type={'color'}
         class={'input color'}
-        value={color()}
         onChange={(event) => onChangeColor(event.target.value)}
         style={{
           '--opacity': Math.max(alpha(), 0.1),
         }}
+        type={'color'}
+        value={color()}
       />
       <div
-        ref={slider}
-        style={{
-          '--alpha': `${alpha() * 108}px`,
-        }}
         class={
           'relative min-w-[120px] h-16px flex justify-start items-center z-0 cursor-pointer'
         }
         onPointerDown={onMoveStart}
+        ref={slider}
+        style={{
+          '--alpha': `${alpha() * 108}px`,
+        }}
       >
         <div
           class={
@@ -88,12 +85,12 @@ const ColorPicker = (props: ColorPickerProps) => {
           }
         />
         <div
-          style={{
-            scale: `${alpha() * 100}% 100%`,
-          }}
           class={
             'absolute left-[4px] right-[4px] h-[4px] bg-primary-500 rounded-full -z-1 origin-left'
           }
+          style={{
+            scale: `${alpha() * 100}% 100%`,
+          }}
         />
         <div
           class={`

@@ -1,12 +1,17 @@
-import PluginLoader, { PluginLoaderOptions } from './plugin-loader';
+import PluginLoader, { type PluginLoaderOptions } from './plugin-loader';
 
-import { Plugin, PluginEventMap, PluginState } from '../../common/plugins';
-import { Config } from '../../common/schema';
-
-import { SpiceifyIntegrationPlugin } from '../../plugins';
+import {
+  type Plugin,
+  type PluginEventMap,
+  type PluginState,
+} from '../../common/plugins';
+import { type Config } from '../../common/schema';
+import {
+  type PredefinedPlugin,
+  SpiceifyIntegrationPlugin,
+} from '../../plugins';
 
 import type { PartialDeep } from 'type-fest';
-import type { PredefinedPlugin } from '../../plugins';
 
 export interface PluginManagerOptions extends PluginLoaderOptions {
   config: () => Config['plugins'];
@@ -62,19 +67,19 @@ class PluginManager {
     return null;
   }
 
-  public async loadPredefinedPlugins(): Promise<void> {
-    const pluginList = await Promise.all(
-      this.predefinedPlugins.map((it) =>
-        this.loader.loadFromProvider(
-          it.provider ?? null,
-          it.cssList,
-          it.manifest,
-          'enable',
-        ),
+  public loadPredefinedPlugins(): Promise<void> {
+    const pluginList = this.predefinedPlugins.map((it) =>
+      this.loader.loadFromProvider(
+        it.provider ?? null,
+        it.cssList,
+        it.manifest,
+        'enable',
       ),
     );
 
     this.plugins.push(...pluginList.filter(Boolean));
+
+    return Promise.resolve();
   }
 
   public async loadPluginsFromConfig(): Promise<void> {

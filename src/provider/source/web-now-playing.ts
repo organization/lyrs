@@ -2,7 +2,7 @@ import { WebSocketServer } from 'ws';
 
 import { BaseSourceProvider } from './base-source-provider';
 
-import { BaseUpdateData, UpdateData } from '../../../common/schema';
+import { type BaseUpdateData, type UpdateData } from '../../../common/schema';
 
 export class WebNowPlayingProvider extends BaseSourceProvider {
   public override name = 'web-now-playing';

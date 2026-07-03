@@ -1,5 +1,5 @@
-import { createRenderEffect, JSX } from 'solid-js';
 import { TransProvider } from '@jellybrick/solid-i18next';
+import { createRenderEffect, type JSX } from 'solid-js';
 
 import useConfig from './hooks/useConfig';
 

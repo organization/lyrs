@@ -1,19 +1,22 @@
-import path from 'node:path';
 import fs from 'node:fs/promises';
+import path from 'node:path';
 
 import zip from 'zip-lib';
 
-import { loadPlugin, loadFromPath } from './v1/v1-loader';
 import {
-  PluginRunner,
-  VersionedPluginRunnerOptions,
+  type PluginRunner,
+  type VersionedPluginRunnerOptions,
   PluginManifestSchema,
-  PluginManifest,
+  type PluginManifest,
 } from './types';
-
+import { loadPlugin, loadFromPath } from './v1/v1-loader';
 import { createLogger } from './v1/v1-logger';
 
-import { Plugin, PluginProvider, PluginState } from '../../common/plugins';
+import {
+  type Plugin,
+  type PluginProvider,
+  type PluginState,
+} from '../../common/plugins';
 import { errorSync } from '../../utils/error';
 
 export interface PluginLoaderOptions {

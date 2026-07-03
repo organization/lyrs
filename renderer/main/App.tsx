@@ -1,17 +1,16 @@
 import { createMemo, createSignal, Show } from 'solid-js';
 
+import { AlertView } from './components/AlertView';
 import AnchoredView from './components/AnchoredView';
 import LyricProgressBar from './components/LyricProgressBar';
 import Lyrics from './components/Lyrics';
 
-import { AlertView } from './components/AlertView';
-
 import PlayingInfoProvider from '../components/PlayingInfoProvider';
 import UserCSS from '../components/UserCSS';
-import { userCSSSelectors, userCSSVariables } from '../utils/userCSSSelectors';
+import useCurrent from '../hooks/useCurrent';
 import usePluginsCSS from '../hooks/usePluginsCSS';
 import useStyle from '../hooks/useStyle';
-import useCurrent from '../hooks/useCurrent';
+import { userCSSSelectors, userCSSVariables } from '../utils/userCSSSelectors';
 
 const isWindows = /Windows/.test(navigator.userAgent);
 const useProximityStyle = () => {
@@ -121,10 +120,10 @@ const App = () => {
     <Show when={window.enabled || view()?.enabled}>
       <PlayingInfoProvider>
         <AnchoredView
-          style={`${userCSSVariables['var-proximity-opacity']}: ${opacity()};`}
           classList={{
             [userCSSSelectors['wrapper--hover']]: rate() >= 1,
           }}
+          style={`${userCSSVariables['var-proximity-opacity']}: ${opacity()};`}
           {...proximityHandles}
         >
           <AlertView />

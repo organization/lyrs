@@ -1,11 +1,11 @@
-import { For, JSX, Match, splitProps, Switch, untrack } from 'solid-js';
+import { For, type JSX, Match, splitProps, Switch, untrack } from 'solid-js';
 import { TransitionGroup } from 'solid-transition-group';
 
 import LyricsItem from './LyricsItem';
 
+import { type Status } from '../../components/PlayingInfoProvider';
 import useStyle from '../../hooks/useStyle';
 import { cx } from '../../utils/classNames';
-import { Status } from '../../components/PlayingInfoProvider';
 import {
   userCSSSelectors,
   userCSSVariables,
@@ -45,7 +45,7 @@ const LyricsTransitionGroupAllAtOnce = (props: LyricsTransitionGroupProps) => {
 
   return (
     <Container>
-      <TransitionGroup name={props.animation} appear>
+      <TransitionGroup appear name={props.animation}>
         <For each={lyricTransitionGroup()}>
           {(lyrics) => (
             <Container>
@@ -63,7 +63,7 @@ const LyricsTransitionGroupSequential = (props: LyricsTransitionGroupProps) => {
 
   return (
     <Container>
-      <TransitionGroup name={props.animation} appear>
+      <TransitionGroup appear name={props.animation}>
         <Lyrics lyrics={props.lyrics} status={props.lyricsStatus} />
       </TransitionGroup>
     </Container>

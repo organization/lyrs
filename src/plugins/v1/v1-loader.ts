@@ -1,38 +1,39 @@
-import path from 'node:path';
 import fs from 'node:fs/promises';
+import path from 'node:path';
 
 import * as Electron from 'electron';
-import { z } from 'zod';
+import * as z from 'zod';
 
 import { createLogger } from './v1-logger';
 
 import {
-  Plugin,
-  PluginContext,
-  PluginProvider,
-  SettingOption,
-  UseSettingResult,
+  type Plugin,
+  type PluginContext,
+  type PluginProvider,
+  type SettingOption,
+  type UseSettingResult,
 } from '../../../common/plugins';
-import { Json } from '../../../utils/types';
-import { VersionedPluginLoader, VersionedPluginPathLoader } from '../types';
+import { type Json } from '../../../utils/types';
 import { config } from '../../config';
+import {
+  type VersionedPluginLoader,
+  type VersionedPluginPathLoader,
+} from '../types';
 
 import type { LyricProvider, SourceProvider } from '../../../common/provider';
 
-const v1ManifestSchema = z
-  .object({
-    id: z.string(),
-    name: z.string(),
-    description: z.string().optional(),
-    author: z.string(),
-    version: z.string().optional(),
-    versionCode: z.number(),
-    manifestVersion: z.literal(1),
+const v1ManifestSchema = z.looseObject({
+  id: z.string(),
+  name: z.string(),
+  description: z.string().optional(),
+  author: z.string(),
+  version: z.string().optional(),
+  versionCode: z.number(),
+  manifestVersion: z.literal(1),
 
-    css: z.array(z.string()).optional(),
-    main: z.string().optional(),
-  })
-  .passthrough();
+  css: z.array(z.string()).optional(),
+  main: z.string().optional(),
+});
 
 export const loadFromPath: VersionedPluginPathLoader = async (
   pluginPath,

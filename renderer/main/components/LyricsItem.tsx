@@ -1,7 +1,6 @@
 import { createMemo, createSignal, onMount, splitProps } from 'solid-js';
 
-import { Status } from '../../components/PlayingInfoProvider';
-
+import { type Status } from '../../components/PlayingInfoProvider';
 import { userCSSVariables } from '../../utils/userCSSSelectors';
 
 import type { JSX } from 'solid-js/jsx-runtime';
@@ -43,9 +42,9 @@ const LyricsItem = (props: LyricsItemProps) => {
   return (
     <div
       {...leftProps}
+      class={leftProps.class}
       ref={dom}
       style={`${style()}; ${props.style}`}
-      class={leftProps.class}
     >
       {leftProps.children}
     </div>

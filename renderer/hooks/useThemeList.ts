@@ -2,8 +2,8 @@ import { createSignal, onMount } from 'solid-js';
 
 import { createIpcListener } from './createIpcListener';
 
-import type { PartialDeep } from 'type-fest';
 import type { StyleConfig, ThemeList } from '../../common/schema';
+import type { PartialDeep } from 'type-fest';
 
 const useThemeList = () => {
   const [themeList, setThemeList] = createSignal<Required<ThemeList>>({});

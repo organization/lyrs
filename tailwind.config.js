@@ -9,10 +9,7 @@ delete colors.blueGray;
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ['selector', '[data-color-scheme="dark"]'],
-  content: [
-    './renderer/index.html',
-    './renderer/**/*.{js,ts,jsx,tsx}',
-  ],
+  content: ['./renderer/**/*.html', './renderer/**/*.{js,ts,jsx,tsx}'],
   theme: {
     colors: {
       ...colors,
@@ -35,5 +32,4 @@ module.exports = {
     },
   },
   plugins: [],
-}
-
+};

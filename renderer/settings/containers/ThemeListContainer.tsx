@@ -1,15 +1,14 @@
 import { Trans, useTransContext } from '@jellybrick/solid-i18next';
-import { For, Show, createSignal, JSX } from 'solid-js';
 import { useNavigate } from '@solidjs/router';
+import { For, Show, createSignal, type JSX } from 'solid-js';
 
+import { DEFAULT_STYLE, PRESET_PREFIX } from '../../../common/constants';
+import presetThemes from '../../../common/presets';
+import { type StyleConfig } from '../../../common/schema';
 import Card from '../../components/Card';
 import Modal from '../../components/Modal';
 import useConfig from '../../hooks/useConfig';
 import useThemeList from '../../hooks/useThemeList';
-
-import presetThemes from '../../../common/presets';
-import { StyleConfig } from '../../../common/schema';
-import { DEFAULT_STYLE, PRESET_PREFIX } from '../../../common/constants';
 
 const ThemeListContainer = () => {
   const [config, setConfig] = useConfig();
@@ -205,17 +204,15 @@ const ThemeListContainer = () => {
             <Trans key={'setting.theme.import-from-file'} />
           </a>
           <input
-            id={'import-theme'}
-            type={'file'}
-            class={'hidden'}
             accept={'application/json'}
+            class={'hidden'}
+            id={'import-theme'}
             onInput={onImportTheme}
+            type={'file'}
           />
         </label>
       </Card>
       <Modal
-        open={nameOpen()}
-        onClose={() => setNameOpen(false)}
         buttons={[
           {
             name: t('common.close'),
@@ -227,6 +224,8 @@ const ThemeListContainer = () => {
             onClick: onRenameConfirm,
           },
         ]}
+        onClose={() => setNameOpen(false)}
+        open={nameOpen()}
       >
         <div class={'text-xl mb-2'}>
           {t('setting.theme.rename-alert-title')}
@@ -236,13 +235,11 @@ const ThemeListContainer = () => {
         </div>
         <input
           class={'input w-full'}
-          value={name()}
           onChange={(event) => setName(event.target.value)}
+          value={name()}
         />
       </Modal>
       <Modal
-        open={deleteOpen()}
-        onClose={() => setDeleteOpen(false)}
         buttons={[
           {
             type: 'negative',
@@ -250,14 +247,14 @@ const ThemeListContainer = () => {
             onClick: onDeleteConfirm,
           },
         ]}
+        onClose={() => setDeleteOpen(false)}
+        open={deleteOpen()}
       >
         <div class={'text-xl'}>
           {t('common.delete.confirm', { name: target() })}
         </div>
       </Modal>
       <Modal
-        open={nameConflictOpen()}
-        onClose={() => setNameConflictOpen(false)}
         buttons={[
           {
             name: t('common.okay'),
@@ -267,6 +264,8 @@ const ThemeListContainer = () => {
             },
           },
         ]}
+        onClose={() => setNameConflictOpen(false)}
+        open={nameConflictOpen()}
       >
         <div class={'text-xl mb-2'}>
           {t('setting.theme.rename-conflict-title')}
@@ -276,8 +275,6 @@ const ThemeListContainer = () => {
         </div>
       </Modal>
       <Modal
-        open={open()}
-        onClose={() => setOpen(false)}
         buttons={[
           {
             type: 'positive',
@@ -285,6 +282,8 @@ const ThemeListContainer = () => {
             onClick: () => setOpen(false),
           },
         ]}
+        onClose={() => setOpen(false)}
+        open={open()}
       >
         <div class={'text-black dark:text-white text-lg'}>
           {t('setting.theme.import-theme-failed')}
@@ -299,8 +298,6 @@ const ThemeListContainer = () => {
         </pre>
       </Modal>
       <Modal
-        open={addOpen()}
-        onClose={() => setAddOpen(false)}
         buttons={[
           {
             name: t('common.close'),
@@ -312,6 +309,8 @@ const ThemeListContainer = () => {
             onClick: onAdd,
           },
         ]}
+        onClose={() => setAddOpen(false)}
+        open={addOpen()}
       >
         <div class={'text-xl mb-2'}>
           {t('setting.theme.add-theme-from.title')}
@@ -324,8 +323,8 @@ const ThemeListContainer = () => {
               onClick={() => setTarget(name)}
             >
               <Show
-                when={target() === name}
                 fallback={<div class={'w-6 h-6'} />}
+                when={target() === name}
               >
                 <svg
                   class={'w-6 h-6 fill-none'}
@@ -333,8 +332,8 @@ const ThemeListContainer = () => {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M4.53 12.97a.75.75 0 0 0-1.06 1.06l4.5 4.5a.75.75 0 0 0 1.06 0l11-11a.75.75 0 0 0-1.06-1.06L8.5 16.94l-3.97-3.97Z"
                     class={'fill-green-500'}
+                    d="M4.53 12.97a.75.75 0 0 0-1.06 1.06l4.5 4.5a.75.75 0 0 0 1.06 0l11-11a.75.75 0 0 0-1.06-1.06L8.5 16.94l-3.97-3.97Z"
                   />
                 </svg>
               </Show>
@@ -355,8 +354,8 @@ const ThemeListContainer = () => {
               onClick={() => setTarget(name)}
             >
               <Show
-                when={target() === name}
                 fallback={<div class={'w-6 h-6'} />}
+                when={target() === name}
               >
                 <svg
                   class={'w-6 h-6 fill-none'}
@@ -364,8 +363,8 @@ const ThemeListContainer = () => {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M4.53 12.97a.75.75 0 0 0-1.06 1.06l4.5 4.5a.75.75 0 0 0 1.06 0l11-11a.75.75 0 0 0-1.06-1.06L8.5 16.94l-3.97-3.97Z"
                     class={'fill-green-500'}
+                    d="M4.53 12.97a.75.75 0 0 0-1.06 1.06l4.5 4.5a.75.75 0 0 0 1.06 0l11-11a.75.75 0 0 0-1.06-1.06L8.5 16.94l-3.97-3.97Z"
                   />
                 </svg>
               </Show>

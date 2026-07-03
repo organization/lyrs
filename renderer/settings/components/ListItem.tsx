@@ -1,4 +1,4 @@
-import { JSX, Show, splitProps } from 'solid-js';
+import { type JSX, Show, splitProps } from 'solid-js';
 
 import { cx } from '../../utils/classNames';
 
@@ -27,10 +27,10 @@ const ListItem = (props: ListItemProps) => {
       )}
     >
       <Show
-        when={typeof local.icon === 'string'}
         fallback={local.icon as JSX.Element}
+        when={typeof local.icon === 'string'}
       >
-        <img src={local.icon as string} alt="Local Icon" />
+        <img alt="Local Icon" src={local.icon as string} />
       </Show>
       <div class={'text-md ml-4'}>{local.title}</div>
     </li>

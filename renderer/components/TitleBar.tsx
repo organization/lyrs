@@ -14,12 +14,12 @@ type ButtonProps = {
 const Button = (props: ButtonProps) => {
   return (
     <button
-      onClick={() => props?.onClick?.()}
       class={`
         w-11 h-10 flex justify-center items-center
         fill-slate-500 hover:fill-black text-slate-300 hover:text-black
         dark:fill-slate-300 dark:hover:fill-white dark:text-slate-300 dark:hover:text-white
       `}
+      onClick={() => props?.onClick?.()}
       style={{
         '-webkit-app-region': 'no-drag',
       }}
@@ -45,10 +45,10 @@ const TitleBar = () => {
           'flex justify-center items-center rounded ml-1 hover:bg-black/10 dark:hover:bg-white/10',
           isMac ? 'w-6 h-6 ml-[70px] mt-[4px]' : 'w-8 h-8',
         )}
+        onClick={() => history.back()}
         style={{
           '-webkit-app-region': 'no-drag',
         }}
-        onClick={() => history.back()}
       >
         <svg
           class={cx(isMac ? 'w-4 h-4' : 'w-5 h-5')}
@@ -56,11 +56,11 @@ const TitleBar = () => {
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M10.733 19.79a.75.75 0 0 0 1.034-1.086L5.516 12.75H20.25a.75.75 0 0 0 0-1.5H5.516l6.251-5.955a.75.75 0 0 0-1.034-1.086l-7.42 7.067a.995.995 0 0 0-.3.58.754.754 0 0 0 .001.289.995.995 0 0 0 .3.579l7.419 7.067Z"
             class={`
                 fill-slate-500 hover:fill-black text-slate-300 hover:text-black
                 dark:fill-slate-300 dark:hover:fill-white dark:text-slate-300 dark:hover:text-white
               `}
+            d="M10.733 19.79a.75.75 0 0 0 1.034-1.086L5.516 12.75H20.25a.75.75 0 0 0 0-1.5H5.516l6.251-5.955a.75.75 0 0 0-1.034-1.086l-7.42 7.067a.995.995 0 0 0-.3.58.754.754 0 0 0 .001.289.995.995 0 0 0 .3.579l7.419 7.067Z"
           />
         </svg>
       </button>

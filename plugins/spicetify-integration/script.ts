@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/unbound-method */
-import fs from 'node:fs/promises';
-import fsSync from 'node:fs';
-import path from 'node:path';
 import { spawn } from 'node:child_process';
+import fsSync from 'node:fs';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 
-import { PluginProvider } from '../../common/plugins';
+import { type PluginProvider } from '../../common/plugins';
 
 const root = process.env.APPDATA ?? process.env.HOME ?? '';
 const URL =
@@ -328,6 +328,8 @@ const runCommand = async (cmd: string, args: string[]) =>
     const stream = spawn(cmd, args, { shell: true });
 
     stream.on('close', (code) => {
+      // callers rely on catching the numeric exit code
+      // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
       if (code !== 0) reject(code ?? -1);
 
       resolve(code ?? 0);

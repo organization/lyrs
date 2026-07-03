@@ -1,7 +1,7 @@
 import { Trans } from '@jellybrick/solid-i18next';
 
-import useServer from '../../hooks/useServer';
 import { useClassStyle } from '../../hooks/useClassStyle';
+import useServer from '../../hooks/useServer';
 import { userCSSSelectors } from '../../utils/userCSSSelectors';
 
 export const AlertView = () => {

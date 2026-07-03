@@ -1,7 +1,7 @@
-import fs from 'node:fs/promises';
 import fsSync from 'node:fs';
+import fs from 'node:fs/promises';
 
-import { z, ZodTypeDef } from 'zod';
+import { type z } from 'zod';
 
 import { deepmerge } from '../../utils/merge';
 
@@ -18,7 +18,7 @@ export type StateMiddleware<T> = (
 export type StateOptions<T> = {
   file?: {
     path?: string;
-    schema?: z.ZodType<T, ZodTypeDef, unknown>;
+    schema?: z.ZodType<T, unknown>;
     autoSync?: boolean | number;
     middleware?: StateMiddleware<unknown>;
   };
@@ -27,7 +27,7 @@ export type StateOptions<T> = {
 export class State<T> {
   private value: T;
   private path?: string;
-  private _schema?: z.ZodType<T, ZodTypeDef, unknown>;
+  private _schema?: z.ZodType<T, unknown>;
   private throttle?: number;
   private fileMiddleware?: StateMiddleware<unknown>;
   private stateMiddleware?: StateMiddleware<T>;

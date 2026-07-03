@@ -1,18 +1,18 @@
-import { Accessor } from 'solid-js';
+import { type Accessor } from 'solid-js';
 
-import { PluginLogger } from './logger';
+import { type PluginEventMap, type OverrideMap } from './event';
+import { type PluginLogger } from './logger';
 import {
-  BooleanOption,
-  ButtonOption,
-  LabelOption,
-  NumberOption,
-  SettingOption,
+  type BooleanOption,
+  type ButtonOption,
+  type LabelOption,
+  type NumberOption,
+  type SettingOption,
 } from './option';
-import { PluginEventMap, OverrideMap } from './event';
 
-import type { PartialDeep } from 'type-fest';
-import type { Config } from '../schema';
 import type { LyricProvider, SourceProvider } from '../provider';
+import type { Config } from '../schema';
+import type { PartialDeep } from 'type-fest';
 
 export type PluginState = 'enable' | 'disable';
 export type PluginUnload = () => void;

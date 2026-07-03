@@ -1,6 +1,9 @@
 import usePlugins from './usePlugins';
 
-import { OverrideMap, OverrideParameterMap } from '../../common/plugins';
+import {
+  type OverrideMap,
+  type OverrideParameterMap,
+} from '../../common/plugins';
 
 const usePluginOverride = async <Target extends keyof OverrideMap>(
   target: Target,

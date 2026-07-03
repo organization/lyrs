@@ -2,7 +2,7 @@ import { createSignal } from 'solid-js';
 
 import { createIpcListener } from './createIpcListener';
 
-import { GameList } from '../../common/schema';
+import { type GameList } from '../../common/schema';
 
 const useGameList = () => {
   const [gameList, setGameList] = createSignal<GameList>({});

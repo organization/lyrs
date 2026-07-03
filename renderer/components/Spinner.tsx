@@ -25,8 +25,6 @@ const Spinner = (props: SpinnerProps): JSX.Element => {
       class={cx('flex justify-center items-center', leftProps.class)}
     >
       <svg
-        viewBox={'0 0 24 24'}
-        xmlns={'http://www.w3.org/2000/svg'}
         class={'animate-spin duration-[1400ms]'}
         style={
           typeof leftProps.style !== 'string'
@@ -36,10 +34,12 @@ const Spinner = (props: SpinnerProps): JSX.Element => {
               }
             : {}
         }
+        viewBox={'0 0 24 24'}
+        xmlns={'http://www.w3.org/2000/svg'}
       >
         <path
-          d={path()}
           class={'spinner-shape'}
+          d={path()}
           style={{
             '--stroke-width': local.strokeWidth,
             '--dash-length': dashLength(),

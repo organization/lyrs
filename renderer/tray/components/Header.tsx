@@ -21,12 +21,12 @@ export const Header = (props: HeaderProps) => {
       >
         <svg
           class={'w-[18px] h-[18px] fill-none'}
-          xmlns="http://www.w3.org/2000/svg"
           viewBox="0 -960 960 960"
+          xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"
             class={'fill-black dark:fill-white'}
+            d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"
           />
         </svg>
         <span>뒤로</span>

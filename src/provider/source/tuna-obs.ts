@@ -1,20 +1,20 @@
+import { serve } from '@hono/node-server';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { validator } from 'hono/validator';
-import { serve } from '@hono/node-server';
 
 import { BaseSourceProvider } from './base-source-provider';
 
-import {
-  TunaObsBody,
-  TunaObsBodySchema,
-  UpdateData,
-} from '../../../common/schema';
 import { getTranslation } from '../../../common/intl';
+import {
+  type TunaObsBody,
+  TunaObsBodySchema,
+  type UpdateData,
+} from '../../../common/schema';
 
-import type { Http2SecureServer, Http2Server } from 'node:http2';
-import type { Server as NodeServer } from 'node:http';
 import type { ButtonOption, SettingOption } from '../../../common/plugins';
+import type { Server as NodeServer } from 'node:http';
+import type { Http2SecureServer, Http2Server } from 'node:http2';
 
 type ServerType = NodeServer | Http2Server | Http2SecureServer;
 

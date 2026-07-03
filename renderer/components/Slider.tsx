@@ -1,7 +1,7 @@
 import {
   createSignal,
   For,
-  JSX,
+  type JSX,
   mergeProps,
   onMount,
   splitProps,
@@ -14,8 +14,10 @@ interface SliderLabel {
   label: string;
 }
 
-export interface SliderProps
-  extends Omit<JSX.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface SliderProps extends Omit<
+  JSX.HTMLAttributes<HTMLDivElement>,
+  'onChange'
+> {
   min?: number;
   max?: number;
   step?: number;
@@ -86,14 +88,14 @@ export const Slider = (props: SliderProps) => {
   return (
     <div
       {...leftProps}
-      ref={setSlider}
-      style={`--value: ${value()}`}
       class={cx(
         'relative min-w-[120px] h-16px flex justify-start items-center z-0 cursor-pointer',
         local.label.length > 0 && 'pb-6',
         leftProps.class,
       )}
       onPointerDown={onMoveStart}
+      ref={setSlider}
+      style={`--value: ${value()}`}
     >
       <div
         class={
@@ -101,10 +103,10 @@ export const Slider = (props: SliderProps) => {
         }
       />
       <div
-        style={{ 'scale': 'var(--value) 100%' }}
         class={
           'absolute left-[4px] right-[4px] h-[4px] bg-primary-500 rounded-full -z-1 origin-left'
         }
+        style={{ 'scale': 'var(--value) 100%' }}
       />
       <div
         class={`
@@ -117,13 +119,13 @@ export const Slider = (props: SliderProps) => {
       <For each={local.label}>
         {(item) => (
           <div
-            style={`left: ${((item.value - local.min) / (local.max - local.min)) * maxWidth() + 8}px;`}
             class={`
               absolute left-[8px] bottom-0 text-sm
               w-full text-center
               text-black dark:text-white
               translate-x-[-50%] pointer-events-none
              `}
+            style={`left: ${((item.value - local.min) / (local.max - local.min)) * maxWidth() + 8}px;`}
           >
             {item.label}
           </div>

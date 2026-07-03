@@ -3,11 +3,11 @@ name: Build Lyrs
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
 
 env:
-  NODE_VERSION: "22.x"
+  NODE_VERSION: '22.x'
 
 jobs:
   build:

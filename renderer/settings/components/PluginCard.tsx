@@ -1,11 +1,10 @@
-import { Show } from 'solid-js';
 import { Trans } from '@jellybrick/solid-i18next';
 import { useNavigate } from '@solidjs/router';
 import { Marquee } from '@suyongs/solid-utility';
+import { Show } from 'solid-js';
 
 import Card from '../../components/Card';
 import Switch from '../../components/Switch';
-
 import usePlugins from '../../hooks/usePlugins';
 
 export interface PluginCardProps {
@@ -46,8 +45,8 @@ const PluginCard = (props: PluginCardProps) => {
       subCards={[
         <div class={'w-full h-full flex justify-start items-center gap-3'}>
           <Switch
-            value={plugin()?.state === 'enable'}
             onChange={togglePluginState}
+            value={plugin()?.state === 'enable'}
           />
           <div class={'text-md'}>
             <Trans key={'setting.plugin.enable-plugin'} />
@@ -67,8 +66,8 @@ const PluginCard = (props: PluginCardProps) => {
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d="M8.47 4.22a.75.75 0 0 0 0 1.06L15.19 12l-6.72 6.72a.75.75 0 1 0 1.06 1.06l7.25-7.25a.75.75 0 0 0 0-1.06L9.53 4.22a.75.75 0 0 0-1.06 0Z"
                 class={'fill-black dark:fill-white'}
+                d="M8.47 4.22a.75.75 0 0 0 0 1.06L15.19 12l-6.72 6.72a.75.75 0 1 0 1.06 1.06l7.25-7.25a.75.75 0 0 0 0-1.06L9.53 4.22a.75.75 0 0 0-1.06 0Z"
               />
             </svg>
           </button>
@@ -81,17 +80,17 @@ const PluginCard = (props: PluginCardProps) => {
         xmlns="http://www.w3.org/2000/svg"
       >
         <Show
-          when={plugin()?.state !== 'disable'}
           fallback={
             <path
-              d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2Zm0 1.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17Zm4.25 7.75a.75.75 0 0 1 0 1.5h-8.5a.75.75 0 0 1 0-1.5h8.5Z"
               class={'fill-red-500'}
+              d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2Zm0 1.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17Zm4.25 7.75a.75.75 0 0 1 0 1.5h-8.5a.75.75 0 0 1 0-1.5h8.5Z"
             />
           }
+          when={plugin()?.state !== 'disable'}
         >
           <path
-            d="M4.53 12.97a.75.75 0 0 0-1.06 1.06l4.5 4.5a.75.75 0 0 0 1.06 0l11-11a.75.75 0 0 0-1.06-1.06L8.5 16.94l-3.97-3.97Z"
             class={'fill-green-500'}
+            d="M4.53 12.97a.75.75 0 0 0-1.06 1.06l4.5 4.5a.75.75 0 0 0 1.06 0l11-11a.75.75 0 0 0-1.06-1.06L8.5 16.94l-3.97-3.97Z"
           />
         </Show>
       </svg>

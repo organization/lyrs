@@ -1,12 +1,12 @@
-import { Plugin } from './plugin';
+import { type Plugin } from './plugin';
 
 import {
-  Config,
-  GameList,
-  LyricMapper,
-  StyleConfig,
-  ThemeList,
-  UpdateData,
+  type Config,
+  type GameList,
+  type LyricMapper,
+  type StyleConfig,
+  type ThemeList,
+  type UpdateData,
 } from '../schema';
 
 import type { PartialDeep } from 'type-fest';

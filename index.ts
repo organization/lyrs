@@ -2,7 +2,6 @@ import { app } from 'electron';
 
 import Application from './src/Application';
 import { waitConfigInit } from './src/config';
-
 import { OverlayManager } from './src/overlay';
 
 // set config resolver before configuration is done

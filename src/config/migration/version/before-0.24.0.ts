@@ -1,9 +1,9 @@
-import {
-  LEGACY_StyleConfig0_24_0,
-  StyleConfig,
-} from '../../../../common/schema';
 import { DEFAULT_STYLE } from '../../../../common/constants';
-import { Migrator } from '../types';
+import {
+  type LEGACY_StyleConfig0_24_0,
+  type StyleConfig,
+} from '../../../../common/schema';
+import { type Migrator } from '../types';
 
 export const LEGACY_migrator0_24_0: Migrator = {
   themeList: (data: unknown) => {

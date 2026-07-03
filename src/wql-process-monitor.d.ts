@@ -6,7 +6,41 @@ declare namespace NodeJS {
 }
 
 declare module '@jellybrick/wql-process-monitor' {
-  import Emittery from 'emittery';
+  type ProcessEvents = {
+    /**
+     * Process creation event
+     * `[processName, processId, filepath?]`
+     */
+    creation: [string, string, string?];
+    /**
+     * Process deletion event
+     * `[processName, processId]`
+     */
+    deletion: [string, string];
+  };
+
+  /**
+   * Minimal surface of the emittery@0.13 instance returned by subscribe().
+   * wql-process-monitor bundles its own emittery (^0.13), whose listeners
+   * receive the event data positionally — do not type this with the
+   * emittery version installed in this project.
+   */
+  interface ProcessEventEmitter {
+    on<Name extends keyof ProcessEvents>(
+      eventName: Name | Name[],
+      listener: (eventData: ProcessEvents[Name]) => void | Promise<void>,
+    ): () => void;
+    off<Name extends keyof ProcessEvents>(
+      eventName: Name | Name[],
+      listener: (eventData: ProcessEvents[Name]) => void | Promise<void>,
+    ): void;
+    once<Name extends keyof ProcessEvents>(
+      eventName: Name | Name[],
+    ): Promise<ProcessEvents[Name]>;
+    clearListeners<Name extends keyof ProcessEvents>(
+      eventName?: Name | Name[],
+    ): void;
+  }
 
   type Options = {
     /**
@@ -62,25 +96,9 @@ declare module '@jellybrick/wql-process-monitor' {
     /**
      * Subscribe to process creation and deletion events.
      * @param option
-     * @returns {Promise<Emittery<{creation: [string, string, string?], deletion: [string, string]}>>}
+     * @returns {Promise<ProcessEventEmitter>}
      */
-    subscribe(option?: Options): Promise<
-      Emittery<{
-        /**
-         * Process creation event
-         * @param {string} processName process name
-         * @param {string} processId process identifier (Process id should be number...)
-         * @param {string} filepath file location path (if available*)
-         */
-        creation: [string, string, string?];
-        /**
-         * Process deletion event
-         * @param {string} processName process name
-         * @param {string} processId process identifier
-         */
-        deletion: [string, string];
-      }>
-    >;
+    subscribe(option?: Options): Promise<ProcessEventEmitter>;
 
     /**
      * @deprecated Since version >= 2.0 this is automatically done for you when you call subscribe(). Method was merely kept for backward compatibility.
@@ -102,23 +120,9 @@ declare module '@jellybrick/wql-process-monitor' {
     /**
      * Subscribe to process creation and deletion events.
      * @param option
-     * @returns {Emittery<{creation: [string, string, string?], deletion: [string, string]}>}
+     * @returns {ProcessEventEmitter}
      */
-    subscribe(option?: Options): Emittery<{
-      /**
-       * Process creation event
-       * @param {string} processName process name
-       * @param {string} processId process identifier (Process id should be number...)
-       * @param {string} filepath file location path (if available*)
-       */
-      creation: [string, string, string?];
-      /**
-       * Process deletion event
-       * @param {string} processName process name
-       * @param {string} processId process identifier
-       */
-      deletion: [string, string];
-    }>;
+    subscribe(option?: Options): ProcessEventEmitter;
 
     /**
      * @deprecated Since version >= 2.0 this is automatically done for you when you call subscribe(). Method was merely kept for backward compatibility.

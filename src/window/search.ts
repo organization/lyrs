@@ -1,17 +1,16 @@
 import path from 'node:path';
 
 import { app } from 'electron';
+import { type GlasstronOptions } from 'glasstron';
 import { MicaBrowserWindow } from 'mica-electron';
 
-import { GlasstronOptions } from 'glasstron';
-
-import { WindowProvider } from './types';
 import { PlatformBrowserWindow } from './platform-browser-window';
+import { type WindowProvider } from './types';
 
 import { getTranslation } from '../../common/intl';
-import { config } from '../config';
-import { getFile } from '../../utils/resource';
 import { isWin32, isXfce } from '../../utils/is';
+import { getFile } from '../../utils/resource';
+import { config } from '../config';
 
 const glassOptions: Partial<GlasstronOptions> = {
   blur: true,
@@ -35,7 +34,7 @@ export class LyricSearchWindowProvider implements WindowProvider {
       width: 1000,
       height: 600,
       webPreferences: {
-        preload: path.join(__dirname, './preload.js'),
+        preload: path.join(__dirname, '../preload/preload.js'),
         nodeIntegration: true,
       },
       title: getTranslation('title.lyrics', config.get().language),
@@ -52,10 +51,10 @@ export class LyricSearchWindowProvider implements WindowProvider {
       this.window.setMicaAcrylicEffect();
     }
 
-    if (app.isPackaged && !process.env.FARM_DEV_SERVER_URL) {
-      this.window.loadFile(path.join(__dirname, 'lyrics.html'));
+    if (!app.isPackaged && process.env.ELECTRON_RENDERER_URL) {
+      this.window.loadURL(`${process.env.ELECTRON_RENDERER_URL}/lyrics.html`);
     } else {
-      this.window.loadURL(`${process.env.FARM_DEV_SERVER_URL}/lyrics.html`);
+      this.window.loadFile(path.join(__dirname, '../renderer/lyrics.html'));
     }
   }
 }

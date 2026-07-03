@@ -1,22 +1,21 @@
+import { Trans, useTransContext } from '@jellybrick/solid-i18next';
 import {
   createSignal,
   onCleanup,
   onMount,
   untrack,
-  JSX,
+  type JSX,
   splitProps,
 } from 'solid-js';
-import { Trans, useTransContext } from '@jellybrick/solid-i18next';
 
 import Card from '../../components/Card';
 import UserCSS from '../../components/UserCSS';
+import useConfig from '../../hooks/useConfig';
 import LyricProgressBar from '../../main/components/LyricProgressBar';
+import { useLyricsStyle } from '../../main/components/Lyrics';
 import LyricsTransition from '../../main/components/LyricsTransition';
 import { cx } from '../../utils/classNames';
-
 import { userCSSTransitions } from '../../utils/userCSSSelectors';
-import { useLyricsStyle } from '../../main/components/Lyrics';
-import useConfig from '../../hooks/useConfig';
 
 import type { StyleConfig } from '../../../common/schema';
 
@@ -91,9 +90,9 @@ const LyricPreview = (props: LyricPreviewProps) => {
         <LyricsTransition
           animation={animation()}
           class={'w-full items-end'}
-          style={`row-gap: ${local.theme.lyric.containerRowGap}rem;`}
           lyrics={animationPreview()}
           status={'playing'}
+          style={`row-gap: ${local.theme.lyric.containerRowGap}rem;`}
         />,
       ]}
     >

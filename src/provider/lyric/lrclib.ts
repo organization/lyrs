@@ -1,10 +1,10 @@
-import { z } from 'zod';
+import * as z from 'zod';
 
 import {
-  LyricProvider,
-  LyricData,
-  LyricMetadata,
-  SearchParams,
+  type LyricProvider,
+  type LyricData,
+  type LyricMetadata,
+  type SearchParams,
 } from '../../../common/provider';
 
 import type { ButtonOption, SettingOption } from '../../../common/plugins';

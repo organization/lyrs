@@ -1,15 +1,19 @@
-import { For, Show, createEffect, createSignal, onCleanup } from 'solid-js';
 import { Trans, useTransContext } from '@jellybrick/solid-i18next';
-
-import PluginLog from '../components/PluginLog';
-import PluginCard from '../components/PluginCard';
+import {
+  For,
+  Show,
+  createEffect,
+  createSignal,
+  onCleanup,
+  type JSX,
+} from 'solid-js';
 
 import Card from '../../components/Card';
 import Modal from '../../components/Modal';
 import useConfig from '../../hooks/useConfig';
 import usePlugins from '../../hooks/usePlugins';
-
-import type { JSX } from 'solid-js';
+import PluginCard from '../components/PluginCard';
+import PluginLog from '../components/PluginLog';
 
 const PluginContainer = () => {
   const [t] = useTransContext();
@@ -94,11 +98,11 @@ const PluginContainer = () => {
             <Trans key={'setting.plugin.add-plugin.from-file'} />
           </a>
           <input
-            id={'plugin'}
-            type={'file'}
-            class={'hidden'}
             accept={'application/zip'}
+            class={'hidden'}
+            id={'plugin'}
             onInput={onAddPlugin}
+            type={'file'}
           />
         </label>
       </Card>
@@ -110,9 +114,9 @@ const PluginContainer = () => {
       </Card>
       <Show when={config()?.developer}>
         <Card
+          class={'flex flex-row justify-between items-center gap-1'}
           expand={showLog()}
           setExpand={setShowLog}
-          class={'flex flex-row justify-between items-center gap-1'}
           subCards={[
             <div class={'w-full max-h-[400px] fluent-scrollbar'}>
               <For each={logs()}>
@@ -131,8 +135,6 @@ const PluginContainer = () => {
       </div>
       <For each={pluginIdList()}>{(id) => <PluginCard id={id} />}</For>
       <Modal
-        open={open()}
-        onClose={() => setOpen(false)}
         buttons={[
           {
             type: 'positive',
@@ -140,6 +142,8 @@ const PluginContainer = () => {
             onClick: () => setOpen(false),
           },
         ]}
+        onClose={() => setOpen(false)}
+        open={open()}
       >
         <div class={'text-black dark:text-white text-lg'}>
           {t('setting.plugin.load-plugin-failed')}

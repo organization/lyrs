@@ -1,6 +1,5 @@
 import { Marquee } from '@suyongs/solid-utility';
-
-import { JSX, Show, createSignal } from 'solid-js';
+import { type JSX, Show, createSignal } from 'solid-js';
 
 import Card from '../../components/Card';
 
@@ -21,17 +20,17 @@ const GameCard = (props: GameCardProps) => {
       onMouseLeave={() => setHover(false)}
     >
       <Show
-        when={!!props.icon}
         fallback={<div class={'w-6 h-6 aspect-square'} />}
+        when={!!props.icon}
       >
-        <img src={props.icon} class={'w-6 h-6 object-cover'} alt={'Icon'} />
+        <img alt={'Icon'} class={'w-6 h-6 object-cover'} src={props.icon} />
       </Show>
       <div class={'w-0 flex flex-col justify-center items-stretch flex-1'}>
         <div class={'w-full'}>{props.name}</div>
         <Marquee
-          mode={hover() ? 'auto' : 'truncate'}
           class={'text-gray-400'}
           gap={18}
+          mode={hover() ? 'auto' : 'truncate'}
         >
           {props.path}
         </Marquee>

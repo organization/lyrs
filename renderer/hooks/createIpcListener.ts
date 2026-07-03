@@ -1,7 +1,7 @@
-import { Accessor, createEffect, onCleanup } from 'solid-js';
+import { type Accessor, createEffect, onCleanup } from 'solid-js';
 
-import type { IpcRendererEvent } from 'electron';
 import type { PluginEventMap } from '../../common/plugins';
+import type { IpcRendererEvent } from 'electron';
 
 export const createIpcListener = <T extends keyof PluginEventMap>(
   name: Accessor<T>,

@@ -1,13 +1,13 @@
-import { Accessor, createMemo, on } from 'solid-js';
+import { type Accessor, createMemo, on } from 'solid-js';
 
 import useConfig from './useConfig';
 
 import { DEFAULT_CONFIG } from '../../common/constants';
 import {
-  LyricData,
-  LyricMetadata,
-  LyricProvider,
-  SearchParams,
+  type LyricData,
+  type LyricMetadata,
+  type LyricProvider,
+  type SearchParams,
 } from '../../common/provider';
 
 type RendererLyricProvider = Omit<

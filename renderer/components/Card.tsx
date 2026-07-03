@@ -67,8 +67,8 @@ const Card = (props: CardProps) => {
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M4.293 15.707a1 1 0 0 0 1.414 0L12 9.414l6.293 6.293a1 1 0 0 0 1.414-1.414l-7-7a1 1 0 0 0-1.414 0l-7 7a1 1 0 0 0 0 1.414Z"
               class={'fill-black dark:fill-white'}
+              d="M4.293 15.707a1 1 0 0 0 1.414 0L12 9.414l6.293 6.293a1 1 0 0 0 1.414-1.414l-7-7a1 1 0 0 0-1.414 0l-7 7a1 1 0 0 0 0 1.414Z"
             />
           </svg>
         </Match>
@@ -79,8 +79,8 @@ const Card = (props: CardProps) => {
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M4.293 8.293a1 1 0 0 1 1.414 0L12 14.586l6.293-6.293a1 1 0 1 1 1.414 1.414l-7 7a1 1 0 0 1-1.414 0l-7-7a1 1 0 0 1 0-1.414Z"
               class={'fill-black dark:fill-white'}
+              d="M4.293 8.293a1 1 0 0 1 1.414 0L12 14.586l6.293-6.293a1 1 0 1 1 1.414 1.414l-7 7a1 1 0 0 1-1.414 0l-7-7a1 1 0 0 1 0-1.414Z"
             />
           </svg>
         </Match>
@@ -89,7 +89,7 @@ const Card = (props: CardProps) => {
   );
 
   return (
-    <Show when={isSubCard()} fallback={mainCard}>
+    <Show fallback={mainCard} when={isSubCard()}>
       <div class={'flex flex-col justify-start itmes-stretch gap-[1px]'}>
         {mainCard}
         <TransitionGroup name={'card'}>

@@ -1,8 +1,8 @@
 import {
-  Plugin,
-  PluginLog,
-  PluginLogType,
-  PluginLogger,
+  type Plugin,
+  type PluginLog,
+  type PluginLogType,
+  type PluginLogger,
 } from '../../../common/plugins';
 
 export const createLogExecutor = <Type extends PluginLogType>(
@@ -15,7 +15,8 @@ export const createLogExecutor = <Type extends PluginLogType>(
       time: Date.now(),
       message: args
         .map((arg) =>
-          typeof arg === 'object' ? JSON.stringify(arg, null, 2) : arg,
+          // eslint-disable-next-line @typescript-eslint/no-base-to-string
+          typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg),
         )
         .join(' '),
       metadata: args.filter((arg) => typeof arg === 'object'),

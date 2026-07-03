@@ -1,6 +1,6 @@
+import { HashRouter, Route } from '@solidjs/router';
 import { createSignal } from 'solid-js';
 import { Transition } from 'solid-transition-group';
-import { HashRouter, Route } from '@solidjs/router';
 
 import { DebugContainer, MainContainer } from './containers';
 
@@ -18,8 +18,8 @@ export const App = () => {
     >
       <PlayingInfoProvider>
         <Transition
-          name={`page-${url() === '/' ? 'left' : 'right'}`}
           mode={'outin'}
+          name={`page-${url() === '/' ? 'left' : 'right'}`}
         >
           <HashRouter
             transformUrl={(url) => {
@@ -27,8 +27,8 @@ export const App = () => {
               return url;
             }}
           >
-            <Route path={'/'} component={MainContainer} />
-            <Route path={'/debug'} component={DebugContainer} />
+            <Route component={MainContainer} path={'/'} />
+            <Route component={DebugContainer} path={'/debug'} />
           </HashRouter>
         </Transition>
       </PlayingInfoProvider>
