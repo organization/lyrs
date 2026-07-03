@@ -10,7 +10,7 @@ import {
   type PercentLength,
 } from '@asdf-overlay/core';
 import * as wql from '@jellybrick/wql-process-monitor';
-import { type NativeImage, type TextureInfo } from 'electron';
+import { screen, type NativeImage, type TextureInfo } from 'electron';
 import hmc from 'hmc-win32';
 import { type AsyncReturnType } from 'type-fest';
 
@@ -72,6 +72,7 @@ class Win32AttachedOverlay implements AttachedOverlay {
       webPreferences: {
         offscreen: {
           useSharedTexture: true,
+          deviceScaleFactor: screen.getPrimaryDisplay().scaleFactor,
         },
       },
     });
