@@ -1,4 +1,6 @@
 import { Trans, useTransContext } from '@jellybrick/solid-i18next';
+import { Box, Button } from '@suis-ui/kit';
+import { ExternalLink, FlaskConical } from 'lucide-solid';
 import { createResource, createSignal } from 'solid-js';
 
 import { DEFAULT_CONFIG } from '../../../common/constants';
@@ -57,25 +59,29 @@ const GeneralContainer = () => {
     .then(setSourceProviders);
 
   return (
-    <div
-      class={
-        'flex-1 flex flex-col justify-start items-stretch gap-1 py-4 fluent-scrollbar'
-      }
+    <Box
+      align="stretch"
+      direction="column"
+      flex={1}
+      gap="xs"
+      justify="flex-start"
+      overflow="yAuto"
+      py="lg"
     >
-      <div class={'text-3xl mb-1 px-4'}>
+      <Box mb="xs" px="lg" text="h1">
         <Trans key={'setting.title.general'} />
-      </div>
-      <div class={'text-md mt-4 mb-1 px-4'}>
+      </Box>
+      <Box mb="xs" mt="lg" px="lg" text="body">
         <Trans key={'setting.general.general-menu'} />
-      </div>
-      <div class={'flex flex-col justify-start items-stretch gap-1 px-4'}>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+      </Box>
+      <Box align="stretch" direction="column" gap="xs" px="lg">
+        <Card justify="between">
+          <Box text="body">
             <Trans key={'setting.general.select-language'} />
-          </div>
+          </Box>
           <Selector
-            class={'select min-w-[210px]'}
             format={(str) => getTranslation('language.name', str)}
+            minWidth="210px"
             mode={'select'}
             onChange={(value) => {
               setConfig({ language: value });
@@ -87,22 +93,22 @@ const GeneralContainer = () => {
             value={config()?.language ?? 'ko'}
           />
         </Card>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+        <Card justify="between">
+          <Box text="body">
             <Trans key={'setting.general.streaming-mode'} />
-          </div>
+          </Box>
           <Switch
             onChange={(checked) => setConfig({ streamingMode: checked })}
             value={config()?.streamingMode}
           />
         </Card>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+        <Card justify="between">
+          <Box text="body">
             <Trans key={'setting.general.app-theme'} />
-          </div>
+          </Box>
           <Selector
-            class={'select min-w-[210px]'}
             format={(str) => t(`setting.general.app-theme.${str}`)}
+            minWidth="210px"
             mode={'select'}
             onChange={(value) => {
               setConfig({ appTheme: value });
@@ -113,9 +119,9 @@ const GeneralContainer = () => {
           />
         </Card>
         <Card
-          class={'flex flex-row justify-between items-center gap-1'}
+          justify="between"
           subCards={sourceProviderOptions().map((option) => (
-            <div class={'flex flex-row justify-start items-center gap-1'}>
+            <Box align="center" direction="row" gap="xs" w="100%">
               <SettingOptionRenderer
                 onChange={(value) => {
                   setConfig({
@@ -143,20 +149,20 @@ const GeneralContainer = () => {
                   ][option.key]
                 }
               />
-            </div>
+            </Box>
           ))}
         >
-          <div class={'text-md'}>
+          <Box text="body">
             <Trans key={'setting.general.source-provider'} />
-          </div>
-          <div class={'flex-1'} />
+          </Box>
+          <Box flex={1} />
           <Selector
-            class={'select min-w-[210px]'}
             format={(str) =>
               t(`setting.general.source-provider.${str}`, {
                 defaultValue: str,
               })
             }
+            minWidth="210px"
             mode={'select'}
             onChange={(value) => {
               setConfig({ sourceProvider: value });
@@ -167,9 +173,9 @@ const GeneralContainer = () => {
           />
         </Card>
         <Card
-          class={'flex flex-row justify-between items-center gap-1'}
+          justify="between"
           subCards={lyricProviderOptions()?.map((option) => (
-            <div class={'flex flex-row justify-start items-center gap-1'}>
+            <Box align="center" direction="row" gap="xs" w="100%">
               <SettingOptionRenderer
                 onChange={(value) => {
                   setConfig({
@@ -197,20 +203,20 @@ const GeneralContainer = () => {
                   ][option.key]
                 }
               />
-            </div>
+            </Box>
           ))}
         >
-          <div class={'text-md'}>
+          <Box text="body">
             <Trans key={'setting.general.lyric-provider'} />
-          </div>
-          <div class={'flex-1'} />
+          </Box>
+          <Box flex={1} />
           <Selector
-            class={'select min-w-[210px]'}
             format={(str) =>
               t(`setting.general.lyric-provider.${str}`, {
                 defaultValue: str,
               })
             }
+            minWidth="210px"
             mode={'select'}
             onChange={(value) => {
               setConfig({ lyricProvider: value });
@@ -220,27 +226,21 @@ const GeneralContainer = () => {
             value={config()?.lyricProvider}
           />
         </Card>
-      </div>
-      <div class={'text-md mt-4 mb-1 px-4'}>
+      </Box>
+      <Box mb="xs" mt="lg" px="lg" text="body">
         <Trans key={'setting.general.experimental'} />
-      </div>
-      <div class={'flex flex-col justify-start items-stretch gap-1 px-4'}>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'flex flex-col justify-center items-start'}>
-            <div class={'text-md flex gap-1 items-center'}>
+      </Box>
+      <Box align="stretch" direction="column" gap="xs" px="lg">
+        <Card justify="between">
+          <Box align="flex-start" direction="column" justify="center">
+            <Box align="center" direction="row" gap="xs" text="body">
               <Trans key={'setting.general.fix-always-on-top.title'} />
-              <svg
-                class={'w-4 h-4 fill-current opacity-50'}
-                viewBox="0 -960 960 960"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M200-120q-51 0-72.5-45.5T138-250l222-270v-240h-40q-17 0-28.5-11.5T280-800q0-17 11.5-28.5T320-840h320q17 0 28.5 11.5T680-800q0 17-11.5 28.5T640-760h-40v240l222 270q32 39 10.5 84.5T760-120H200Zm80-120h400L544-400H416L280-240Zm-80 40h560L520-492v-268h-80v268L200-200Zm280-280Z" />
-              </svg>
-            </div>
-            <div class={'text-xs text-black/50 dark:text-white/75'}>
+              <FlaskConical opacity="0.5" size={16} />
+            </Box>
+            <Box c="text.caption" text="caption">
               <Trans key={'setting.general.fix-always-on-top.description'} />
-            </div>
-          </div>
+            </Box>
+          </Box>
           <Switch
             onChange={(checked) =>
               setConfig({ experimental: { alwaysOnTopFix: checked } })
@@ -248,32 +248,32 @@ const GeneralContainer = () => {
             value={!!config()?.experimental.alwaysOnTopFix}
           />
         </Card>
-      </div>
-      <div class={'text-md mt-4 mb-1 px-4'}>
+      </Box>
+      <Box mb="xs" mt="lg" px="lg" text="body">
         <Trans key={'setting.general.developer-menu'} />
-      </div>
-      <div class={'flex flex-col justify-start items-stretch gap-1 px-4'}>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+      </Box>
+      <Box align="stretch" direction="column" gap="xs" px="lg">
+        <Card justify="between">
+          <Box text="body">
             <Trans key={'setting.general.restart-server'} />
-          </div>
-          <button class={'btn-primary'} onClick={restartServer}>
+          </Box>
+          <Button onClick={restartServer} variant="primary">
             <Trans key={'setting.general.restart'} />
-          </button>
+          </Button>
         </Card>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+        <Card justify="between">
+          <Box text="body">
             <Trans key={'setting.general.restart-program'} />
-          </div>
-          <button class={'btn-primary'} onClick={() => setRestartOpen(true)}>
+          </Box>
+          <Button onClick={() => setRestartOpen(true)} variant="primary">
             <Trans key={'setting.general.restart'} />
-          </button>
+          </Button>
         </Card>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+        <Card justify="between">
+          <Box text="body">
             <Trans key={'setting.general.hardware-acceleration'} />
-          </div>
-          <div class={'flex-1'} />
+          </Box>
+          <Box flex={1} />
           <Switch
             onChange={(checked) => {
               setConfig({ hardwareAcceleration: checked });
@@ -285,80 +285,70 @@ const GeneralContainer = () => {
           />
         </Card>
         <Card
-          class={'flex flex-row justify-between items-center gap-1'}
           expand={config()?.developer}
+          justify="between"
           subCards={
             config()?.developer
               ? [
-                  <div
-                    class={'w-full h-full flex justify-start items-center'}
+                  <Box
+                    align="center"
+                    direction="row"
+                    h="100%"
+                    justify="flex-start"
                     onClick={() =>
                       window.ipcRenderer.invoke('open-devtool', 'lyrics')
                     }
+                    w="100%"
                   >
-                    <div class={'text-md'}>
+                    <Box text="body">
                       <Trans key={'tray.devtools.lyrics.label'} />
-                    </div>
-                    <div class={'flex-1'} />
-                    <svg
-                      class={'w-[16px] h-[16px] fill-none'}
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        class={'fill-black dark:fill-white'}
-                        d="M6.25 4.75a1.5 1.5 0 0 0-1.5 1.5v11.5a1.5 1.5 0 0 0 1.5 1.5h11.5a1.5 1.5 0 0 0 1.5-1.5v-4a1 1 0 1 1 2 0v4a3.5 3.5 0 0 1-3.5 3.5H6.25a3.5 3.5 0 0 1-3.5-3.5V6.25a3.5 3.5 0 0 1 3.5-3.5h4a1 1 0 1 1 0 2h-4Zm6.5-1a1 1 0 0 1 1-1h6.5a1 1 0 0 1 1 1v6.5a1 1 0 1 1-2 0V6.164l-4.793 4.793a1 1 0 1 1-1.414-1.414l4.793-4.793H13.75a1 1 0 0 1-1-1Z"
-                      />
-                    </svg>
-                  </div>,
-                  <div
-                    class={'w-full h-full flex justify-start items-center'}
+                    </Box>
+                    <Box flex={1} />
+                    <ExternalLink size={16} />
+                  </Box>,
+                  <Box
+                    align="center"
+                    direction="row"
+                    h="100%"
+                    justify="flex-start"
                     onClick={() =>
                       window.ipcRenderer.invoke('open-devtool', 'settings')
                     }
+                    w="100%"
                   >
-                    <div class={'text-md'}>
+                    <Box text="body">
                       <Trans key={'tray.devtools.setting.label'} />
-                    </div>
-                    <div class={'flex-1'} />
-                    <svg
-                      class={'w-[16px] h-[16px] fill-none'}
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        class={'fill-black dark:fill-white'}
-                        d="M6.25 4.75a1.5 1.5 0 0 0-1.5 1.5v11.5a1.5 1.5 0 0 0 1.5 1.5h11.5a1.5 1.5 0 0 0 1.5-1.5v-4a1 1 0 1 1 2 0v4a3.5 3.5 0 0 1-3.5 3.5H6.25a3.5 3.5 0 0 1-3.5-3.5V6.25a3.5 3.5 0 0 1 3.5-3.5h4a1 1 0 1 1 0 2h-4Zm6.5-1a1 1 0 0 1 1-1h6.5a1 1 0 0 1 1 1v6.5a1 1 0 1 1-2 0V6.164l-4.793 4.793a1 1 0 1 1-1.414-1.414l4.793-4.793H13.75a1 1 0 0 1-1-1Z"
-                      />
-                    </svg>
-                  </div>,
+                    </Box>
+                    <Box flex={1} />
+                    <ExternalLink size={16} />
+                  </Box>,
                 ]
               : undefined
           }
         >
-          <div class={'text-md'}>
+          <Box text="body">
             <Trans key={'setting.general.developer'} />
-          </div>
-          <div class={'flex-1'} />
+          </Box>
+          <Box flex={1} />
           <Switch
             onChange={(checked) => setConfig({ developer: checked })}
             value={config()?.developer}
           />
         </Card>
-      </div>
-      <div class={'text-md mt-4 mb-1 px-4'}>
+      </Box>
+      <Box mb="xs" mt="lg" px="lg" text="body">
         <Trans key={'setting.general.dangerous-menu'} />
-      </div>
-      <div class={'flex flex-col justify-start items-stretch gap-1 px-4'}>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+      </Box>
+      <Box align="stretch" direction="column" gap="xs" px="lg">
+        <Card justify="between">
+          <Box text="body">
             <Trans key={'setting.general.reset-config'} />
-          </div>
-          <button class={'btn-error'} onClick={() => setResetOpen(true)}>
+          </Box>
+          <Button onClick={() => setResetOpen(true)} variant="primary">
             <Trans key={'setting.general.reset'} />
-          </button>
+          </Button>
         </Card>
-      </div>
+      </Box>
       <Modal
         buttons={[
           {
@@ -367,13 +357,12 @@ const GeneralContainer = () => {
             onClick: () => setRequireOpen(false),
           },
         ]}
-        class={'max-w-[500px]'}
         onClose={() => setRequireOpen(false)}
         open={requireOpen()}
       >
-        <div class={'text-white text-lg'}>
+        <Box maxW="500px" text="title">
           {t('setting.general.require-alert')}
-        </div>
+        </Box>
       </Modal>
       <Modal
         buttons={[
@@ -390,16 +379,15 @@ const GeneralContainer = () => {
             },
           },
         ]}
-        class={'max-w-[500px]'}
         onClose={() => setRestartOpen(false)}
         open={restartOpen()}
       >
-        <div class={'text-xl mb-2'}>
+        <Box maxW="500px" mb="sm" text="title">
           <Trans key={'setting.general.restart-alert-title'} />
-        </div>
-        <div class={'text-md mb-1'}>
+        </Box>
+        <Box mb="xs" text="body">
           <Trans key={'setting.general.restart-alert'} />
-        </div>
+        </Box>
       </Modal>
       <Modal
         buttons={[
@@ -416,16 +404,15 @@ const GeneralContainer = () => {
             },
           },
         ]}
-        class={'max-w-[500px]'}
         onClose={() => setResetOpen(false)}
         open={resetOpen()}
       >
-        <div class={'text-xl mb-2'}>
+        <Box maxW="500px" mb="sm" text="title">
           <Trans key={'setting.general.reset-alert-title'} />
-        </div>
-        <div class={'text-md mb-1'}>
+        </Box>
+        <Box mb="xs" text="body">
           <Trans key={'setting.general.reset-alert'} />
-        </div>
+        </Box>
       </Modal>
       <Modal
         buttons={[
@@ -441,16 +428,15 @@ const GeneralContainer = () => {
             onClick: () => setResetLastOpen(false),
           },
         ]}
-        class={'max-w-[500px]'}
         onClose={() => setResetLastOpen(false)}
         open={resetLastOpen()}
       >
-        <div class={'text-xl mb-2'}>
+        <Box maxW="500px" mb="sm" text="title">
           <Trans key={'setting.general.reset-alert-title'} />
-        </div>
-        <div class={'text-md mb-1'}>
+        </Box>
+        <Box mb="xs" text="body">
           <Trans key={'setting.general.reset-last-alert'} />
-        </div>
+        </Box>
       </Modal>
       <Modal
         buttons={[
@@ -463,11 +449,11 @@ const GeneralContainer = () => {
         onClose={() => setOpen(false)}
         open={open()}
       >
-        <div class={'text-white text-lg'}>
+        <Box text="title">
           {t('setting.general.language.alert')}
-        </div>
+        </Box>
       </Modal>
-    </div>
+    </Box>
   );
 };
 

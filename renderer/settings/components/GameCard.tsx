@@ -2,6 +2,7 @@ import { Marquee } from '@suyongs/solid-utility';
 import { type JSX, Show, createSignal } from 'solid-js';
 
 import Card from '../../components/Card';
+import * as settingsStyles from '../settings.css';
 
 export interface GameCardProps {
   icon?: string;
@@ -15,20 +16,19 @@ const GameCard = (props: GameCardProps) => {
 
   return (
     <Card
-      class={'w-full flex justify-start items-center gap-4'}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
       <Show
-        fallback={<div class={'w-6 h-6 aspect-square'} />}
+        fallback={<div class={settingsStyles.checkPlaceholder} />}
         when={!!props.icon}
       >
-        <img alt={'Icon'} class={'w-6 h-6 object-cover'} src={props.icon} />
+        <img alt={'Icon'} class={settingsStyles.iconMedium} src={props.icon} />
       </Show>
-      <div class={'w-0 flex flex-col justify-center items-stretch flex-1'}>
-        <div class={'w-full'}>{props.name}</div>
+      <div class={settingsStyles.pluginSummary}>
+        <div class={settingsStyles.pluginNameLine}>{props.name}</div>
         <Marquee
-          class={'text-gray-400'}
+          class={settingsStyles.cardCaptionLarge}
           gap={18}
           mode={hover() ? 'auto' : 'truncate'}
         >

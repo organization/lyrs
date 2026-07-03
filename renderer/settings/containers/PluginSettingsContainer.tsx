@@ -1,20 +1,22 @@
 import { Trans, useTransContext } from '@jellybrick/solid-i18next';
 import { useNavigate, useParams } from '@solidjs/router';
+import { Button } from '@suis-ui/kit';
 import { Marquee } from '@suyongs/solid-utility';
+import { ChevronRight, Info } from 'lucide-solid';
 import { For, Switch as SwitchFlow, Match, Show, createSignal } from 'solid-js';
 
 import {
   type ButtonOption,
-  SelectOption,
   type SettingOption,
 } from '../../../common/plugins';
 import Card from '../../components/Card';
-import Selector from '../../components/Select';
+import * as componentStyles from '../../components/components.css';
 import Switch from '../../components/Switch';
 import useConfig from '../../hooks/useConfig';
 import usePlugins from '../../hooks/usePlugins';
 import PluginLog from '../components/PluginLog';
 import { SettingOptionRenderer } from '../components/SettingOptionRenderer';
+import * as settingsStyles from '../settings.css';
 
 const PluginSettingsContainer = () => {
   const params = useParams();
@@ -58,41 +60,22 @@ const PluginSettingsContainer = () => {
   };
 
   return (
-    <div
-      class={
-        'flex-1 flex flex-col justify-start items-stretch gap-1 p-4 fluent-scrollbar'
-      }
-    >
-      <div
-        class={
-          'text-3xl mb-1 flex justify-start items-center gap-2 select-none'
-        }
-      >
+    <div class={settingsStyles.pageRoot}>
+      <div class={settingsStyles.pageTitleRow}>
         <span
-          class={'text-3xl opacity-80 hover:opacity-100'}
+          class={settingsStyles.pageTitleLink}
           onClick={onPluginPage}
         >
           <Trans key={'setting.title.plugin'} />
         </span>
-        <svg
-          class={'w-4 h-4'}
-          fill="none"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            class={'fill-black dark:fill-white'}
-            d="M8.47 4.22a.75.75 0 0 0 0 1.06L15.19 12l-6.72 6.72a.75.75 0 1 0 1.06 1.06l7.25-7.25a.75.75 0 0 0 0-1.06L9.53 4.22a.75.75 0 0 0-1.06 0Z"
-          />
-        </svg>
-        <span class={'text-3xl'}>
+        <ChevronRight class={settingsStyles.iconSmall} />
+        <span>
           {plugin()?.name ?? t('setting.plugin.unknown')}
         </span>
       </div>
       <Card
-        class={'flex flex-row justify-between items-center gap-1 mt-4'}
         subCards={[
-          <div class={'flex justify-start items-start flex-col ml-[40px]'}>
+          <div class={settingsStyles.detailList}>
             <For
               each={
                 [
@@ -140,9 +123,9 @@ const PluginSettingsContainer = () => {
               }
             >
               {([key, value]) => (
-                <div class={'w-full flex justify-start items-center'}>
-                  <div class={'min-w-[128px] text-md'}>{key}</div>
-                  <Marquee class={'w-full text-md text-gray-400'} gap={32}>
+                <div class={settingsStyles.detailRow}>
+                  <div class={settingsStyles.detailKey}>{key}</div>
+                  <Marquee class={settingsStyles.detailValue} gap={32}>
                     {value}
                   </Marquee>
                 </div>
@@ -151,43 +134,34 @@ const PluginSettingsContainer = () => {
           </div>,
         ]}
       >
-        <svg
-          class={'w-6 h-6 mr-4 fill-black dark:fill-white'}
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            class={'fill-black dark:fill-white'}
-            d="M12 1.999c5.524 0 10.002 4.478 10.002 10.002 0 5.523-4.478 10.001-10.002 10.001-5.524 0-10.002-4.478-10.002-10.001C1.998 6.477 6.476 1.999 12 1.999Zm0 1.5a8.502 8.502 0 1 0 0 17.003A8.502 8.502 0 0 0 12 3.5Zm-.004 7a.75.75 0 0 1 .744.648l.007.102.003 5.502a.75.75 0 0 1-1.493.102l-.007-.101-.003-5.502a.75.75 0 0 1 .75-.75ZM12 7.003a.999.999 0 1 1 0 1.997.999.999 0 0 1 0-1.997Z"
-          />
-        </svg>
-        <div class={'text-lg'}>
+        <Info class={settingsStyles.iconMedium} />
+        <div class={settingsStyles.cardTitle}>
           <Trans
             key={'setting.plugin.plugin-info'}
             options={{ name: plugin()?.name }}
           />
         </div>
       </Card>
-      <Card class={'flex flex-row justify-between items-center gap-1'}>
+      <Card justify="between">
         <Trans key={'setting.plugin.enable-plugin'} />
         <Switch
           onChange={togglePluginState}
           value={plugin()?.state === 'enable'}
         />
       </Card>
-      <Card class={'flex flex-row justify-between items-center gap-1'}>
+      <Card justify="between">
         <Trans key={'setting.plugin.reload-plugin'} />
-        <button class={'btn-primary'} onClick={reloadPlugin}>
+        <Button onClick={reloadPlugin} variant="primary">
           <Trans key={'setting.plugin.reload'} />
-        </button>
+        </Button>
       </Card>
       <Show when={config()?.developer}>
         <Card
-          class={'flex flex-row justify-between items-center gap-1'}
           expand={showLog()}
+          justify="between"
           setExpand={setShowLog}
           subCards={[
-            <div class={'w-full max-h-[400px] fluent-scrollbar'}>
+            <div class={settingsStyles.logPanel}>
               <For each={plugin()?.logs}>
                 {(log) => <PluginLog log={log} />}
               </For>
@@ -197,12 +171,12 @@ const PluginSettingsContainer = () => {
           <Trans key={'setting.plugin.show-log'} />
         </Card>
       </Show>
-      <div class={'text-md mt-4 mb-1'}>
+      <div class={settingsStyles.sectionTitle}>
         <Trans key={'setting.plugin.setting'} />
       </div>
       <For each={plugin()?.js?.settings}>
         {(option) => (
-          <Card class={'flex flex-row justify-start items-center gap-1'}>
+          <Card >
             <SettingOptionRenderer
               onChange={(value) => setOption(option, value)}
               onClick={() => onButtonClick(option as ButtonOption)}
@@ -212,16 +186,20 @@ const PluginSettingsContainer = () => {
           </Card>
         )}
       </For>
-      <div class={'text-md mt-4 mb-1'}>
+      <div class={settingsStyles.sectionTitle}>
         <Trans key={'setting.plugin.setting'} />
       </div>
       <Card
-        class={'flex flex-row justify-between items-center gap-1'}
+        justify="between"
         subCards={[
-          <div class={'w-full h-full flex items-center'}>
-            <button class={'btn-error'} onClick={deletePlugin}>
+          <div class={settingsStyles.cardRow}>
+            <Button
+              class={componentStyles.dangerButton}
+              onClick={deletePlugin}
+              variant="primary"
+            >
               <Trans key={'setting.plugin.delete-plugin'} />
-            </button>
+            </Button>
           </div>,
         ]}
       >

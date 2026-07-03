@@ -1,5 +1,7 @@
 import { Trans, useTransContext } from '@jellybrick/solid-i18next';
 import { useNavigate } from '@solidjs/router';
+import { Button } from '@suis-ui/kit';
+import { ChevronDown, ChevronRight, LoaderCircle } from 'lucide-solid';
 import {
   createResource,
   createSignal,
@@ -14,7 +16,9 @@ import Modal from '../../components/Modal';
 import useConfig from '../../hooks/useConfig';
 import useGameList from '../../hooks/useGameList';
 import usePlayingGame from '../../hooks/usePlayingGame';
+import { cx } from '../../utils/classNames';
 import GameCard from '../components/GameCard';
+import * as settingsStyles from '../settings.css';
 
 interface ProcessData {
   name: string;
@@ -116,21 +120,17 @@ const GameContainer = () => {
   };
 
   return (
-    <div
-      class={
-        'flex-1 flex flex-col justify-start items-stretch gap-1 p-4 fluent-scrollbar'
-      }
-    >
-      <div class={'text-3xl mb-1'}>
+    <div class={settingsStyles.pageRoot}>
+      <div class={settingsStyles.pageTitle}>
         <Trans key={'setting.title.game-overlay'} />
       </div>
-      <div class={'text-md mt-4 mb-1'}>
+      <div class={settingsStyles.sectionTitle}>
         <Trans key={'setting.game.current-playing-game'} />
       </div>
       <For
         each={playingGame()}
         fallback={
-          <Card class={'w-full flex justify-start items-center gap-4'}>
+          <Card >
             <Trans key={'setting.game.not-detected'} />
           </Card>
         }
@@ -142,62 +142,42 @@ const GameContainer = () => {
           return <GameCard icon={icon()} name={game.name} path={game.path} />;
         }}
       </For>
-      <div class={'text-md mt-4 mb-1'}>
+      <div class={settingsStyles.sectionTitle}>
         <Trans key={'setting.game.list-of-registered-games'} />
       </div>
       <Card
-        class={'w-full flex justify-start items-center gap-4'}
         onClick={onGameListPage}
       >
-        <div class={'w-0 flex flex-col justify-center items-start flex-1'}>
-          <div class={'w-full'}>
+        <div class={settingsStyles.pluginSummary}>
+          <div class={settingsStyles.pluginNameLine}>
             <Trans key={'setting.game.registered-games'} />
           </div>
-          <div class={'text-sm text-gray-400'}>
+          <div class={settingsStyles.cardCaption}>
             <Trans
               key={'setting.game.registered-games-count'}
               options={{ count: gameCount() }}
             />
           </div>
         </div>
-        <svg
-          fill="none"
-          height="18"
-          viewBox="0 0 24 24"
-          width="18"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            class={'fill-black dark:fill-white'}
-            d="M8.47 4.22a.75.75 0 0 0 0 1.06L15.19 12l-6.72 6.72a.75.75 0 1 0 1.06 1.06l7.25-7.25a.75.75 0 0 0 0-1.06L9.53 4.22a.75.75 0 0 0-1.06 0Z"
-          />
-        </svg>
+        <ChevronRight class={settingsStyles.iconSmall} />
       </Card>
 
-      <div class={'flex mt-4 mb-1 gap-1'}>
-        <span class={'text-md'}>
+      <div class={settingsStyles.cardRow}>
+        <span class={settingsStyles.sectionTitle}>
           <Trans key={'setting.game.search-game'} />
         </span>
-        <button
-          class={'hover:bg-white/[7.5%]! rounded-sm'}
+        <Button
           onClick={() => refetch()}
+          type="icon"
+          variant="ghost"
         >
-          <svg
-            classList={{
-              ['animate-spin']: processList.loading,
-            }}
-            fill="none"
-            height="18"
-            viewBox="0 0 24 24"
-            width="18"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              class={'fill-black dark:fill-white'}
-              d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
-            />
-          </svg>
-        </button>
+          <LoaderCircle
+            class={cx(
+              settingsStyles.iconSmall,
+              processList.loading && settingsStyles.iconSpin,
+            )}
+          />
+        </Button>
       </div>
 
       <Switch>
@@ -211,50 +191,43 @@ const GameContainer = () => {
               >
                 <Show
                   fallback={
-                    <button
-                      class={'btn-primary'}
+                    <Button
                       onClick={() => setTarget(process)}
+                      variant="primary"
                     >
                       <Trans key={'setting.game.register-game'} />
-                    </button>
+                    </Button>
                   }
                   when={gameList()[process.path]}
                 >
-                  <button
-                    class={'btn-text'}
+                  <Button
                     onClick={() => onRemoveGame(process.path)}
+                    variant="ghost"
                   >
                     <Trans key={'setting.game.unregister-game'} />
-                  </button>
+                  </Button>
                 </Show>
               </GameCard>
             )}
           </For>
-          <button
-            class={'btn-text flex justify-center items-center gap-1'}
+          <Button
             onClick={() => {
               setProcessViewMode(
                 processViewMode() === 'all' ? 'available' : 'all',
               );
             }}
+            variant="ghost"
           >
-            <svg
-              class={'w-4 h-4'}
-              classList={{
-                'rotate-180': processViewMode() === 'all',
-              }}
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                class={'fill-black dark:fill-white'}
-                d="M4.22 8.47a.75.75 0 0 1 1.06 0L12 15.19l6.72-6.72a.75.75 0 1 1 1.06 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L4.22 9.53a.75.75 0 0 1 0-1.06Z"
-              />
-            </svg>
+            <ChevronDown
+              class={cx(
+                settingsStyles.iconSmall,
+                processViewMode() === 'all' && settingsStyles.iconRotated,
+              )}
+            />
             {processViewMode() === 'available'
               ? t('setting.game.show-all-programs-running-in-the-background')
               : t('setting.game.show-only-programs-running-in-the-foreground')}
-          </button>
+          </Button>
         </Match>
         <Match
           when={
@@ -262,29 +235,28 @@ const GameContainer = () => {
             processList.state === 'pending'
           }
         >
-          <Card class={'flex flex-row justify-start items-center gap-4'}>
+          <Card >
             {t('setting.game.refreshing-process-list')}
           </Card>
         </Match>
       </Switch>
 
       <Modal
-        class={'max-w-[500px]'}
+        class={settingsStyles.modalNarrow}
         onClose={() => setTarget(null)}
         open={!!target()}
       >
-        <div class={'text-white text-xl mb-2'}>
+        <div class={settingsStyles.modalTitle}>
           {t('setting.game.select-view-to-show-game-overlay')}
         </div>
         <For each={config()?.views}>
           {(view) => (
             <Card
-              class={'flex flex-row justify-start items-center gap-4'}
               onClick={() => onAddGame(view.name)}
             >
-              <div class={'w-6 h-6'} />
-              <div class={'text-md'}>{view.name}</div>
-              <div class={'flex-1'} />
+              <div class={settingsStyles.checkPlaceholder} />
+              <div class={settingsStyles.cardTitle}>{view.name}</div>
+              <div class={settingsStyles.spacer} />
             </Card>
           )}
         </For>

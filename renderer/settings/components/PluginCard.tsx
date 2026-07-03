@@ -1,11 +1,14 @@
 import { Trans } from '@jellybrick/solid-i18next';
 import { useNavigate } from '@solidjs/router';
+import { Button } from '@suis-ui/kit';
 import { Marquee } from '@suyongs/solid-utility';
+import { Check, ChevronRight, CircleMinus } from 'lucide-solid';
 import { Show } from 'solid-js';
 
 import Card from '../../components/Card';
 import Switch from '../../components/Switch';
 import usePlugins from '../../hooks/usePlugins';
+import * as settingsStyles from '../settings.css';
 
 export interface PluginCardProps {
   id: string;
@@ -41,72 +44,51 @@ const PluginCard = (props: PluginCardProps) => {
 
   return (
     <Card
-      class={'w-full flex justify-start items-center gap-4'}
       subCards={[
-        <div class={'w-full h-full flex justify-start items-center gap-3'}>
+        <div class={settingsStyles.cardRow}>
           <Switch
             onChange={togglePluginState}
             value={plugin()?.state === 'enable'}
           />
-          <div class={'text-md'}>
+          <div class={settingsStyles.cardTitle}>
             <Trans key={'setting.plugin.enable-plugin'} />
           </div>
-          <div class={'flex-1'} />
-          <button class={'btn-text'} onClick={refreshPlugin}>
+          <div class={settingsStyles.spacer} />
+          <Button onClick={refreshPlugin} variant="ghost">
             <Trans key={'setting.plugin.reload'} />
-          </button>
-          <button
-            class={'btn-primary flex justify-center items-center'}
-            onClick={onPluginPage}
-          >
+          </Button>
+          <Button onClick={onPluginPage} variant="primary">
             <Trans key={'setting.plugin.detail-setting'} />
-            <svg
-              class={'w-[18px] h-[18px] fill-none'}
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                class={'fill-black dark:fill-white'}
-                d="M8.47 4.22a.75.75 0 0 0 0 1.06L15.19 12l-6.72 6.72a.75.75 0 1 0 1.06 1.06l7.25-7.25a.75.75 0 0 0 0-1.06L9.53 4.22a.75.75 0 0 0-1.06 0Z"
-              />
-            </svg>
-          </button>
+            <ChevronRight size={18} />
+          </Button>
         </div>,
       ]}
     >
-      <svg
-        class={'w-6 h-6 fill-none'}
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <Show
-          fallback={
-            <path
-              class={'fill-red-500'}
-              d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2Zm0 1.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17Zm4.25 7.75a.75.75 0 0 1 0 1.5h-8.5a.75.75 0 0 1 0-1.5h8.5Z"
-            />
-          }
-          when={plugin()?.state !== 'disable'}
-        >
-          <path
-            class={'fill-green-500'}
-            d="M4.53 12.97a.75.75 0 0 0-1.06 1.06l4.5 4.5a.75.75 0 0 0 1.06 0l11-11a.75.75 0 0 0-1.06-1.06L8.5 16.94l-3.97-3.97Z"
+      <Show
+        fallback={
+          <CircleMinus
+            class={`${settingsStyles.iconMedium} ${settingsStyles.iconError}`}
           />
-        </Show>
-      </svg>
-      <div class={'w-0 flex flex-col justify-center items-stretch flex-1'}>
-        <div class={'w-full'}>
+        }
+        when={plugin()?.state !== 'disable'}
+      >
+        <Check
+          class={`${settingsStyles.iconMedium} ${settingsStyles.iconSuccess}`}
+        />
+      </Show>
+      <div class={settingsStyles.pluginSummary}>
+        <div class={settingsStyles.pluginNameLine}>
           {plugin()?.name}
-          <span class={'text-gray-400'}>
+          <span class={settingsStyles.cardCaptionLarge}>
             {' - '}
             {plugin()?.author}
           </span>
         </div>
-        <Marquee class={'text-gray-400'} gap={18}>
+        <Marquee class={settingsStyles.cardCaptionLarge} gap={18}>
           {plugin()?.description}
         </Marquee>
       </div>
-      <div class={'text-gray-400'}>
+      <div class={settingsStyles.cardCaptionLarge}>
         {plugin()?.version ?? `v${plugin()?.versionCode}`}
       </div>
     </Card>

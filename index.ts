@@ -25,7 +25,10 @@ const waitInit = waitConfigInit();
   application.initOverlay();
 
   console.log('[Lyrs] App is ready');
-})();
+})().catch((e: unknown) => {
+  console.error('[Lyrs] failed to start app', e);
+  app.quit();
+});
 
 // Auto type inference for IPC
 type IpcParameters<T extends (...args: never) => unknown> =

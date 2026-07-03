@@ -16,11 +16,9 @@ import { useLyricsStyle } from '../../main/components/Lyrics';
 import LyricsTransition from '../../main/components/LyricsTransition';
 import { cx } from '../../utils/classNames';
 import { userCSSTransitions } from '../../utils/userCSSSelectors';
+import * as settingsStyles from '../settings.css';
 
 import type { StyleConfig } from '../../../common/schema';
-
-const isMac = /Mac/.test(navigator.userAgent);
-const isWindow = /Windows/.test(navigator.userAgent);
 
 export interface LyricPreviewProps extends JSX.HTMLAttributes<HTMLDivElement> {
   theme: StyleConfig;
@@ -77,9 +75,7 @@ const LyricPreview = (props: LyricPreviewProps) => {
     <Card
       {...leftProps}
       class={cx(
-        'w-full flex flex-row justify-between items-center gap-1',
-        isMac && 'bg-gray-200/90 dark:bg-gray-800/90',
-        isWindow && 'bg-slate-100/80 dark:bg-gray-800/80',
+        settingsStyles.previewCard,
         leftProps.class,
       )}
       subCards={[
@@ -89,7 +85,7 @@ const LyricPreview = (props: LyricPreviewProps) => {
         </>,
         <LyricsTransition
           animation={animation()}
-          class={'w-full items-end'}
+          class={settingsStyles.previewTransition}
           lyrics={animationPreview()}
           status={'playing'}
           style={`row-gap: ${local.theme.lyric.containerRowGap}rem;`}

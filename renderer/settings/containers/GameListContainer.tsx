@@ -1,13 +1,17 @@
 import { Trans } from '@jellybrick/solid-i18next';
 import { useNavigate } from '@solidjs/router';
+import { Button } from '@suis-ui/kit';
 import { t } from 'i18next';
+import { ChevronRight } from 'lucide-solid';
 import { createEffect, createSignal, For, type JSX } from 'solid-js';
 
 import Card from '../../components/Card';
+import * as componentStyles from '../../components/components.css';
 import Modal from '../../components/Modal';
 import useConfig from '../../hooks/useConfig';
 import useGameList from '../../hooks/useGameList';
 import GameCard from '../components/GameCard';
+import * as settingsStyles from '../settings.css';
 
 interface GameList {
   path: string;
@@ -145,60 +149,49 @@ const GameListContainer = () => {
   };
 
   return (
-    <div
-      class={
-        'flex-1 flex flex-col justify-start items-stretch gap-1 p-4 fluent-scrollbar'
-      }
-    >
-      <div class={'text-3xl mb-1 flex justify-start items-center gap-2'}>
+    <div class={settingsStyles.pageRoot}>
+      <div class={settingsStyles.pageTitleRow}>
         <span
-          class={'text-3xl opacity-80 hover:opacity-100 '}
+          class={settingsStyles.pageTitleLink}
           onClick={onGamePage}
         >
           <Trans key={'setting.title.game-overlay'} />
         </span>
-        <svg
-          class={'w-4 h-4'}
-          fill="none"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            class={'fill-black dark:fill-white'}
-            d="M8.47 4.22a.75.75 0 0 0 0 1.06L15.19 12l-6.72 6.72a.75.75 0 1 0 1.06 1.06l7.25-7.25a.75.75 0 0 0 0-1.06L9.53 4.22a.75.75 0 0 0-1.06 0Z"
-          />
-        </svg>
-        <span class={'text-3xl'}>
+        <ChevronRight class={settingsStyles.iconSmall} />
+        <span>
           <Trans key={'setting.game.list-of-registered-games'} />
         </span>
       </div>
-      <div class={'text-md mt-4 mb-1'}>
+      <div class={settingsStyles.sectionTitle}>
         <Trans key={'setting.game.registered-game-list.description'} />
       </div>
 
       <For each={availableGameList()}>
         {(game) => (
           <GameCard icon={game.icon} name={game.name} path={game.path}>
-            <button class={'btn-text'} onClick={() => setTarget(game.path)}>
-              <div class={'flex flex-col justify-center items-center'}>
-                <span class={'text-sm text-gray-400'}>적용된 테마</span>
+            <Button onClick={() => setTarget(game.path)} variant="ghost">
+              <div class={settingsStyles.gameThemeButtonContent}>
+                <span class={settingsStyles.cardCaption}>적용된 테마</span>
                 <span>{game.theme}</span>
               </div>
-            </button>
-            <button
-              class={'btn-error h-full'}
+            </Button>
+            <Button
+              class={componentStyles.dangerButton}
               onClick={() => onRemoveGame(game.path)}
+              variant="primary"
             >
               <Trans key={'setting.game.unregister-game'} />
-            </button>
+            </Button>
           </GameCard>
         )}
       </For>
-      <label class={'btn-primary text-center'} for={'game-selector'}>
-        <Trans key={'setting.game.registered-game-list.adding-manually'} />
+      <label>
+        <Button as="span" variant="primary">
+          <Trans key={'setting.game.registered-game-list.adding-manually'} />
+        </Button>
         <input
           accept={'.exe'}
-          class={'hidden'}
+          class={settingsStyles.hiddenInput}
           id={'game-selector'}
           onInput={onSelectGame}
           ref={setFileInput}
@@ -206,43 +199,41 @@ const GameListContainer = () => {
         />
       </label>
       <Modal
-        class={'max-w-[500px]'}
+        class={settingsStyles.modalNarrow}
         onClose={() => setGameOpen(false)}
         open={gameOpen()}
       >
-        <div class={'text-white text-xl mb-2'}>
+        <div class={settingsStyles.modalTitle}>
           {t('setting.game.select-view-to-show-game-overlay')}
         </div>
         <For each={config()?.views}>
           {(view) => (
             <Card
-              class={'flex flex-row justify-start items-center gap-4'}
               onClick={() => onAddGame(view.name)}
             >
-              <div class={'w-6 h-6'} />
-              <div class={'text-md'}>{view.name}</div>
-              <div class={'flex-1'} />
+              <div class={settingsStyles.checkPlaceholder} />
+              <div class={settingsStyles.cardTitle}>{view.name}</div>
+              <div class={settingsStyles.spacer} />
             </Card>
           )}
         </For>
       </Modal>
       <Modal
-        class={'max-w-[500px]'}
+        class={settingsStyles.modalNarrow}
         onClose={() => setTarget(null)}
         open={target() !== null}
       >
-        <div class={'text-white text-xl mb-2'}>
+        <div class={settingsStyles.modalTitle}>
           {t('setting.game.select-view-to-show-game-overlay')}
         </div>
         <For each={config()?.views}>
           {(view) => (
             <Card
-              class={'flex flex-row justify-start items-center gap-4'}
               onClick={() => onApplyTheme(view.name)}
             >
-              <div class={'w-6 h-6'} />
-              <div class={'text-md'}>{view.name}</div>
-              <div class={'flex-1'} />
+              <div class={settingsStyles.checkPlaceholder} />
+              <div class={settingsStyles.cardTitle}>{view.name}</div>
+              <div class={settingsStyles.spacer} />
             </Card>
           )}
         </For>

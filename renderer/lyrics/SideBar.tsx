@@ -1,7 +1,10 @@
 import { Trans, useTransContext } from '@jellybrick/solid-i18next';
+import { Box, Input } from '@suis-ui/kit';
 import { Marquee } from '@suyongs/solid-utility';
 import { createEffect, createMemo, For, Match, Show, Switch } from 'solid-js';
 import { Entry } from 'tstl';
+
+import * as lyricStyles from './lyrics.css';
 
 import { type LyricMapperMode } from '../../common/schema';
 import { getLyricMapperId } from '../../common/utils';
@@ -15,6 +18,7 @@ import { Slider } from '../components/Slider';
 import useLyric from '../hooks/useLyric';
 import useLyricMapper from '../hooks/useLyricMapper';
 import LyricProgressBar from '../main/components/LyricProgressBar';
+import { cx } from '../utils/classNames';
 
 const SideBar = () => {
   const {
@@ -66,24 +70,17 @@ const SideBar = () => {
   };
 
   return (
-    <div
-      class={`
-        w-[312px] h-full p-4
-        flex flex-col justify-start items-stretch gap-2
-        text-black dark:text-white
-      `}
-    >
-      <div class={'text-xl'}>
+    <div class={lyricStyles.sidebarRoot}>
+      <div class={lyricStyles.sidebarTitle}>
         <Trans key={'lyrics.current-playing-track'} />
       </div>
-      <LyricProgressBar class={'w-[280px]!'} />
-      <div class={'text-xl mt-4'}>
+      <LyricProgressBar class={lyricStyles.progress} />
+      <div class={lyricStyles.sidebarTitleSpaced}>
         <Trans key={'lyrics.current-applied-lyric'} />
       </div>
       <Card
-        class={'w-full flex flex-row justify-start items-center gap-1'}
         subCards={[
-          <div class={'w-full h-full flex justify-between items-center'}>
+          <div class={lyricStyles.sidebarRow}>
             <Trans key={'lyrics.mode'} />
             <Selector
               format={(mode) => t(`lyrics.mode.${mode}`)}
@@ -93,14 +90,11 @@ const SideBar = () => {
               value={lyricMode()}
             />
           </div>,
-          <div
-            class={'w-full h-full flex flex-col justify-between items-center'}
-          >
-            <div class={'w-full h-full flex justify-between items-center'}>
+          <div class={lyricStyles.sidebarDelayEditor}>
+            <div class={lyricStyles.sidebarRow}>
               <Trans key={'lyrics.delay'} />
-              <label class={'input-group group'}>
-                <input
-                  class={'input w-[20ch]'}
+              <Box align="center" direction="row" gap="xs">
+                <Input
                   onChange={(e) => {
                     setLyricMapper({
                       [getLyricMapperId(title(), coverUrl())]: {
@@ -110,14 +104,12 @@ const SideBar = () => {
                   }}
                   type={'number'}
                   value={lyricMapperItem()?.delay ?? 0}
+                  w="20ch"
                 />
-                <div class={'suffix group-focus-within:suffix-focus-within'}>
-                  ms
-                </div>
-              </label>
+                <Box text="caption">ms</Box>
+              </Box>
             </div>
             <Slider
-              class={'w-full mt-2'}
               label={[
                 { value: -3000, label: t('lyrics.delay.slowly') },
                 { value: 0, label: t('lyrics.delay.default') },
@@ -134,16 +126,15 @@ const SideBar = () => {
               }}
               step={100}
               value={lyricMapperItem()?.delay ?? 0}
+              width="100%"
             />
           </div>,
         ]}
       >
-        <div
-          class={'w-[calc(100%-24px)] flex flex-col justify-center items-start'}
-        >
+        <div class={lyricStyles.currentLyricSummary}>
           <Show when={lyricData()}>
-            <Marquee class={'w-full'} gap={32}>
-              <div class={'text-xs text-black/50 dark:text-white/50'}>
+            <Marquee class={lyricStyles.marquee} gap={32}>
+              <div class={lyricStyles.resultMeta}>
                 <Trans key={'lyrics.lyric-id'} />: {lyricData()?.id ?? 'N/A'}
                 {' · '}
                 <Trans key={'lyrics.lyric-author'} />:{' '}
@@ -157,24 +148,22 @@ const SideBar = () => {
               </div>
             </Marquee>
           </Show>
-          <Marquee class={'w-full'} gap={32}>
+          <Marquee class={lyricStyles.marquee} gap={32}>
             {lyricData()?.title ?? 'N/A'}
           </Marquee>
-          <div class={'text-sm'}>{lyricData()?.artist ?? 'N/A'}</div>
+          <div class={lyricStyles.resultArtist}>
+            {lyricData()?.artist ?? 'N/A'}
+          </div>
         </div>
       </Card>
-      <div
-        class={
-          'fluent-scrollbar flex-1 block text-center overflow-scroll overflow-x-visible overflow-y-auto will-change-scroll'
-        }
-      >
+      <div class={lyricStyles.lyricList}>
         <For each={lyricItems()}>
           {({ first: time, second: lyrics }) => (
             <div
-              class={'my-4 whitespace-pre-line'}
-              classList={{
-                'text-primary-500': lyricTime() === time,
-              }}
+              class={cx(
+                lyricStyles.lyricLine,
+                lyricTime() === time && lyricStyles.lyricLineActive,
+              )}
               id={`lyric-${time}`}
             >
               {lyrics.join('\n')}

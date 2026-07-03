@@ -1,4 +1,6 @@
 import { useNavigate } from '@solidjs/router';
+import { Box, Button } from '@suis-ui/kit';
+import { ChevronLeft } from 'lucide-solid';
 
 export interface HeaderProps {
   title?: string;
@@ -11,26 +13,24 @@ export const Header = (props: HeaderProps) => {
   };
 
   return (
-    <div class={'w-full flex h-8 justify-start items-center gap-2 mb-2'}>
-      <div class={'header-title flex-1'}>{props.title}</div>
-      <button
-        class={
-          'btn-text px-2 pr-3 py-1 min-w-[unset] flex justify-start items-center gap-2'
-        }
-        onClick={onPrev}
-      >
-        <svg
-          class={'w-[18px] h-[18px] fill-none'}
-          viewBox="0 -960 960 960"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            class={'fill-black dark:fill-white'}
-            d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"
-          />
-        </svg>
-        <span>뒤로</span>
-      </button>
-    </div>
+    <Box
+      align="center"
+      direction="row"
+      gap="sm"
+      h="2rem"
+      justify="flex-start"
+      mb="sm"
+      w="100%"
+    >
+      <Box flex={1} text="title">
+        {props.title}
+      </Box>
+      <Button onClick={onPrev} variant="ghost">
+        <Box align="center" direction="row" gap="sm">
+          <ChevronLeft size={18} />
+          <span>뒤로</span>
+        </Box>
+      </Button>
+    </Box>
   );
 };

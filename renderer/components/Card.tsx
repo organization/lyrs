@@ -1,5 +1,8 @@
+import { ChevronDown, ChevronUp } from 'lucide-solid';
 import { createSignal, For, Match, Show, splitProps, Switch } from 'solid-js';
 import { TransitionGroup } from 'solid-transition-group';
+
+import * as styles from './components.css';
 
 import { cx } from '../utils/classNames';
 
@@ -9,6 +12,7 @@ export interface CardProps extends JSX.HTMLAttributes<HTMLDivElement> {
   expand?: boolean;
   setExpand?: (expand: boolean) => void;
   onExpand?: (expand: boolean) => void;
+  justify?: 'start' | 'between' | 'center';
 
   subCards?: JSX.Element[];
 }
@@ -19,6 +23,9 @@ const Card = (props: CardProps) => {
     'setExpand',
     'onExpand',
     'subCards',
+    'justify',
+    'class',
+    'classList',
   ]);
 
   const [expand, setExpand] = local.setExpand
@@ -44,45 +51,22 @@ const Card = (props: CardProps) => {
     <div
       {...leftProps}
       class={cx(
-        `
-          relative w-full min-h-[67px] px-4 py-3
-          shadow-xs select-none
-          bg-gray-100/60 hover:bg-gray-100/40 active:bg-gray-100/20
-          dark:bg-white/5 dark:hover:bg-white/10 dark:active:bg-white/[2.5%]
-        `,
-        leftProps.class,
-        isSubCard() &&
-          'rounded-t-sm hover:shadow-[0_0_0_1px] hover:shadow-white/10',
-        !isSubCard() && 'rounded-sm',
-        isSubCard() && !expand() && 'rounded-b-sm',
+        styles.card,
+        local.justify === 'between' && styles.cardJustifyBetween,
+        local.justify === 'center' && styles.cardJustifyCenter,
+        local.class,
+        isSubCard() && styles.cardSubRoot,
+        isSubCard() && !expand() && styles.cardCollapsedSubRoot,
       )}
       onClick={onClick}
     >
       {leftProps.children}
       <Switch>
         <Match when={expand() === true}>
-          <svg
-            class={'w-4 h-4 fill-none ml-auto'}
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              class={'fill-black dark:fill-white'}
-              d="M4.293 15.707a1 1 0 0 0 1.414 0L12 9.414l6.293 6.293a1 1 0 0 0 1.414-1.414l-7-7a1 1 0 0 0-1.414 0l-7 7a1 1 0 0 0 0 1.414Z"
-            />
-          </svg>
+          <ChevronUp class={styles.cardChevron} />
         </Match>
         <Match when={isSubCard()}>
-          <svg
-            class={'w-4 h-4 fill-none ml-auto'}
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              class={'fill-black dark:fill-white'}
-              d="M4.293 8.293a1 1 0 0 1 1.414 0L12 14.586l6.293-6.293a1 1 0 1 1 1.414 1.414l-7 7a1 1 0 0 1-1.414 0l-7-7a1 1 0 0 1 0-1.414Z"
-            />
-          </svg>
+          <ChevronDown class={styles.cardChevron} />
         </Match>
       </Switch>
     </div>
@@ -90,19 +74,18 @@ const Card = (props: CardProps) => {
 
   return (
     <Show fallback={mainCard} when={isSubCard()}>
-      <div class={'flex flex-col justify-start itmes-stretch gap-[1px]'}>
+      <div class={styles.cardStack}>
         {mainCard}
         <TransitionGroup name={'card'}>
           <Show when={expand()}>
             <For each={local.subCards}>
               {(element, index) => (
                 <Card
-                  class={'hover:bg-white/[7.5%]!'}
-                  classList={{
-                    'rounded-none!': index() !== local.subCards!.length - 1,
-                    'rounded-t-none! rounded-b-sm':
-                      index() === local.subCards!.length - 1,
-                  }}
+                  class={cx(
+                    styles.cardChild,
+                    index() === local.subCards!.length - 1 &&
+                      styles.cardLastChild,
+                  )}
                 >
                   {element}
                 </Card>

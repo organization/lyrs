@@ -1,6 +1,8 @@
 import Color from 'color';
 import { createEffect, createSignal } from 'solid-js';
 
+import * as settingsStyles from '../settings.css';
+
 import type { JSX } from 'solid-js/jsx-runtime';
 
 export interface ColorPickerProps extends JSX.InputHTMLAttributes<HTMLInputElement> {
@@ -59,9 +61,9 @@ const ColorPicker = (props: ColorPickerProps) => {
   });
 
   return (
-    <div class={'flex flex-row justify-center items-center gap-2 mr-[6px]'}>
+    <div class={settingsStyles.colorPickerRoot}>
       <input
-        class={'input color'}
+        class={settingsStyles.colorInput}
         onChange={(event) => onChangeColor(event.target.value)}
         style={{
           '--opacity': Math.max(alpha(), 0.1),
@@ -70,34 +72,22 @@ const ColorPicker = (props: ColorPickerProps) => {
         value={color()}
       />
       <div
-        class={
-          'relative min-w-[120px] h-16px flex justify-start items-center z-0 cursor-pointer'
-        }
+        class={settingsStyles.alphaSlider}
         onPointerDown={onMoveStart}
         ref={slider}
         style={{
           '--alpha': `${alpha() * 108}px`,
         }}
       >
+        <div class={settingsStyles.alphaSliderRail} />
         <div
-          class={
-            'absolute left-[4px] right-[4px] h-[4px] bg-gray-300 rounded-full -z-2'
-          }
-        />
-        <div
-          class={
-            'absolute left-[4px] right-[4px] h-[4px] bg-primary-500 rounded-full -z-1 origin-left'
-          }
+          class={settingsStyles.alphaSliderFill}
           style={{
             scale: `${alpha() * 100}% 100%`,
           }}
         />
         <div
-          class={`
-            w-[16px] h-[16px] rounded-full shadow-[0_0_0_1px_var(--tw-shadow-color)] z-0
-            bg-primary-500 border-[3px] border-gray-100 shadow-gray-300
-            dark:border-gray-700 dark:shadow-gray-500
-          `}
+          class={settingsStyles.alphaSliderThumb}
           style={{
             'translate': 'var(--alpha) 0',
           }}

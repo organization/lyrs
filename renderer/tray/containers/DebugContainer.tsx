@@ -1,4 +1,5 @@
 import { Trans, useTransContext } from '@jellybrick/solid-i18next';
+import { Box, Button } from '@suis-ui/kit';
 import { For } from 'solid-js';
 
 import useConfig from '../../hooks/useConfig';
@@ -16,34 +17,40 @@ export const DebugContainer = () => {
   };
 
   return (
-    <div
-      class={
-        'w-full h-full flex flex-col justify-start items-stretch gap-2 p-4 fluent-scrollbar overflow-x-hidden!'
-      }
+    <Box
+      align="stretch"
+      direction="column"
+      gap="sm"
+      h="100%"
+      justify="flex-start"
+      overflow="yAuto"
+      p="lg"
+      w="100%"
     >
       <Header title={t('tray.devtools.label')} />
       <For each={config()?.views}>
         {(_, index) => (
-          <button
-            class={'w-full btn-text'}
+          <Button
             onClick={() => onMainDebug(index())}
+            variant="ghost"
+            w="100%"
           >
             <Trans
               key={'tray.devtools.lyric-viewer.label'}
               options={{ index: index() }}
             />
-          </button>
+          </Button>
         )}
       </For>
-      <button class={'w-full btn-text'} onClick={() => onDebug('lyrics')}>
+      <Button onClick={() => onDebug('lyrics')} variant="ghost" w="100%">
         <Trans key={'tray.devtools.lyrics.label'} />
-      </button>
-      <button class={'w-full btn-text'} onClick={() => onDebug('settings')}>
+      </Button>
+      <Button onClick={() => onDebug('settings')} variant="ghost" w="100%">
         <Trans key={'tray.devtools.setting.label'} />
-      </button>
-      <button class={'w-full btn-text'} onClick={() => onDebug('tray')}>
+      </Button>
+      <Button onClick={() => onDebug('tray')} variant="ghost" w="100%">
         <Trans key={'tray.devtools.tray.label'} />
-      </button>
-    </div>
+      </Button>
+    </Box>
   );
 };

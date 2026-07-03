@@ -1,4 +1,5 @@
 import { Trans, useTransContext } from '@jellybrick/solid-i18next';
+import { Button } from '@suis-ui/kit';
 import {
   For,
   Show,
@@ -14,6 +15,7 @@ import useConfig from '../../hooks/useConfig';
 import usePlugins from '../../hooks/usePlugins';
 import PluginCard from '../components/PluginCard';
 import PluginLog from '../components/PluginLog';
+import * as settingsStyles from '../settings.css';
 
 const PluginContainer = () => {
   const [t] = useTransContext();
@@ -80,45 +82,41 @@ const PluginContainer = () => {
   };
 
   return (
-    <div
-      class={
-        'flex-1 flex flex-col justify-start items-stretch gap-1 p-4 fluent-scrollbar'
-      }
-    >
-      <div class={'text-3xl mb-1'}>
+    <div class={settingsStyles.pageRoot}>
+      <div class={settingsStyles.pageTitle}>
         <Trans key={'setting.title.plugin'} />
       </div>
-      <div class={'text-md mt-4 mb-1'}>
+      <div class={settingsStyles.sectionTitle}>
         <Trans key={'setting.plugin.setting'} />
       </div>
-      <Card class={'flex flex-row justify-between items-center gap-1'}>
+      <Card justify="between">
         <Trans key={'setting.plugin.add-plugin'} />
-        <label for={'plugin'}>
-          <a class={'btn-primary'}>
+        <label>
+          <Button as="span" variant="primary">
             <Trans key={'setting.plugin.add-plugin.from-file'} />
-          </a>
+          </Button>
           <input
             accept={'application/zip'}
-            class={'hidden'}
+            class={settingsStyles.hiddenInput}
             id={'plugin'}
             onInput={onAddPlugin}
             type={'file'}
           />
         </label>
       </Card>
-      <Card class={'flex flex-row justify-between items-center gap-1'}>
+      <Card justify="between">
         <Trans key={'setting.plugin.reload-all-plugins'} />
-        <button class={'btn-primary'} onClick={reloadPlugins}>
+        <Button onClick={reloadPlugins} variant="primary">
           <Trans key={'setting.plugin.reload'} />
-        </button>
+        </Button>
       </Card>
       <Show when={config()?.developer}>
         <Card
-          class={'flex flex-row justify-between items-center gap-1'}
           expand={showLog()}
+          justify="between"
           setExpand={setShowLog}
           subCards={[
-            <div class={'w-full max-h-[400px] fluent-scrollbar'}>
+            <div class={settingsStyles.logPanel}>
               <For each={logs()}>
                 {({ plugin, log }) => (
                   <PluginLog log={log} showPlugin={plugin} />
@@ -130,7 +128,7 @@ const PluginContainer = () => {
           <Trans key={'setting.plugin.show-log'} />
         </Card>
       </Show>
-      <div class={'text-md mt-4 mb-1'}>
+      <div class={settingsStyles.sectionTitle}>
         <Trans key={'setting.plugin.loaded-plugin'} />
       </div>
       <For each={pluginIdList()}>{(id) => <PluginCard id={id} />}</For>
@@ -145,15 +143,15 @@ const PluginContainer = () => {
         onClose={() => setOpen(false)}
         open={open()}
       >
-        <div class={'text-black dark:text-white text-lg'}>
+        <div class={settingsStyles.modalTitle}>
           {t('setting.plugin.load-plugin-failed')}
         </div>
-        <div class={'text-black dark:text-white font-mono'}>
+        <div class={settingsStyles.cardTitle}>
           {error()?.name}
           {': '}
           {error()?.message}
         </div>
-        <pre class={'text-white bg-slate-700 font-mono'}>
+        <pre class={settingsStyles.codeBlock}>
           <code>{JSON.stringify(error(), null, 2)}</code>
         </pre>
       </Modal>

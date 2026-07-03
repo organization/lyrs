@@ -1,7 +1,7 @@
 import { builtinModules } from 'node:module';
 import { resolve } from 'node:path';
 
-import tailwindcss from '@tailwindcss/vite';
+import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
 import {
   defineConfig,
   type MainViteConfig,
@@ -70,7 +70,7 @@ export default defineConfig(({ mode }) => {
   const rendererConfig: RendererViteConfig = {
     root: './renderer/',
     plugins: [
-      tailwindcss(),
+      vanillaExtractPlugin(),
       withFilter(solidPlugin(), {
         load: { id: [/\.(tsx|jsx)$/, '/@solid-refresh'] },
       }),

@@ -1,51 +1,30 @@
+import { LoaderCircle } from 'lucide-solid';
 import { mergeProps, splitProps } from 'solid-js';
 
-import { cx } from '../utils/classNames';
+import * as styles from './components.css';
 
 import type { JSX } from 'solid-js/jsx-runtime';
 
 export interface SpinnerProps extends JSX.HTMLAttributes<HTMLDivElement> {
   strokeWidth?: number;
+  size?: string;
 }
 const Spinner = (props: SpinnerProps): JSX.Element => {
-  const [local, leftProps] = splitProps(mergeProps({ strokeWidth: 2 }, props), [
-    'strokeWidth',
-  ]);
-
-  const path = () => {
-    const width = local.strokeWidth / 2;
-
-    return `M 12 ${width} A ${12 - width} ${12 - width} 0 1 1 ${width} 12`;
-  };
-  const dashLength = () => 57.5 - local.strokeWidth * 2.5;
+  const [local, leftProps] = splitProps(
+    mergeProps({ size: '2rem', strokeWidth: 2 }, props),
+    ['strokeWidth', 'size'],
+  );
 
   return (
     <div
       {...leftProps}
-      class={cx('flex justify-center items-center', leftProps.class)}
+      class={styles.spinnerRoot}
     >
-      <svg
-        class={'animate-spin duration-[1400ms]'}
-        style={
-          typeof leftProps.style !== 'string'
-            ? {
-                width: leftProps.style?.width,
-                height: leftProps.style?.height,
-              }
-            : {}
-        }
-        viewBox={'0 0 24 24'}
-        xmlns={'http://www.w3.org/2000/svg'}
-      >
-        <path
-          class={'spinner-shape'}
-          d={path()}
-          style={{
-            '--stroke-width': local.strokeWidth,
-            '--dash-length': dashLength(),
-          }}
-        />
-      </svg>
+      <LoaderCircle
+        class={styles.spinnerSvg}
+        size={local.size}
+        strokeWidth={local.strokeWidth}
+      />
     </div>
   );
 };

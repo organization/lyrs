@@ -1,14 +1,18 @@
 import { Trans, useTransContext } from '@jellybrick/solid-i18next';
 import { useNavigate } from '@solidjs/router';
+import { Button, Input } from '@suis-ui/kit';
+import { Check } from 'lucide-solid';
 import { For, Show, createSignal, type JSX } from 'solid-js';
 
 import { DEFAULT_STYLE, PRESET_PREFIX } from '../../../common/constants';
 import presetThemes from '../../../common/presets';
 import { type StyleConfig } from '../../../common/schema';
 import Card from '../../components/Card';
+import * as componentStyles from '../../components/components.css';
 import Modal from '../../components/Modal';
 import useConfig from '../../hooks/useConfig';
 import useThemeList from '../../hooks/useThemeList';
+import * as settingsStyles from '../settings.css';
 
 const ThemeListContainer = () => {
   const [config, setConfig] = useConfig();
@@ -109,103 +113,97 @@ const ThemeListContainer = () => {
   };
 
   return (
-    <div
-      class={
-        'flex-1 flex flex-col justify-start items-stretch gap-1 p-4 fluent-scrollbar'
-      }
-    >
-      <div class={'text-3xl mb-1'}>
+    <div class={settingsStyles.pageRoot}>
+      <div class={settingsStyles.pageTitle}>
         <Trans key={'setting.title.theme'} />
       </div>
-      <div class={'text-md mt-4 mb-1'}>
+      <div class={settingsStyles.sectionTitle}>
         <Trans key={'setting.theme.built-in-themes'} />
       </div>
       <For each={Object.keys(presetThemes)}>
         {(name) => (
-          <Card class={'flex flex-row justify-start items-center gap-4'}>
-            <div class={'text-md'}>
+          <Card >
+            <div class={settingsStyles.cardTitle}>
               <Trans key={`setting.theme.preset.${name}`} />
             </div>
-            <div class={'flex-1'} />
-            <button
-              class={'btn-primary flex justify-center items-center'}
+            <div class={settingsStyles.spacer} />
+            <Button
               onClick={(event) => {
                 setTarget(name);
                 onAdd();
                 event.stopPropagation();
               }}
+              variant="primary"
             >
               <Trans key={'setting.theme.add-theme-from'} />
-            </button>
+            </Button>
           </Card>
         )}
       </For>
-      <div class={'text-md mt-4 mb-1'}>
+      <div class={settingsStyles.sectionTitle}>
         <Trans key={'setting.theme.available-themes'} />
       </div>
       <Show when={Object.keys(themeList()).length === 0}>
-        <div class={'text-md text-gray-500 p-5 text-center'}>
+        <div class={settingsStyles.empty}>
           <Trans key={'setting.theme.no-available-themes'} />
         </div>
       </Show>
       <For each={Object.keys(themeList())}>
         {(name) => (
           <Card
-            class={'flex flex-row justify-start items-center gap-4'}
             subCards={[
-              <div
-                class={'w-full h-full flex justify-start items-center gap-3'}
-              >
-                <button
-                  class={'btn-error flex justify-center items-center'}
+              <div class={settingsStyles.cardRow}>
+                <Button
+                  class={componentStyles.dangerButton}
                   onClick={() => onDelete(name)}
+                  variant="primary"
                 >
                   <Trans key={'setting.theme.delete-theme'} />
-                </button>
-                <div class={'flex-1'} />
-                <button
-                  class={'btn-text flex justify-center items-center'}
+                </Button>
+                <div class={settingsStyles.spacer} />
+                <Button
                   onClick={() => onRename(name)}
+                  variant="ghost"
                 >
                   <Trans key={'setting.theme.rename-theme'} />
-                </button>
+                </Button>
               </div>,
             ]}
           >
-            <div class={'text-md'}>{name}</div>
-            <div class={'flex-1'} />
-            <button
-              class={'btn-primary flex justify-center items-center'}
+            <div class={settingsStyles.cardTitle}>{name}</div>
+            <div class={settingsStyles.spacer} />
+            <Button
               onClick={(event) => {
                 onThemeSetting(name);
                 event.stopPropagation();
               }}
+              variant="primary"
             >
               <Trans key={'setting.theme.edit-theme'} />
-            </button>
+            </Button>
           </Card>
         )}
       </For>
-      <div class={'text-md mt-4 mb-1'}>
+      <div class={settingsStyles.sectionTitle}>
         <Trans key={'setting.theme.edit-theme'} />
       </div>
-      <Card class={'flex flex-row justify-start items-center gap-4'}>
+      <Card >
         <Trans key={'setting.theme.add-theme'} />
-        <div class={'flex-1'} />
-        <button class={'btn-primary'} onClick={onShowAdd}>
+        <div class={settingsStyles.spacer} />
+        <Button onClick={onShowAdd} variant="primary">
           <Trans key={'setting.theme.add-theme'} />
-        </button>
+        </Button>
       </Card>
-      <Card class={'flex flex-row justify-start items-center gap-4'}>
+      <Card >
         <Trans key={'setting.theme.import-theme'} />
-        <div class={'flex-1'} />
-        <label for={'import-theme'}>
-          <a class={'btn-primary'}>
+        <div class={settingsStyles.spacer} />
+        <label>
+          <Button as="span" variant="primary">
             <Trans key={'setting.theme.import-from-file'} />
-          </a>
+          </Button>
           <input
             accept={'application/json'}
-            class={'hidden'}
+            class={settingsStyles.hiddenInput}
             id={'import-theme'}
             onInput={onImportTheme}
             type={'file'}
@@ -227,16 +225,16 @@ const ThemeListContainer = () => {
         onClose={() => setNameOpen(false)}
         open={nameOpen()}
       >
-        <div class={'text-xl mb-2'}>
+        <div class={settingsStyles.modalTitle}>
           {t('setting.theme.rename-alert-title')}
         </div>
-        <div class={'text-md mb-1'}>
+        <div class={settingsStyles.modalBody}>
           {t('setting.theme.rename-alert', { name: target() })}
         </div>
-        <input
-          class={'input w-full'}
+        <Input
           onChange={(event) => setName(event.target.value)}
           value={name()}
+          w="100%"
         />
       </Modal>
       <Modal
@@ -250,7 +248,7 @@ const ThemeListContainer = () => {
         onClose={() => setDeleteOpen(false)}
         open={deleteOpen()}
       >
-        <div class={'text-xl'}>
+        <div class={settingsStyles.modalTitle}>
           {t('common.delete.confirm', { name: target() })}
         </div>
       </Modal>
@@ -267,10 +265,10 @@ const ThemeListContainer = () => {
         onClose={() => setNameConflictOpen(false)}
         open={nameConflictOpen()}
       >
-        <div class={'text-xl mb-2'}>
+        <div class={settingsStyles.modalTitle}>
           {t('setting.theme.rename-conflict-title')}
         </div>
-        <div class={'text-md mb-1'}>
+        <div class={settingsStyles.modalBody}>
           {t('setting.theme.rename-conflict', { name: name() })}
         </div>
       </Modal>
@@ -285,15 +283,15 @@ const ThemeListContainer = () => {
         onClose={() => setOpen(false)}
         open={open()}
       >
-        <div class={'text-black dark:text-white text-lg'}>
+        <div class={settingsStyles.modalTitle}>
           {t('setting.theme.import-theme-failed')}
         </div>
-        <div class={'text-black dark:text-white font-mono'}>
+        <div class={settingsStyles.cardTitle}>
           {error()?.name}
           {': '}
           {error()?.message}
         </div>
-        <pre class={'text-white bg-slate-700 font-mono'}>
+        <pre class={settingsStyles.codeBlock}>
           <code>{JSON.stringify(error(), null, 2)}</code>
         </pre>
       </Modal>
@@ -312,64 +310,48 @@ const ThemeListContainer = () => {
         onClose={() => setAddOpen(false)}
         open={addOpen()}
       >
-        <div class={'text-xl mb-2'}>
+        <div class={settingsStyles.modalTitle}>
           {t('setting.theme.add-theme-from.title')}
         </div>
         <Trans key={'setting.theme.built-in-themes'} />
         <For each={Object.keys(presetThemes)}>
           {(name) => (
             <Card
-              class={'flex flex-row justify-start items-center gap-4'}
               onClick={() => setTarget(name)}
             >
               <Show
-                fallback={<div class={'w-6 h-6'} />}
+                fallback={<div class={settingsStyles.checkPlaceholder} />}
                 when={target() === name}
               >
-                <svg
-                  class={'w-6 h-6 fill-none'}
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    class={'fill-green-500'}
-                    d="M4.53 12.97a.75.75 0 0 0-1.06 1.06l4.5 4.5a.75.75 0 0 0 1.06 0l11-11a.75.75 0 0 0-1.06-1.06L8.5 16.94l-3.97-3.97Z"
-                  />
-                </svg>
+                <Check
+                  class={`${settingsStyles.iconMedium} ${settingsStyles.iconSuccess}`}
+                />
               </Show>
-              <div class={'text-md'}>
+              <div class={settingsStyles.cardTitle}>
                 <Trans key={`setting.theme.preset.${name}`} />
               </div>
-              <div class={'flex-1'} />
+              <div class={settingsStyles.spacer} />
             </Card>
           )}
         </For>
-        <div class={'text-md mt-4 mb-1'}>
+        <div class={settingsStyles.sectionTitle}>
           <Trans key={'setting.theme.custom-themes'} />
         </div>
         <For each={Object.keys(themeList())}>
           {(name) => (
             <Card
-              class={'flex flex-row justify-start items-center gap-4'}
               onClick={() => setTarget(name)}
             >
               <Show
-                fallback={<div class={'w-6 h-6'} />}
+                fallback={<div class={settingsStyles.checkPlaceholder} />}
                 when={target() === name}
               >
-                <svg
-                  class={'w-6 h-6 fill-none'}
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    class={'fill-green-500'}
-                    d="M4.53 12.97a.75.75 0 0 0-1.06 1.06l4.5 4.5a.75.75 0 0 0 1.06 0l11-11a.75.75 0 0 0-1.06-1.06L8.5 16.94l-3.97-3.97Z"
-                  />
-                </svg>
+                <Check
+                  class={`${settingsStyles.iconMedium} ${settingsStyles.iconSuccess}`}
+                />
               </Show>
-              <div class={'text-md'}>{name}</div>
-              <div class={'flex-1'} />
+              <div class={settingsStyles.cardTitle}>{name}</div>
+              <div class={settingsStyles.spacer} />
             </Card>
           )}
         </For>

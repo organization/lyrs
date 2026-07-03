@@ -3,6 +3,7 @@ import { sass } from '@codemirror/lang-sass';
 import { keymap } from '@codemirror/view';
 import { Trans } from '@jellybrick/solid-i18next';
 import { CodeMirror } from '@solid-codemirror/codemirror';
+import { Button } from '@suis-ui/kit';
 import { githubDarkInit } from '@uiw/codemirror-theme-github';
 import { basicSetup, EditorView } from 'codemirror';
 import {
@@ -19,6 +20,7 @@ import {
   userCSSTransitions,
   userCSSVariables,
 } from '../../utils/userCSSSelectors';
+import * as settingsStyles from '../settings.css';
 
 const debounce = <P extends unknown[]>(
   fn: (...args: P) => void,
@@ -135,48 +137,45 @@ const UserCSSEditor = (props: UserCSSEditorProps) => {
         <Trans key={'setting.user-css-warning.1'} />
       </div>
 
-      <div class="overflow-auto fluent-scrollbar pb-2 mt-10">
-        <div class="flex flex-wrap gap-1 min-w-[750px]">
+      <div class={settingsStyles.userCssToolbarScroller}>
+        <div class={settingsStyles.userCssToolbar}>
           <For each={Object.keys(userCSSSelectors)}>
             {(selectorName) => (
-              <button
-                class="btn-text flex-auto"
+              <Button
                 onClick={() => addUserCSSSelector(selectorName)}
-                type="button"
+                variant="ghost"
               >
                 {selectorName}
-              </button>
+              </Button>
             )}
           </For>
 
           <For each={Object.keys(userCSSTransitions)}>
             {(transitionName) => (
-              <button
-                class="btn-text flex-auto"
+              <Button
                 onClick={() => addUserCSSTransition(transitionName)}
-                type="button"
+                variant="ghost"
               >
                 {transitionName}
-              </button>
+              </Button>
             )}
           </For>
 
           <For each={Object.entries(userCSSVariables)}>
             {([variableName, variableValue]) => (
-              <button
-                class="btn-text flex-auto"
+              <Button
                 onClick={() => addUserCSSVariable(variableValue)}
-                type="button"
+                variant="ghost"
               >
                 {variableName}
-              </button>
+              </Button>
             )}
           </For>
         </div>
       </div>
 
       <CodeMirror
-        class="mt-10 min-h-[300px] rounded-md overflow-hidden"
+        class={settingsStyles.userCssEditor}
         extensions={[basicSetup, sass(), keymap.of([indentWithTab])]}
         onEditorMount={setEditor}
         onValueChange={onUpdateDebounced}

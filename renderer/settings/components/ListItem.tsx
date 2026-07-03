@@ -1,6 +1,7 @@
 import { type JSX, Show, splitProps } from 'solid-js';
 
 import { cx } from '../../utils/classNames';
+import * as settingsStyles from '../settings.css';
 
 export interface ListItemProps extends JSX.LiHTMLAttributes<HTMLLIElement> {
   icon?: string | JSX.Element;
@@ -15,14 +16,8 @@ const ListItem = (props: ListItemProps) => {
     <li
       {...leftProps}
       class={cx(
-        `
-          relative w-full h-[36px] min-h-9 px-3
-          flex flex-row justify-start items-center gap-1
-          hover:shadow-xs hover:bg-black/[7.5%] active:shadow-xs active:bg-black/5
-          dark:hover:bg-white/[7.5%] dark:active:bg-white/10
-          select-none rounded-sm
-        `,
-        local.selected && 'bg-black/5 dark:bg-white/5',
+        settingsStyles.navItem,
+        local.selected && settingsStyles.navItemSelected,
         leftProps.class,
       )}
     >
@@ -32,7 +27,7 @@ const ListItem = (props: ListItemProps) => {
       >
         <img alt="Local Icon" src={local.icon as string} />
       </Show>
-      <div class={'text-md ml-4'}>{local.title}</div>
+      <div class={settingsStyles.navItemTitle}>{local.title}</div>
     </li>
   );
 };

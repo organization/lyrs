@@ -1,5 +1,7 @@
 import { Trans, useTransContext } from '@jellybrick/solid-i18next';
 import { useNavigate, useParams } from '@solidjs/router';
+import { Box, Button, Input } from '@suis-ui/kit';
+import { ChevronRight } from 'lucide-solid';
 import { createSignal, For, onCleanup, onMount, Show, untrack } from 'solid-js';
 
 import icon from '../../../assets/icon_music.png';
@@ -15,6 +17,7 @@ import { userCSSTransitions } from '../../utils/userCSSSelectors';
 import ColorPicker from '../components/ColorPicker';
 import LyricPreview from '../components/LyricPreview';
 import UserCSSEditor from '../components/UserCSSEditor';
+import * as settingsStyles from '../settings.css';
 
 import type { StyleConfig } from '../../../common/schema';
 import type { PartialDeep } from 'type-fest';
@@ -29,6 +32,49 @@ const ANIMATION_LIST = [
   'slime',
   'custom',
 ];
+
+interface NumberFieldProps {
+  value?: number;
+  onChange: (value: number) => void;
+  unit?: string;
+  min?: number;
+  step?: number;
+  placeholder?: string;
+  width?: string;
+}
+
+const NumberField = (props: NumberFieldProps) => (
+  <div class={settingsStyles.unitInput}>
+    <Input
+      min={props.min}
+      onChange={(event) => props.onChange(event.target.valueAsNumber)}
+      placeholder={props.placeholder}
+      step={props.step}
+      type="number"
+      value={props.value}
+      w={props.width ?? '12rem'}
+    />
+    <Show when={props.unit}>
+      <Box text="caption">{props.unit}</Box>
+    </Show>
+  </div>
+);
+
+const anchorClass = (anchor: string, selected: boolean) =>
+  cx(
+    settingsStyles.anchorCard,
+    anchor.includes('top') && settingsStyles.anchorTop,
+    !anchor.includes('top') &&
+      !anchor.includes('bottom') &&
+      settingsStyles.anchorMiddle,
+    anchor.includes('bottom') && settingsStyles.anchorBottom,
+    anchor.includes('left') && settingsStyles.anchorLeft,
+    !anchor.includes('left') &&
+      !anchor.includes('right') &&
+      settingsStyles.anchorCenter,
+    anchor.includes('right') && settingsStyles.anchorRight,
+    selected && settingsStyles.anchorSelected,
+  );
 
 const ThemeContainer = () => {
   const params = useParams();
@@ -138,100 +184,65 @@ const ThemeContainer = () => {
 
   return (
     <div
-      class={
-        'flex-1 flex flex-col justify-start items-stretch gap-1 py-4 fluent-scrollbar'
-      }
+      class={settingsStyles.pageRootFlushX}
       ref={parentRef}
     >
-      <div
-        class={
-          'text-3xl mb-1 px-4 flex justify-start items-center gap-2 select-none'
-        }
-      >
+      <div class={settingsStyles.pageTitleRow}>
         <span
-          class={'text-3xl opacity-80 hover:opacity-100'}
+          class={settingsStyles.pageTitleLink}
           onClick={onThemeListPage}
         >
           <Trans key={'setting.title.theme'} />
         </span>
-        <svg
-          class={'w-4 h-4'}
-          fill="none"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            class={'fill-black dark:fill-white'}
-            d="M8.47 4.22a.75.75 0 0 0 0 1.06L15.19 12l-6.72 6.72a.75.75 0 1 0 1.06 1.06l7.25-7.25a.75.75 0 0 0 0-1.06L9.53 4.22a.75.75 0 0 0-1.06 0Z"
-          />
-        </svg>
-        <span class={'text-3xl'}>
+        <ChevronRight class={settingsStyles.iconSmall} />
+        <span>
           {themeName() ?? t('setting.theme.unknown')}
         </span>
       </div>
       <Show when={theme()}>
         <div
           class={cx(
-            'sticky top-[-16px] z-50 mx-4 rounded-lg transition-all',
-            scrollY() <= previewOffset() && 'shadow-none',
-            scrollY() > previewOffset() &&
-              'shadow-xl bg-gray-200 dark:bg-gray-800',
+            settingsStyles.stickyPreview,
+            scrollY() > previewOffset() && settingsStyles.stickyPreviewRaised,
           )}
           ref={previewRef}
         >
           <LyricPreview theme={theme()!} />
         </div>
       </Show>
-      <div class={'flex flex-col justify-start items-stretch gap-1 px-4'}>
-        <Card class={'flex flex-row justify-start items-center gap-4'}>
+      <div class={settingsStyles.paddedSectionStack}>
+        <Card >
           <Trans key={'setting.theme.export-theme'} />
-          <div class={'flex-1'} />
-          <button class={'btn-primary'} onClick={onExport}>
+          <div class={settingsStyles.spacer} />
+          <Button onClick={onExport} variant="primary">
             <Trans key={'setting.theme.export-as-file'} />
-          </button>
+          </Button>
         </Card>
       </div>
-      <div class={'text-md mt-4 mb-1 px-4'}>
+      <div class={settingsStyles.paddedSectionTitle}>
         <Trans key={'setting.theme.generic-theme-settings'} />
       </div>
-      <div class={'flex flex-col justify-start items-stretch gap-1 px-4'}>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+      <div class={settingsStyles.paddedSectionStack}>
+        <Card justify="between">
+          <div class={settingsStyles.cardTitle}>
             <Trans key={'setting.theme.font'} />
           </div>
           <Selector
-            class={'select min-w-[210px] font-select'}
-            mode={'autocomplete'}
+            minWidth="210px"
             onChange={(value) => setTheme({ font: value })}
             options={fontList()}
             placeholder={t('setting.theme.font.placeholder')}
-            renderItem={(props, option, isSelected) => (
-              <li
-                {...props}
-                class={cx(
-                  'w-full py-2 hover:bg-white/10 rounded-lg truncate flex items-center shrink-0',
-                  isSelected && 'bg-white/10',
-                )}
-                style={{ 'font-family': option }}
-              >
-                <Show when={isSelected}>
-                  <div class={'bg-primary-500 rounded-sm w-1 h-4'} />
-                </Show>
-                <div class={'px-2'}>{option}</div>
-              </li>
-            )}
             style={{
               'font-family': theme()?.font,
             }}
             value={theme()?.font}
           />
         </Card>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+        <Card justify="between">
+          <div class={settingsStyles.cardTitle}>
             <Trans key={'setting.theme.font-weight'} />
           </div>
           <Selector
-            class={'select w-48 font-select'}
             onChange={(value) => setTheme({ fontWeight: value })}
             options={[
               '100',
@@ -245,73 +256,49 @@ const ThemeContainer = () => {
               '900',
             ]}
             placeholder={'1-100'}
-            renderItem={(props, option, isSelected) => (
-              <li
-                {...props}
-                class={cx(
-                  'w-full py-2 hover:bg-white/10 rounded-lg truncate flex items-center',
-                  isSelected && 'bg-white/10',
-                )}
-                style={{ 'font-family': theme()?.font, 'font-weight': option }}
-              >
-                <Show when={isSelected}>
-                  <div class={'bg-primary-500 rounded-sm w-1 h-4'} />
-                </Show>
-                <div class={'px-2'}>
-                  <Trans
-                    key={'setting.theme.font-weight.option'}
-                    options={{ weight: option }}
-                  />
-                </div>
-              </li>
-            )}
             style={{
               'font-family': theme()?.font,
               'font-weight': theme()?.fontWeight,
             }}
             value={theme()?.fontWeight ?? '400'}
+            width="12rem"
           />
         </Card>
         <Card
-          class={'flex flex-row justify-between items-center gap-1'}
+          justify="between"
           subCards={[
-            <div class={'flex flex-col justify-start items-stretch gap-1'}>
-              <div class={'text-md'}>
+            <div class={settingsStyles.cardColumn}>
+              <div class={settingsStyles.cardTitle}>
                 <Trans key={'setting.theme.preview'} />
               </div>
-              <div
-                class={
-                  'relative w-full max-h-32 flex flex-col justify-start items-start gap-4'
-                }
-              >
+              <div class={settingsStyles.previewBody}>
                 <LyricsTransition
                   animation={animation()}
-                  class={'w-full items-end'}
                   lyrics={animationPreview()}
                   status={'playing'}
                   style={`row-gap: ${theme()?.lyric.containerRowGap}rem;`}
                 />
               </div>
             </div>,
-            <div class={'w-full h-full flex justify-start items-center'}>
-              <div class={'text-md'}>
+            <div class={settingsStyles.cardRow}>
+              <div class={settingsStyles.cardTitle}>
                 <Trans key={'setting.theme.select-animation'} />
               </div>
-              <div class={'flex-1'} />
+              <div class={settingsStyles.spacer} />
               <Selector
-                class={'select w-48'}
                 format={getAnimationName}
                 onChange={(value) => setTheme({ animation: value })}
                 options={ANIMATION_LIST}
                 placeholder={t('setting.theme.animation.placeholder')}
                 value={theme()?.animation ?? 'pretty'}
+                width="12rem"
               />
             </div>,
-            <div class={'w-full h-full flex justify-start items-center'}>
-              <div class={'text-md'}>
+            <div class={settingsStyles.cardRow}>
+              <div class={settingsStyles.cardTitle}>
                 <Trans key={'setting.theme.animation.at-once'} />
               </div>
-              <div class={'flex-1'} />
+              <div class={settingsStyles.spacer} />
               <Switch
                 onChange={(checked) => setTheme({ animationAtOnce: checked })}
                 value={theme()?.animationAtOnce}
@@ -319,92 +306,61 @@ const ThemeContainer = () => {
             </div>,
           ]}
         >
-          <div class={'text-md'}>
+          <div class={settingsStyles.cardTitle}>
             <Trans key={'setting.theme.animation'} />
           </div>
-          <div class={'flex-1'} />
-          <div class={'text-md text-black/50 dark:text-white/80 mr-2'}>
+          <div class={settingsStyles.spacer} />
+          <div class={settingsStyles.cardCaptionLarge}>
             {getAnimationName(theme()?.animation ?? 'pretty')}
           </div>
         </Card>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+        <Card justify="between">
+          <div class={settingsStyles.cardTitle}>
             <Trans key={'setting.theme.proximity-opacity'} />
           </div>
-          <label class={'input-group group'}>
-            <input
-              class={
-                "input w-48 after:content-['test'] after:absolute after:right-[0.5rem] after:top-[50%] after:transform-[translateY(-50%) scale(0.5)]"
-              }
-              onChange={(event) =>
-                setTheme({ proximityOpacity: event.target.valueAsNumber / 100 })
-              }
-              type={'number'}
-              value={(theme()?.proximityOpacity ?? 0) * 100}
-            />
-            <span class={'suffix group-focus-within:suffix-focus-within'}>
-              %
-            </span>
-          </label>
+          <NumberField
+            onChange={(value) => setTheme({ proximityOpacity: value / 100 })}
+            unit="%"
+            value={(theme()?.proximityOpacity ?? 0) * 100}
+          />
         </Card>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+        <Card justify="between">
+          <div class={settingsStyles.cardTitle}>
             <Trans key={'setting.theme.proximity-sensitivity'} />
           </div>
-          <input
-            class={'input w-48'}
-            onChange={(event) =>
-              setTheme({ proximitySensitivity: event.target.valueAsNumber })
-            }
-            type={'number'}
+          <NumberField
+            onChange={(value) => setTheme({ proximitySensitivity: value })}
             value={theme()?.proximitySensitivity}
           />
         </Card>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+        <Card justify="between">
+          <div class={settingsStyles.cardTitle}>
             <Trans key={'setting.theme.max-height'} />
           </div>
-          <label class={'input-group group'}>
-            <input
-              class={'input w-48'}
-              onChange={(event) =>
-                setTheme({ maxHeight: event.target.valueAsNumber })
-              }
-              type={'number'}
-              value={theme()?.maxHeight}
-            />
-            <span class={'suffix group-focus-within:suffix-focus-within'}>
-              px
-            </span>
-          </label>
+          <NumberField
+            onChange={(value) => setTheme({ maxHeight: value })}
+            unit="px"
+            value={theme()?.maxHeight}
+          />
         </Card>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+        <Card justify="between">
+          <div class={settingsStyles.cardTitle}>
             <Trans
               key={'setting.theme.margin-between-lyrics-and-progressbar'}
             />
           </div>
-          <label class={'input-group group'}>
-            <input
-              class={'input w-48'}
-              onChange={(event) =>
-                setTheme({ rowGap: event.target.valueAsNumber })
-              }
-              type={'number'}
-              value={theme()?.rowGap}
-            />
-            <span class={'suffix group-focus-within:suffix-focus-within'}>
-              rem
-            </span>
-          </label>
+          <NumberField
+            onChange={(value) => setTheme({ rowGap: value })}
+            unit="rem"
+            value={theme()?.rowGap}
+          />
         </Card>
-        <Card class={'flex flex-row justify-start items-center gap-1'}>
-          <div class={'font-md'}>
+        <Card >
+          <div class={settingsStyles.cardTitle}>
             <Trans key={'setting.position.select-to-show-now-playing-panel'} />
           </div>
-          <div class={'flex-1'} />
+          <div class={settingsStyles.spacer} />
           <Selector
-            class={'select'}
             format={(value) =>
               value === 'true'
                 ? t('setting.position.show-now-playing-panel')
@@ -418,116 +374,81 @@ const ThemeContainer = () => {
           />
         </Card>
         <Card
-          class={'flex flex-row justify-start items-center gap-1'}
           subCards={[
-            <div
-              class={`
-              w-full min-h-[unset] aspect-video
-              grid grid-rows-3 grid-cols-3 gap-4
-              rounded
-            `}
-            >
+            <div class={settingsStyles.positionGrid}>
               <div />
-              <label class={'input-group group'}>
-                <input
-                  class={'input w-full h-full'}
-                  onChange={async (event) => {
-                    setTheme({ position: { top: Number(event.target.value) } });
+              <NumberField
+                onChange={async (value) => {
+                  setTheme({ position: { top: value } });
 
-                    await window.ipcRenderer.invoke('update-window');
-                  }}
-                  placeholder={t('setting.position.top-margin')}
-                  type={'number'}
-                  value={theme()?.position.top ?? undefined}
-                />
-                <span class={'suffix group-focus-within:suffix-focus-within'}>
-                  px
-                </span>
-              </label>
+                  await window.ipcRenderer.invoke('update-window');
+                }}
+                placeholder={t('setting.position.top-margin')}
+                unit="px"
+                value={theme()?.position.top ?? undefined}
+                width="100%"
+              />
               <div />
-              <label class={'input-group group'}>
-                <input
-                  class={'input w-full h-full'}
-                  onChange={async (event) => {
-                    setTheme({
-                      position: { left: Number(event.target.value) },
-                    });
+              <NumberField
+                onChange={async (value) => {
+                  setTheme({
+                    position: { left: value },
+                  });
 
-                    await window.ipcRenderer.invoke('update-window');
-                  }}
-                  placeholder={t('setting.position.left-margin')}
-                  type={'number'}
-                  value={theme()?.position.left ?? undefined}
-                />
-                <span class={'suffix group-focus-within:suffix-focus-within'}>
-                  px
-                </span>
-              </label>
+                  await window.ipcRenderer.invoke('update-window');
+                }}
+                placeholder={t('setting.position.left-margin')}
+                unit="px"
+                value={theme()?.position.left ?? undefined}
+                width="100%"
+              />
               <img
                 alt={'Icon'}
-                class={
-                  'w-12 h-12 object-contain self-center justify-self-center'
-                }
+                class={settingsStyles.positionIcon}
                 src={icon}
               />
-              <label class={'input-group group'}>
-                <input
-                  class={'input w-full h-full'}
-                  onChange={async (event) => {
-                    setTheme({
-                      position: { right: Number(event.target.value) },
-                    });
+              <NumberField
+                onChange={async (value) => {
+                  setTheme({
+                    position: { right: value },
+                  });
 
-                    await window.ipcRenderer.invoke('update-window');
-                  }}
-                  placeholder={t('setting.position.right-margin')}
-                  type={'number'}
-                  value={theme()?.position.right ?? undefined}
-                />
-                <span class={'suffix group-focus-within:suffix-focus-within'}>
-                  px
-                </span>
-              </label>
+                  await window.ipcRenderer.invoke('update-window');
+                }}
+                placeholder={t('setting.position.right-margin')}
+                unit="px"
+                value={theme()?.position.right ?? undefined}
+                width="100%"
+              />
               <div />
-              <label class={'input-group group'}>
-                <input
-                  class={'input w-full h-full'}
-                  onChange={async (event) => {
-                    setTheme({
-                      position: { bottom: Number(event.target.value) },
-                    });
+              <NumberField
+                onChange={async (value) => {
+                  setTheme({
+                    position: { bottom: value },
+                  });
 
-                    await window.ipcRenderer.invoke('update-window');
-                  }}
-                  placeholder={t('setting.position.bottom-margin')}
-                  type={'number'}
-                  value={theme()?.position.bottom ?? undefined}
-                />
-                <span class={'suffix group-focus-within:suffix-focus-within'}>
-                  px
-                </span>
-              </label>
+                  await window.ipcRenderer.invoke('update-window');
+                }}
+                placeholder={t('setting.position.bottom-margin')}
+                unit="px"
+                value={theme()?.position.bottom ?? undefined}
+                width="100%"
+              />
             </div>,
           ]}
         >
-          <div class={'font-md'}>
+          <div class={settingsStyles.cardTitle}>
             <Trans key={'setting.position.adjust-margin'} />
           </div>
-          <div class={'flex-1'} />
-          <div class={'text-md text-black/50 dark:text-white/80 mr-2'}>
+          <div class={settingsStyles.spacer} />
+          <div class={settingsStyles.cardCaptionLarge}>
             {theme()?.position.top}px / {theme()?.position.right}px /{' '}
             {theme()?.position.bottom}px / {theme()?.position.left}px
           </div>
         </Card>
         <Card
-          class={'flex flex-row justify-start items-center gap-1'}
           subCards={[
-            <div
-              class={`
-          w-full min-h-[unset] aspect-video
-          grid grid-rows-3 grid-cols-3 gap-4
-        `}
-            >
+            <div class={settingsStyles.positionGrid}>
               <For
                 each={[
                   'top-left' as const,
@@ -543,20 +464,9 @@ const ThemeContainer = () => {
               >
                 {(anchor) => (
                   <Card
-                    class={cx(
-                      'flex',
-                      anchor.includes('top') && 'items-start',
-                      !anchor.includes('top') &&
-                        !anchor.includes('bottom') &&
-                        'items-center',
-                      anchor.includes('bottom') && 'items-end',
-                      anchor.includes('left') && 'justify-start',
-                      !anchor.includes('left') &&
-                        !anchor.includes('right') &&
-                        'justify-center',
-                      anchor.includes('right') && 'justify-end',
-                      theme()?.position.availableAnchor.includes(anchor) &&
-                        'bg-primary-500/50! hover:bg-primary-500/60! active:bg-primary-500/40!',
+                    class={anchorClass(
+                      anchor,
+                      !!theme()?.position.availableAnchor.includes(anchor),
                     )}
                     onClick={() => {
                       const list = theme()?.position.availableAnchor ?? [];
@@ -600,37 +510,31 @@ const ThemeContainer = () => {
             </div>,
           ]}
         >
-          <div class={'font-md'}>
+          <div class={settingsStyles.cardTitle}>
             <Trans key={'setting.position.available-position'} />
           </div>
         </Card>
       </div>
-      <div class={'text-md mt-4 mb-1 px-4'}>
+      <div class={settingsStyles.paddedSectionTitle}>
         <Trans key={'setting.theme.now-playing'} />
       </div>
-      <div class={'flex flex-col justify-start items-stretch gap-1 px-4'}>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+      <div class={settingsStyles.paddedSectionStack}>
+        <Card justify="between">
+          <div class={settingsStyles.cardTitle}>
             <Trans key={'setting.theme.font-size'} />
           </div>
-          <label class={'input-group group'}>
-            <input
-              class={'input w-48'}
-              onChange={(event) =>
-                setTheme({
-                  nowPlaying: { fontSize: event.target.valueAsNumber },
-                })
-              }
-              type={'number'}
-              value={theme()?.nowPlaying.fontSize}
-            />
-            <span class={'suffix group-focus-within:suffix-focus-within'}>
-              px
-            </span>
-          </label>
+          <NumberField
+            onChange={(value) =>
+              setTheme({
+                nowPlaying: { fontSize: value },
+              })
+            }
+            unit="px"
+            value={theme()?.nowPlaying.fontSize}
+          />
         </Card>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+        <Card justify="between">
+          <div class={settingsStyles.cardTitle}>
             <Trans key={'setting.theme.font-color'} />
           </div>
           <ColorPicker
@@ -638,8 +542,8 @@ const ThemeContainer = () => {
             value={theme()?.nowPlaying.color}
           />
         </Card>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+        <Card justify="between">
+          <div class={settingsStyles.cardTitle}>
             <Trans key={'setting.theme.background-color'} />
           </div>
           <ColorPicker
@@ -649,8 +553,8 @@ const ThemeContainer = () => {
             value={theme()?.nowPlaying.background}
           />
         </Card>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+        <Card justify="between">
+          <div class={settingsStyles.cardTitle}>
             <Trans key={'setting.theme.progressbar-color'} />
           </div>
           <ColorPicker
@@ -660,73 +564,53 @@ const ThemeContainer = () => {
             value={theme()?.nowPlaying.backgroundProgress}
           />
         </Card>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+        <Card justify="between">
+          <div class={settingsStyles.cardTitle}>
             <Trans key={'setting.theme.max-width'} />
           </div>
-          <label class={'input-group group'}>
-            <input
-              class={'input w-48'}
-              onChange={(event) =>
-                setTheme({
-                  nowPlaying: { maxWidth: event.target.valueAsNumber },
-                })
-              }
-              type={'number'}
-              value={theme()?.nowPlaying.maxWidth}
-            />
-            <span class={'suffix group-focus-within:suffix-focus-within'}>
-              px
-            </span>
-          </label>
+          <NumberField
+            onChange={(value) =>
+              setTheme({
+                nowPlaying: { maxWidth: value },
+              })
+            }
+            unit="px"
+            value={theme()?.nowPlaying.maxWidth}
+          />
         </Card>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+        <Card justify="between">
+          <div class={settingsStyles.cardTitle}>
             <Trans key={'setting.theme.stopped-opacity'} />
           </div>
-          <label class={'input-group group'}>
-            <input
-              class={'input w-48'}
-              onChange={(event) =>
-                setTheme({
-                  nowPlaying: {
-                    stoppedOpacity: event.target.valueAsNumber / 100,
-                  },
-                })
-              }
-              type={'number'}
-              value={(theme()?.nowPlaying.stoppedOpacity ?? 0) * 100}
-            />
-            <span class={'suffix group-focus-within:suffix-focus-within'}>
-              %
-            </span>
-          </label>
+          <NumberField
+            onChange={(value) =>
+              setTheme({
+                nowPlaying: {
+                  stoppedOpacity: value / 100,
+                },
+              })
+            }
+            unit="%"
+            value={(theme()?.nowPlaying.stoppedOpacity ?? 0) * 100}
+          />
         </Card>
       </div>
-      <div class={'text-md mt-4 mb-1 px-4'}>
+      <div class={settingsStyles.paddedSectionTitle}>
         <Trans key={'setting.theme.lyric'} />
       </div>
-      <div class={'flex flex-col justify-start items-stretch gap-1 px-4'}>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+      <div class={settingsStyles.paddedSectionStack}>
+        <Card justify="between">
+          <div class={settingsStyles.cardTitle}>
             <Trans key={'setting.theme.font-size'} />
           </div>
-          <label class={'input-group group'}>
-            <input
-              class={'input w-48'}
-              onChange={(event) =>
-                setTheme({ lyric: { fontSize: event.target.valueAsNumber } })
-              }
-              type={'number'}
-              value={theme()?.lyric.fontSize}
-            />
-            <span class={'suffix group-focus-within:suffix-focus-within'}>
-              px
-            </span>
-          </label>
+          <NumberField
+            onChange={(value) => setTheme({ lyric: { fontSize: value } })}
+            unit="px"
+            value={theme()?.lyric.fontSize}
+          />
         </Card>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+        <Card justify="between">
+          <div class={settingsStyles.cardTitle}>
             <Trans key={'setting.theme.font-color'} />
           </div>
           <ColorPicker
@@ -734,8 +618,8 @@ const ThemeContainer = () => {
             value={theme()?.lyric.color}
           />
         </Card>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+        <Card justify="between">
+          <div class={settingsStyles.cardTitle}>
             <Trans key={'setting.theme.background-color'} />
           </div>
           <ColorPicker
@@ -745,79 +629,60 @@ const ThemeContainer = () => {
             value={theme()?.lyric.background}
           />
         </Card>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+        <Card justify="between">
+          <div class={settingsStyles.cardTitle}>
             <Trans key={'setting.theme.stopped-opacity'} />
           </div>
-          <label class={'input-group group'}>
-            <input
-              class={'input w-48'}
-              onChange={(event) =>
-                setTheme({
-                  lyric: { stoppedOpacity: event.target.valueAsNumber / 100 },
-                })
-              }
-              type={'number'}
-              value={(theme()?.lyric.stoppedOpacity ?? 0) * 100}
-            />
-            <span class={'suffix group-focus-within:suffix-focus-within'}>
-              %
-            </span>
-          </label>
+          <NumberField
+            onChange={(value) =>
+              setTheme({
+                lyric: { stoppedOpacity: value / 100 },
+              })
+            }
+            unit="%"
+            value={(theme()?.lyric.stoppedOpacity ?? 0) * 100}
+          />
         </Card>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+        <Card justify="between">
+          <div class={settingsStyles.cardTitle}>
             <Trans key={'setting.theme.margin-between-lyrics-containers'} />
           </div>
-          <label class={'input-group group'}>
-            <input
-              class={'input w-48'}
-              onChange={(event) =>
-                setTheme({
-                  lyric: { containerRowGap: event.target.valueAsNumber },
-                })
-              }
-              type={'number'}
-              value={theme()?.lyric.containerRowGap}
-            />
-            <span class={'suffix group-focus-within:suffix-focus-within'}>
-              rem
-            </span>
-          </label>
+          <NumberField
+            onChange={(value) =>
+              setTheme({
+                lyric: { containerRowGap: value },
+              })
+            }
+            unit="rem"
+            value={theme()?.lyric.containerRowGap}
+          />
         </Card>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+        <Card justify="between">
+          <div class={settingsStyles.cardTitle}>
             <Trans
               key={'setting.theme.margin-between-multiple-lyrics-containers'}
             />
           </div>
-          <label class={'input-group group'}>
-            <input
-              class={'input w-48'}
-              onChange={(event) =>
-                setTheme({
-                  lyric: {
-                    multipleContainerRowGap: event.target.valueAsNumber,
-                  },
-                })
-              }
-              type={'number'}
-              value={theme()?.lyric.multipleContainerRowGap}
-            />
-            <span class={'suffix group-focus-within:suffix-focus-within'}>
-              rem
-            </span>
-          </label>
+          <NumberField
+            onChange={(value) =>
+              setTheme({
+                lyric: {
+                  multipleContainerRowGap: value,
+                },
+              })
+            }
+            unit="rem"
+            value={theme()?.lyric.multipleContainerRowGap}
+          />
         </Card>
-        <Card class={'flex flex-row justify-start items-center gap-1'}>
-          <div class={'font-md'}>
+        <Card >
+          <div class={settingsStyles.cardTitle}>
             <Trans
               key={'setting.position.select-orientation-to-display-lyrics'}
             />
           </div>
-          <div class={'flex-1'} />
+          <div class={settingsStyles.spacer} />
           <Selector
-            class={'select'}
             format={(value) =>
               value === 'column'
                 ? t('setting.position.from-top-to-bottom')
@@ -828,157 +693,125 @@ const ThemeContainer = () => {
             value={theme()?.lyric?.direction ?? 'column'}
           />
         </Card>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+        <Card justify="between">
+          <div class={settingsStyles.cardTitle}>
             <Trans key={'setting.general.next-lyric-count'} />
           </div>
-          <input
-            class={'input w-48'}
+          <NumberField
             min={0}
-            onChange={(event) =>
+            onChange={(value) =>
               setTheme({
-                lyric: { nextLyric: Math.round(event.target.valueAsNumber) },
+                lyric: { nextLyric: Math.round(value) },
               })
             }
             step={1}
-            type={'number'}
             value={theme()?.lyric.nextLyric}
           />
         </Card>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+        <Card justify="between">
+          <div class={settingsStyles.cardTitle}>
             <Trans key={'setting.general.previous-lyric-count'} />
           </div>
-          <input
-            class={'input w-48'}
+          <NumberField
             min={0}
-            onChange={(event) =>
+            onChange={(value) =>
               setTheme({
                 lyric: {
-                  previousLyric: Math.round(event.target.valueAsNumber),
+                  previousLyric: Math.round(value),
                 },
               })
             }
             step={1}
-            type={'number'}
             value={theme()?.lyric.previousLyric}
           />
         </Card>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+        <Card justify="between">
+          <div class={settingsStyles.cardTitle}>
             <Trans key={'setting.theme.next-lyrics-opacity'} />
           </div>
-          <label class={'input-group group'}>
-            <input
-              class={'input w-48'}
-              onChange={(event) =>
-                setTheme({
-                  lyric: { nextLyricOpacity: event.target.valueAsNumber / 100 },
-                })
-              }
-              type={'number'}
-              value={(theme()?.lyric.nextLyricOpacity ?? 0) * 100}
-            />
-            <span class={'suffix group-focus-within:suffix-focus-within'}>
-              %
-            </span>
-          </label>
+          <NumberField
+            onChange={(value) =>
+              setTheme({
+                lyric: { nextLyricOpacity: value / 100 },
+              })
+            }
+            unit="%"
+            value={(theme()?.lyric.nextLyricOpacity ?? 0) * 100}
+          />
         </Card>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+        <Card justify="between">
+          <div class={settingsStyles.cardTitle}>
             <Trans key={'setting.theme.previous-lyrics-opacity'} />
           </div>
-          <label class={'input-group group'}>
-            <input
-              class={'input w-48'}
-              onChange={(event) =>
-                setTheme({
-                  lyric: {
-                    previousLyricOpacity: event.target.valueAsNumber / 100,
-                  },
-                })
-              }
-              type={'number'}
-              value={(theme()?.lyric.previousLyricOpacity ?? 0) * 100}
-            />
-            <span class={'suffix group-focus-within:suffix-focus-within'}>
-              %
-            </span>
-          </label>
+          <NumberField
+            onChange={(value) =>
+              setTheme({
+                lyric: {
+                  previousLyricOpacity: value / 100,
+                },
+              })
+            }
+            unit="%"
+            value={(theme()?.lyric.previousLyricOpacity ?? 0) * 100}
+          />
         </Card>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+        <Card justify="between">
+          <div class={settingsStyles.cardTitle}>
             <Trans key={'setting.theme.next-lyrics-scale'} />
           </div>
-          <label class={'input-group group'}>
-            <input
-              class={'input w-48'}
-              onChange={(event) =>
-                setTheme({
-                  lyric: { nextLyricScale: event.target.valueAsNumber / 100 },
-                })
-              }
-              type={'number'}
-              value={(theme()?.lyric.nextLyricScale ?? 0) * 100}
-            />
-            <span class={'suffix group-focus-within:suffix-focus-within'}>
-              %
-            </span>
-          </label>
+          <NumberField
+            onChange={(value) =>
+              setTheme({
+                lyric: { nextLyricScale: value / 100 },
+              })
+            }
+            unit="%"
+            value={(theme()?.lyric.nextLyricScale ?? 0) * 100}
+          />
         </Card>
-        <Card class={'flex flex-row justify-between items-center gap-1'}>
-          <div class={'text-md'}>
+        <Card justify="between">
+          <div class={settingsStyles.cardTitle}>
             <Trans key={'setting.theme.previous-lyrics-scale'} />
           </div>
-          <label class={'input-group group'}>
-            <input
-              class={'input w-48'}
-              onChange={(event) =>
-                setTheme({
-                  lyric: {
-                    previousLyricScale: event.target.valueAsNumber / 100,
-                  },
-                })
-              }
-              type={'number'}
-              value={(theme()?.lyric.previousLyricScale ?? 0) * 100}
-            />
-            <span class={'suffix group-focus-within:suffix-focus-within'}>
-              %
-            </span>
-          </label>
+          <NumberField
+            onChange={(value) =>
+              setTheme({
+                lyric: {
+                  previousLyricScale: value / 100,
+                },
+              })
+            }
+            unit="%"
+            value={(theme()?.lyric.previousLyricScale ?? 0) * 100}
+          />
         </Card>
-        <Card class={'flex flex-row justify-between items-center gap-4'}>
-          <div class={'flex flex-col gap-2'}>
-            <div class={'text-md'}>
+        <Card justify="between">
+          <div class={settingsStyles.cardColumn}>
+            <div class={settingsStyles.cardTitle}>
               <Trans key={'setting.theme.prevnext-lyric-threshold'} />
             </div>
-            <div class={'text-sm opacity-50 whitespace-pre-line'}>
+            <div class={settingsStyles.cardDescription}>
               <Trans
                 key={'setting.theme.prevnext-lyric-threshold-description'}
               />
             </div>
           </div>
-          <label class={'input-group group'}>
-            <input
-              class={'input w-48'}
-              onChange={(event) =>
-                setTheme({
-                  lyric: { prevNextLyricThreshold: event.target.valueAsNumber },
-                })
-              }
-              type={'number'}
-              value={theme()?.lyric.prevNextLyricThreshold ?? -1}
-            />
-          </label>
+          <NumberField
+            onChange={(value) =>
+              setTheme({
+                lyric: { prevNextLyricThreshold: value },
+              })
+            }
+            value={theme()?.lyric.prevNextLyricThreshold ?? -1}
+          />
         </Card>
       </div>
-      <div class={'text-md mt-4 mb-1 px-4'}>
+      <div class={settingsStyles.paddedSectionTitle}>
         <Trans key={'setting.theme.theme'} />
       </div>
-      <div class={'flex flex-col justify-start items-stretch gap-1 px-4'}>
+      <div class={settingsStyles.paddedSectionStack}>
         <Card
-          class={'flex flex-row justify-between items-center gap-1'}
+          justify="between"
           subCards={[
             <UserCSSEditor
               css={theme()?.userCSS}
@@ -986,12 +819,8 @@ const ThemeContainer = () => {
             />,
           ]}
         >
-          <div
-            class={
-              'w-full h-full flex flex-col justify-center items-start gap-0'
-            }
-          >
-            <div class={'text-md'}>
+          <div class={settingsStyles.cardColumn}>
+            <div class={settingsStyles.cardTitle}>
               <Trans key={'setting.theme.user-css'} />
             </div>
           </div>

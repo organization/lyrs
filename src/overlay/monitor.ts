@@ -22,7 +22,15 @@ export async function getProcMonitor(): Promise<ProcMonitor> {
   switch (process.platform) {
     case 'win32': {
       const win32Module = await import('./win32');
-      return await win32Module.Win32ProcMonitor.initialize();
+      try {
+        return await win32Module.Win32ProcMonitor.initialize();
+      } catch (e) {
+        console.warn(
+          '[Lyrs] failed to initialize WQL process monitor. Falling back to snapshot process detection.',
+          e,
+        );
+        return new win32Module.Win32SnapshotProcMonitor();
+      }
     }
 
     default: {

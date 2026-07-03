@@ -1,5 +1,7 @@
 import { useTransContext } from '@jellybrick/solid-i18next';
+import { Box, Button, Input } from '@suis-ui/kit';
 import { Marquee } from '@suyongs/solid-utility';
+import { Check, ChevronRight, Search, UserRoundSearch } from 'lucide-solid';
 import {
   createEffect,
   createSignal,
@@ -18,6 +20,8 @@ import Spinner from '../../components/Spinner';
 import useLyricMapper from '../../hooks/useLyricMapper';
 import { useLyricProvider } from '../../hooks/useLyricProvider';
 import usePluginOverride from '../../hooks/usePluginOverride';
+import { cx } from '../../utils/classNames';
+import * as trayStyles from '../tray.css';
 
 export const SearchContainer = () => {
   const {
@@ -103,107 +107,60 @@ export const SearchContainer = () => {
   };
 
   return (
-    <div
-      class={
-        'w-full flex-1 flex flex-col justify-start items-stretch overflow-hidden'
-      }
-    >
+    <div class={trayStyles.searchRoot}>
       <form
-        class={'w-full flex justify-start items-center gap-2 p-4 pt-2'}
+        class={trayStyles.searchForm}
         onSubmit={(event) => {
           event.preventDefault();
           onSearch();
         }}
       >
-        <input
-          class={'input flex-1 basis-0 w-8'}
+        <Input
+          flex={1}
           onInput={(event) => setTitle(event.target.value)}
           placeholder={t('lyrics.title')}
           value={title()}
+          w="2rem"
         />
-        <button class={'btn-text btn-icon'} type={'submit'}>
-          <svg
-            class={'w-[16px] h-[16px] fill-none'}
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              class={'fill-black dark:fill-white'}
-              d="M10 2.5a7.5 7.5 0 0 1 5.964 12.048l4.743 4.745a1 1 0 0 1-1.32 1.497l-.094-.083-4.745-4.743A7.5 7.5 0 1 1 10 2.5Zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z"
-            />
-          </svg>
-        </button>
-        <button class={'btn-text btn-icon'} onClick={onArtist}>
-          <svg
-            class={'w-[16px] h-[16px] fill-none'}
-            viewBox="0 -960 960 960"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              class={'fill-black dark:fill-white'}
-              d="M740-560h140v80h-80v220q0 42-29 71t-71 29q-42 0-71-29t-29-71q0-42 29-71t71-29q8 0 18 1.5t22 6.5v-208ZM120-160v-112q0-35 17.5-63t46.5-43q62-31 126-46.5T440-440q42 0 83.5 6.5T607-414q-20 12-36 29t-28 37q-26-6-51.5-9t-51.5-3q-57 0-112 14t-108 40q-9 5-14.5 14t-5.5 20v32h321q2 20 9.5 40t20.5 40H120Zm320-320q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47Zm0-80q33 0 56.5-23.5T520-640q0-33-23.5-56.5T440-720q-33 0-56.5 23.5T360-640q0 33 23.5 56.5T440-560Zm0-80Zm0 400Z"
-            />
-          </svg>
-        </button>
+        <Button type={'icon'} variant="ghost">
+          <Search size={16} />
+        </Button>
+        <Button onClick={onArtist} type={'icon'} variant="ghost">
+          <UserRoundSearch size={16} />
+        </Button>
       </form>
-      <div
-        class={
-          'w-full flex flex-col justify-start items-stretch gap-2 flex-1 overflow-auto remove-scrollbar p-4 pt-0'
-        }
-      >
+      <div class={trayStyles.searchResults}>
         <Show when={loading()}>
-          <div class={'w-full h-full flex justify-center items-center p-4'}>
-            <Spinner class={'w-8 h-8 stroke-primary-500'} />
+          <div class={trayStyles.searchLoading}>
+            <Spinner />
           </div>
         </Show>
         <For each={searchList()}>
           {(item) => (
             <Card
-              class={`
-              flex flex-row justify-start items-center gap-1
-              ${currentLyricID() === item.id ? 'bg-primary-100! dark:bg-primary-800! hover:bg-primary-200! hover:dark:bg-primary-700!' : ''}
-            `}
+              class={cx(
+                currentLyricID() === item.id &&
+                  trayStyles.resultCardSelected,
+              )}
               onClick={() => onSelect(item)}
             >
-              <div
-                class={
-                  'w-full flex flex-col justify-center items-start overflow-hidden'
-                }
-              >
-                <div class={'h-fit text-xs text-black/50 dark:text-white/50'}>
+              <div class={trayStyles.resultContent}>
+                <div class={trayStyles.resultMeta}>
                   ID: {item.id}
                 </div>
-                <Marquee class={'w-full'} gap={16}>
+                <Marquee gap={16}>
                   {item.title}
                 </Marquee>
-                <div class={'text-sm'}>{item.artist}</div>
+                <div class={trayStyles.resultArtist}>{item.artist}</div>
               </div>
-              <Show
-                fallback={
-                  <svg
-                    class={'w-[24px] h-[24px] fill-none self-center shrink-0'}
-                    viewBox="0 -960 960 960"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      class={'fill-green-500'}
-                      d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"
-                    />
-                  </svg>
-                }
-                when={currentLyricID() !== item.id}
-              >
-                <svg
-                  class={'w-[16px] h-[16px] fill-none self-center shrink-0'}
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+                <Show
+                  fallback={
+                    <Check class={trayStyles.resultIconMedium} />
+                  }
+                  when={currentLyricID() !== item.id}
                 >
-                  <path
-                    class={'fill-black dark:fill-white'}
-                    d="M8.293 4.293a1 1 0 0 0 0 1.414L14.586 12l-6.293 6.293a1 1 0 1 0 1.414 1.414l7-7a1 1 0 0 0 0-1.414l-7-7a1 1 0 0 0-1.414 0Z"
-                  />
-                </svg>
-              </Show>
+                  <ChevronRight class={trayStyles.resultIconSmall} />
+                </Show>
             </Card>
           )}
         </For>
@@ -219,11 +176,10 @@ export const SearchContainer = () => {
         onClose={() => setOpen(false)}
         open={open()}
       >
-        <div class={'text-black dark:text-white text-xl mb-2'}>
+        <Box mb="sm" text="title">
           {t('lyrics.artist')}
-        </div>
-        <input
-          class={'input'}
+        </Box>
+        <Input
           onInput={(event) => setArtist(event.target.value)}
           value={artist()}
         />

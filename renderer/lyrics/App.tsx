@@ -3,7 +3,9 @@ import {
   TransProvider,
   useTransContext,
 } from '@jellybrick/solid-i18next';
+import { Button, Input } from '@suis-ui/kit';
 import { Marquee } from '@suyongs/solid-utility';
+import { Check, ChevronRight, Search } from 'lucide-solid';
 import {
   createEffect,
   createSignal,
@@ -16,6 +18,7 @@ import {
   Switch,
 } from 'solid-js';
 
+import * as lyricStyles from './lyrics.css';
 import SideBar from './SideBar';
 
 import { LangResource } from '../../common/intl';
@@ -33,6 +36,7 @@ import useLyricMapper from '../hooks/useLyricMapper';
 import { useLyricProvider } from '../hooks/useLyricProvider';
 import usePluginOverride from '../hooks/usePluginOverride';
 import usePluginsCSS from '../hooks/usePluginsCSS';
+import { cx } from '../utils/classNames';
 import { formatTime } from '../utils/formatTime';
 
 const LyricsMapEditor = () => {
@@ -160,127 +164,90 @@ const LyricsMapEditor = () => {
 
   return (
     <Layout>
-      <div
-        class={`
-          w-full h-full
-          flex flex-row justify-start items-stretch gap-0
-          text-black dark:text-white
-        `}
-      >
+      <div class={lyricStyles.root}>
         <PlayingInfoProvider>
           <SideBar />
         </PlayingInfoProvider>
-        <div
-          class={
-            'min-w-0 flex-1 flex flex-col justify-start items-center gap-1 pt-4'
-          }
-        >
+        <div class={lyricStyles.content}>
           <form
-            class={'w-full flex gap-2 mb-4 px-4'}
+            class={lyricStyles.searchForm}
             onSubmit={(event) => {
               event.preventDefault();
               onSearch();
             }}
           >
             <Selector
-              class={'select min-w-[90px] w-16 basis-1/5'}
-              format={(str) => t(`lyrics.search-mode.${str}`)}
+              format={(str) => t(`lyrics.search-mode.${str}`)} minWidth="90px"
               mode={'select'}
               onChange={setSearchMode}
               options={['default', 'id'] as const}
               placeholder={t('lyrics.search-mode')}
               value={searchMode()}
+              width="20%"
             />
             <Switch>
               <Match when={searchMode() === 'default'}>
                 <>
-                  <input
-                    class={'input w-16 basis-1/5'}
+                  <Input
+                    flex="1 1 20%"
                     onInput={(event) => setArtist(event.target.value)}
                     placeholder={t('lyrics.artist')}
                     value={artist()}
+                    w="4rem"
                   />
-                  <input
-                    class={'input w-16 basis-1/5 flex-1'}
+                  <Input
+                    flex="1 1 20%"
                     onInput={(event) => setTitle(event.target.value)}
                     placeholder={t('lyrics.title')}
                     value={title()}
+                    w="4rem"
                   />
                 </>
               </Match>
               <Match when={searchMode() === 'id'}>
                 <>
-                  <input
-                    class={'input flex-1 w-16 basis-1/5'}
+                  <Input
+                    flex="1 1 20%"
                     onInput={(event) => setId(event.target.value)}
                     placeholder={t('lyrics.id')}
                     value={id()}
+                    w="4rem"
                   />
                 </>
               </Match>
             </Switch>
-            <button class={'btn-text btn-icon min-w-0!'} type={'submit'}>
-              <svg
-                fill="none"
-                height="16"
-                viewBox="0 0 24 24"
-                width="16"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  class={'fill-black dark:fill-white'}
-                  d="M10 2.5a7.5 7.5 0 0 1 5.964 12.048l4.743 4.745a1 1 0 0 1-1.32 1.497l-.094-.083-4.745-4.743A7.5 7.5 0 1 1 10 2.5Zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z"
-                />
-              </svg>
-            </button>
+            <Button type="icon" variant="ghost">
+              <Search size={16} />
+            </Button>
           </form>
-          <div
-            class={
-              'w-full flex flex-col justify-start items-center gap-1 fluent-scrollbar px-4 pb-4'
-            }
-          >
+          <div class={lyricStyles.results}>
             <Show when={loading()}>
-              <Spinner class={'w-8 h-8 stroke-primary-500'} />
+              <Spinner />
             </Show>
             <Show when={!loading() && searchList().length === 0}>
-              <div class={'text-black/30 dark:text-white/30'}>
+              <div class={lyricStyles.empty}>
                 <Trans key={'lyrics.lyric-search-not-found'} />
               </div>
             </Show>
             <For each={searchList()}>
               {(item) => (
                 <Card
-                  class={`flex flex-row justify-start items-center gap-1
-                  ${lyricData()?.id === item.id ? 'bg-primary-100! dark:bg-primary-800! hover:bg-primary-200! hover:dark:bg-primary-700!' : ''}
-                  `}
+                  class={cx(
+                    lyricData()?.id === item.id && lyricStyles.selectedCard,
+                  )}
                   onClick={() => onSelect(item)}
                 >
-                  <div
-                    class={
-                      'w-full flex flex-col justify-center items-start overflow-hidden'
-                    }
-                  >
-                    <div
-                      class={'h-fit text-xs text-black/50 dark:text-white/50'}
-                    >
+                  <div class={lyricStyles.resultContent}>
+                    <div class={lyricStyles.resultMeta}>
                       ID: {item.id}
                     </div>
-                    <Marquee class={'w-full'} gap={16}>
+                    <Marquee class={lyricStyles.marquee} gap={16}>
                       {item.title}
                     </Marquee>
-                    <div class={'text-sm'}>{item.artist}</div>
+                    <div class={lyricStyles.resultArtist}>{item.artist}</div>
                   </div>
-                  <div class={'flex-1'} />
-                  <div
-                    class={
-                      'flex flex-col justify-end items-end mr-3 self-center shrink-0'
-                    }
-                  >
-                    <div
-                      class={
-                        'w-[140px] text-sm text-right text-black/50 dark:text-white/50'
-                      }
-                    >
+                  <div class={lyricStyles.resultSideMeta}>
+                    <div class={lyricStyles.resultDate}>
                       {item.registerDate
                         ? new Date(item.registerDate).toLocaleString(
                             undefined,
@@ -294,11 +261,7 @@ const LyricsMapEditor = () => {
                         : 'No Date'}
                     </div>
                     <Show when={(item.playtime ?? 0) > 0}>
-                      <div
-                        class={
-                          'h-fit text-sm text-right text-black/50 dark:text-white/50'
-                        }
-                      >
+                      <div class={lyricStyles.resultDate}>
                         <Trans key={'lyrics.playtime'} />:{' '}
                         {formatTime(item.playtime ?? 0)}
                       </div>
@@ -306,39 +269,17 @@ const LyricsMapEditor = () => {
                   </div>
                   <Show
                     fallback={
-                      <svg
-                        class={'w-6 h-6 fill-none self-center shrink-0'}
-                        viewBox="0 -960 960 960"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          class={'fill-green-500'}
-                          d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"
-                        />
-                      </svg>
+                      <Check class={lyricStyles.resultCheckIcon} />
                     }
                     when={lyricData()?.id !== item.id}
                   >
-                    <svg
-                      class={'w-6 h-6 fill-none self-center shrink-0'}
-                      fill="none"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      width="16"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        class={'fill-black dark:fill-white'}
-                        d="M8.293 4.293a1 1 0 0 0 0 1.414L14.586 12l-6.293 6.293a1 1 0 1 0 1.414 1.414l7-7a1 1 0 0 0 0-1.414l-7-7a1 1 0 0 0-1.414 0Z"
-                      />
-                    </svg>
+                    <ChevronRight class={lyricStyles.resultIcon} />
                   </Show>
                 </Card>
               )}
             </For>
             <Show when={hasNext()}>
               <Spinner
-                class={'w-8 h-8 stroke-primary-500'}
                 ref={(element) => {
                   observer.observe(element);
                 }}

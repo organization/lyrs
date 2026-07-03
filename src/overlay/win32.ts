@@ -283,6 +283,18 @@ class Win32AttachedOverlay implements AttachedOverlay {
 
 type MonitorEmittery = AsyncReturnType<typeof wql.promises.subscribe>;
 
+export class Win32SnapshotProcMonitor implements ProcMonitor {
+  readonly event: ProcMonitorEventEmitter = new EventEmitter();
+
+  getProcessList(): ProcessInfo[] {
+    return hmc.getDetailsProcessList();
+  }
+
+  close() {
+    return Promise.resolve();
+  }
+}
+
 export class Win32ProcMonitor implements ProcMonitor {
   readonly event: ProcMonitorEventEmitter = new EventEmitter();
 

@@ -1,8 +1,10 @@
 import { HashRouter, Route } from '@solidjs/router';
+import { Box } from '@suis-ui/kit';
 import { createSignal } from 'solid-js';
 import { Transition } from 'solid-transition-group';
 
 import { DebugContainer, MainContainer } from './containers';
+import * as trayStyles from './tray.css';
 
 import PlayingInfoProvider from '../components/PlayingInfoProvider';
 
@@ -10,11 +12,10 @@ export const App = () => {
   const [url, setUrl] = createSignal('/');
 
   return (
-    <div
-      class={`
-        w-full h-full overflow-hidden
-        text-black dark:text-white bg-slate-100/80 dark:bg-gray-800/80
-      `}
+    <Box
+      bg={'surface.main'}
+      h={'100%'}
+      w={'100%'}
     >
       <PlayingInfoProvider>
         <Transition
@@ -32,6 +33,6 @@ export const App = () => {
           </HashRouter>
         </Transition>
       </PlayingInfoProvider>
-    </div>
+    </Box>
   );
 };

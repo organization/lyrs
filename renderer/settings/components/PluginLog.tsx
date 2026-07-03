@@ -4,6 +4,7 @@ import {
   type Plugin,
   type PluginLog as PluginLogType,
 } from '../../../common/plugins';
+import * as settingsStyles from '../settings.css';
 
 export interface PluginLogProps {
   log: PluginLogType;
@@ -11,51 +12,33 @@ export interface PluginLogProps {
 }
 const PluginLog = (props: PluginLogProps) => {
   return (
-    <div class={'w-full flex justify-start items-center gap-1 font-mono'}>
+    <div class={settingsStyles.pluginLogRoot}>
       <Show when={props.showPlugin}>
-        <span
-          class={
-            'text-primary-500 overflow-visible whitespace-nowrap font-mono'
-          }
-        >
+        <span class={settingsStyles.pluginLogPlugin}>
           [{props.showPlugin?.name}]
         </span>
       </Show>
-      <span
-        class={'text-primary-300 overflow-visible whitespace-nowrap font-mono'}
-      >
+      <span class={settingsStyles.pluginLogTime}>
         [{new Date(props.log.time)?.toISOString()}]
       </span>
       <Switch>
         <Match when={props.log.type === 'error'}>
-          <span
-            class={'text-red-500 overflow-visible whitespace-nowrap font-mono'}
-          >
+          <span class={settingsStyles.pluginLogError}>
             [ERROR]
           </span>
         </Match>
         <Match when={props.log.type === 'warn'}>
-          <span
-            class={
-              'text-yellow-500 overflow-visible whitespace-nowrap font-mono'
-            }
-          >
+          <span class={settingsStyles.pluginLogWarn}>
             [WARN]
           </span>
         </Match>
         <Match when={props.log.type === 'info'}>
-          <span
-            class={'text-blue-500 overflow-visible whitespace-nowrap font-mono'}
-          >
+          <span class={settingsStyles.pluginLogInfo}>
             [INFO]
           </span>
         </Match>
         <Match when={props.log.type === 'debug'}>
-          <span
-            class={
-              'text-slate-500 overflow-visible whitespace-nowrap font-mono'
-            }
-          >
+          <span class={settingsStyles.pluginLogDebug}>
             [DEBUG]
           </span>
         </Match>
@@ -63,7 +46,7 @@ const PluginLog = (props: PluginLogProps) => {
           <span>[INFO]</span>
         </Match>
       </Switch>
-      <span class={'overflow-visible whitespace-nowrap font-mono'}>
+      <span class={settingsStyles.pluginLogToken}>
         {props.log.message}
       </span>
     </div>

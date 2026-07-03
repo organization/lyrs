@@ -1,7 +1,9 @@
+import { Check } from 'lucide-solid';
 import { Show, splitProps } from 'solid-js';
 
 import Card from '../../components/Card';
 import { cx } from '../../utils/classNames';
+import * as settingsStyles from '../settings.css';
 
 import type { JSX } from 'solid-js/jsx-runtime';
 
@@ -17,48 +19,28 @@ const PresetCard = (props: PresetCardProps) => {
     <Card
       {...leftProps}
       class={cx(
-        'relative group h-full aspect-square p-0! overflow-hidden z-0 cursor-pointer',
+        settingsStyles.presetCard,
         leftProps.class,
       )}
     >
       <img
         alt={'Preset Image'}
-        class={'-z-1 group-hover:opacity-50'}
+        class={settingsStyles.presetImage}
         src={local.url}
       />
       <div
-        class={`
-          absolute left-0 right-0 bottom-0
-          text-lg z-0 p-3 bg-linear-to-t from-black/100 to-black/0
-          flex flex-row justify-start items-center gap-1
-        `}
-        classList={{
-          'text-primary-500': !!local.selected,
-          'text-white': !local.selected,
-        }}
+        class={cx(
+          settingsStyles.presetLabel,
+          local.selected && settingsStyles.presetLabelSelected,
+        )}
       >
         <Show when={local.selected}>
-          <svg
-            fill="none"
-            height="16"
-            viewBox="0 0 24 24"
-            width="16"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              class={'fill-primary-500'}
-              d="m8.5 16.586-3.793-3.793a1 1 0 0 0-1.414 1.414l4.5 4.5a1 1 0 0 0 1.414 0l11-11a1 1 0 0 0-1.414-1.414L8.5 16.586Z"
-            />
-          </svg>
+          <Check size={16} />
         </Show>
         {local.name}
       </div>
       <Show when={local.selected}>
-        <div
-          class={
-            'absolute inset-0 pointer-events-none shadow-[0_0_0_4px_var(--tw-shadow-color)_inset] shadow-primary-500 rounded-sm z-[1]'
-          }
-        />
+        <div class={settingsStyles.presetOutline} />
       </Show>
     </Card>
   );

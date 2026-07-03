@@ -1,6 +1,8 @@
+import { Box, Button, Input } from '@suis-ui/kit';
 import { Marquee } from '@suyongs/solid-utility';
 import { Match, Switch as SwitchFlow } from 'solid-js';
 
+import * as componentStyles from '../../components/components.css';
 import Selector from '../../components/Select';
 import Switch from '../../components/Switch';
 
@@ -23,17 +25,19 @@ export const SettingOptionRenderer = <Type,>(
 ) => {
   return (
     <>
-      <div
-        class={
-          'w-[0] flex flex-col justify-center items-stretch flex-1 basis-[100%]'
-        }
+      <Box
+        align="stretch"
+        direction="column"
+        flex="1 1 100%"
+        justify="center"
+        w="0"
       >
-        <Marquee class={'w-full'}>{props.option.name}</Marquee>
-        <Marquee class={'text-gray-400'} gap={18}>
+        <Marquee>{props.option.name}</Marquee>
+        <Marquee gap={18}>
           {props.option.description}
         </Marquee>
-      </div>
-      <div class={'flex-1'} />
+      </Box>
+      <Box flex={1} />
       <SwitchFlow>
         <Match when={props.option.type === 'select'}>
           <Selector
@@ -50,16 +54,14 @@ export const SettingOptionRenderer = <Type,>(
           />
         </Match>
         <Match when={props.option.type === 'string'}>
-          <input
-            class={'input'}
+          <Input
             onChange={(event) => props.onChange?.(event.target.value as Type)}
             type={'text'}
             value={props.value as string}
           />
         </Match>
         <Match when={props.option.type === 'number'}>
-          <input
-            class={'input'}
+          <Input
             max={(props.option as NumberOption).max}
             min={(props.option as NumberOption).min}
             onChange={(event) => props.onChange?.(event.target.value as Type)}
@@ -75,19 +77,21 @@ export const SettingOptionRenderer = <Type,>(
           />
         </Match>
         <Match when={props.option.type === 'button'}>
-          <button
-            classList={{
-              'btn-primary':
-                ((props.option as ButtonOption).variant ?? 'primary') ===
-                'primary',
-              'btn-secondary':
-                (props.option as ButtonOption).variant === 'secondary',
-              'btn-error': (props.option as ButtonOption).variant === 'error',
-            }}
+          <Button
+            class={
+              (props.option as ButtonOption).variant === 'error'
+                ? componentStyles.dangerButton
+                : undefined
+            }
             onClick={() => props.onClick?.()}
+            variant={
+              (props.option as ButtonOption).variant === 'secondary'
+                ? 'secondary'
+                : 'primary'
+            }
           >
             {(props.option as ButtonOption).label}
-          </button>
+          </Button>
         </Match>
       </SwitchFlow>
     </>

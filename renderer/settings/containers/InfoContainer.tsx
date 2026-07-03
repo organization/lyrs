@@ -1,13 +1,43 @@
 import { Trans } from '@jellybrick/solid-i18next';
-import { createSignal, Switch, Match } from 'solid-js';
+import { Button } from '@suis-ui/kit';
+import { CloudDownload, ExternalLink, Info } from 'lucide-solid';
+import { createSignal, Match, Switch, type JSX } from 'solid-js';
 
 import ErrorIcon from '../../../assets/icon_error.png';
 import MainIcon from '../../../assets/icon_music.png';
 import packageJson from '../../../package.json';
 import Card from '../../components/Card';
 import Spinner from '../../components/Spinner';
+import * as settingsStyles from '../settings.css';
 
 import type { UpdateCheckResult } from 'electron-updater';
+
+interface LinkCardProps {
+  alt: string;
+  image: string;
+  title: JSX.Element;
+  subtitle: JSX.Element;
+  url: string;
+  avatar?: boolean;
+}
+
+const ExternalIcon = () => <ExternalLink class={settingsStyles.iconSmall} />;
+
+const LinkCard = (props: LinkCardProps) => (
+  <Card onClick={() => window.open(props.url)}>
+    <img
+      alt={props.alt}
+      class={props.avatar ? settingsStyles.avatar : settingsStyles.iconMedium}
+      src={props.image}
+    />
+    <div class={settingsStyles.cardColumn}>
+      <div class={settingsStyles.cardTitle}>{props.title}</div>
+      <div class={settingsStyles.cardCaption}>{props.subtitle}</div>
+    </div>
+    <div class={settingsStyles.spacer} />
+    <ExternalIcon />
+  </Card>
+);
 
 const InfoContainer = () => {
   const [updateData, setUpdateData] = createSignal<{
@@ -45,117 +75,49 @@ const InfoContainer = () => {
   };
 
   return (
-    <div
-      class={
-        'flex-1 p-4 flex flex-col justify-start items-stretch gap-1 fluent-scrollbar'
-      }
-    >
-      <div class={'text-3xl mb-1'}>
+    <div class={settingsStyles.pageRoot}>
+      <div class={settingsStyles.pageTitle}>
         <Trans key={'setting.title.about'} />
       </div>
-      <div class={'text-md mt-4 mb-1'}>
+      <div class={settingsStyles.sectionTitle}>
         <Trans key={'setting.about.support'} />
       </div>
+      <LinkCard
+        alt="Lyrs"
+        image={MainIcon}
+        subtitle="https://github.com/organization/lyrs"
+        title="Lyrs"
+        url="https://github.com/organization/lyrs"
+      />
+      <LinkCard
+        alt="Bug report"
+        image={ErrorIcon}
+        subtitle="https://github.com/organization/lyrs/issues/new"
+        title={<Trans key={'setting.about.bug-report'} />}
+        url="https://github.com/organization/lyrs/issues/new"
+      />
       <Card
-        class={'flex flex-row justify-start items-center gap-1'}
-        onClick={() => onLink('https://github.com/organization/lyrs')}
-      >
-        <img
-          alt={'Main Icon'}
-          class={'w-6 h-6 mr-4 object-contain'}
-          src={MainIcon}
-        />
-        <div class={'flex flex-col justify-center items-start'}>
-          <div class={'text-md'}>Lyrs</div>
-          <div class={'text-xs text-black/50 dark:text-white/75'}>
-            https://github.com/organization/lyrs
-          </div>
-        </div>
-        <div class={'flex-1'} />
-        <svg
-          fill="none"
-          height="16"
-          viewBox="0 0 24 24"
-          width="16"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            class={'fill-black dark:fill-white'}
-            d="M6.25 4.75a1.5 1.5 0 0 0-1.5 1.5v11.5a1.5 1.5 0 0 0 1.5 1.5h11.5a1.5 1.5 0 0 0 1.5-1.5v-4a1 1 0 1 1 2 0v4a3.5 3.5 0 0 1-3.5 3.5H6.25a3.5 3.5 0 0 1-3.5-3.5V6.25a3.5 3.5 0 0 1 3.5-3.5h4a1 1 0 1 1 0 2h-4Zm6.5-1a1 1 0 0 1 1-1h6.5a1 1 0 0 1 1 1v6.5a1 1 0 1 1-2 0V6.164l-4.793 4.793a1 1 0 1 1-1.414-1.414l4.793-4.793H13.75a1 1 0 0 1-1-1Z"
-          />
-        </svg>
-      </Card>
-      <Card
-        class={'flex flex-row justify-start items-center gap-1'}
-        onClick={() =>
-          onLink('https://github.com/organization/lyrs/issues/new')
-        }
-      >
-        <img
-          alt={'Main Icon'}
-          class={'w-6 h-6 mr-4 object-contain'}
-          src={ErrorIcon}
-        />
-        <div class={'flex flex-col justify-center items-start'}>
-          <div class={'text-md'}>
-            <Trans key={'setting.about.bug-report'} />
-          </div>
-          <div class={'text-xs text-black/50 dark:text-white/75'}>
-            https://github.com/organization/lyrs/issues/new
-          </div>
-        </div>
-        <div class={'flex-1'} />
-        <svg
-          fill="none"
-          height="16"
-          viewBox="0 0 24 24"
-          width="16"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            class={'fill-black dark:fill-white'}
-            d="M6.25 4.75a1.5 1.5 0 0 0-1.5 1.5v11.5a1.5 1.5 0 0 0 1.5 1.5h11.5a1.5 1.5 0 0 0 1.5-1.5v-4a1 1 0 1 1 2 0v4a3.5 3.5 0 0 1-3.5 3.5H6.25a3.5 3.5 0 0 1-3.5-3.5V6.25a3.5 3.5 0 0 1 3.5-3.5h4a1 1 0 1 1 0 2h-4Zm6.5-1a1 1 0 0 1 1-1h6.5a1 1 0 0 1 1 1v6.5a1 1 0 1 1-2 0V6.164l-4.793 4.793a1 1 0 1 1-1.414-1.414l4.793-4.793H13.75a1 1 0 0 1-1-1Z"
-          />
-        </svg>
-      </Card>
-      <Card
-        class={'flex flex-row justify-start items-center gap-1'}
         onClick={() => refreshUpdateData()}
         onExpand={(expand) => {
-          if (expand) {
-            refreshUpdateData();
-          }
+          if (expand) refreshUpdateData();
         }}
         subCards={[
-          <div class={'w-full h-full flex justify-start items-center'}>
-            <svg
-              class={'w-6 h-6 fill-none mr-4'}
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                class={'fill-black dark:fill-white'}
-                d="M6.087 7.75a5.752 5.752 0 0 1 11.326 0h.087a4 4 0 0 1 3.962 4.552 6.534 6.534 0 0 0-1.597-1.364A2.501 2.501 0 0 0 17.5 9.25h-.756a.75.75 0 0 1-.75-.713 4.25 4.25 0 0 0-8.489 0 .75.75 0 0 1-.749.713H6a2.5 2.5 0 0 0 0 5h4.4a6.458 6.458 0 0 0-.357 1.5H6a4 4 0 0 1 0-8h.087ZM22 16.5a5.5 5.5 0 1 0-11 0 5.5 5.5 0 0 0 11 0Zm-6-3a.5.5 0 0 1 1 0v4.793l1.646-1.647a.5.5 0 0 1 .708.708l-2.5 2.5a.5.5 0 0 1-.708 0l-2.5-2.5a.5.5 0 0 1 .708-.708L16 18.293V13.5Z"
-              />
-            </svg>
-            <div class={'flex flex-col'}>
+          <div class={settingsStyles.cardRow}>
+            <CloudDownload class={settingsStyles.iconMedium} />
+            <div class={settingsStyles.cardColumn}>
               <Switch
                 fallback={
-                  <div
-                    class={
-                      'w-full h-full flex flex-row justify-start items-center gap-6'
-                    }
-                  >
-                    <Spinner class={'w-4 h-4 stroke-primary-500'} />
+                  <div class={settingsStyles.cardRow}>
+                    <Spinner size="1rem" />
                     <Trans key={'setting.about.checking-for-updates'} />
                   </div>
                 }
               >
                 <Match when={(updateData()?.compareResult ?? 0) < 0}>
-                  <div class={'text-md'}>
+                  <div class={settingsStyles.cardTitle}>
                     <Trans key={'setting.about.update-available'} />
                   </div>
-                  <div class={'text-xs text-black/50 dark:text-white/75'}>
+                  <div class={settingsStyles.cardCaption}>
                     <Trans
                       key={'setting.about.latest-version'}
                       options={{
@@ -166,10 +128,10 @@ const InfoContainer = () => {
                   </div>
                 </Match>
                 <Match when={(updateData()?.compareResult ?? 0) >= 0}>
-                  <div class={'text-md'}>
+                  <div class={settingsStyles.cardTitle}>
                     <Trans key={'setting.about.already-up-to-date'} />
                   </div>
-                  <div class={'text-xs text-black/50 dark:text-white/75'}>
+                  <div class={settingsStyles.cardCaption}>
                     <Trans
                       key={'setting.about.current-version'}
                       options={{ version: updateData()?.currentVersion }}
@@ -178,377 +140,130 @@ const InfoContainer = () => {
                 </Match>
               </Switch>
             </div>
-            <div class={'flex-1'} />
-            <button class={'btn-primary'} onClick={() => refreshUpdateData()}>
+            <div class={settingsStyles.spacer} />
+            <Button onClick={() => refreshUpdateData()} variant="primary">
               <Trans key={'setting.about.refresh'} />
-            </button>
+            </Button>
           </div>,
           <div
-            class={'w-full h-full flex justify-start items-center'}
+            class={settingsStyles.cardRow}
             onClick={() =>
               onLink('https://github.com/organization/lyrs/releases')
             }
           >
             <Trans key={'setting.about.visit-releases-page'} />
-            <div class={'flex-1'} />
-            <svg
-              class={'w-[16px] h-[16px] fill-none'}
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                class={'fill-black dark:fill-white'}
-                d="M6.25 4.75a1.5 1.5 0 0 0-1.5 1.5v11.5a1.5 1.5 0 0 0 1.5 1.5h11.5a1.5 1.5 0 0 0 1.5-1.5v-4a1 1 0 1 1 2 0v4a3.5 3.5 0 0 1-3.5 3.5H6.25a3.5 3.5 0 0 1-3.5-3.5V6.25a3.5 3.5 0 0 1 3.5-3.5h4a1 1 0 1 1 0 2h-4Zm6.5-1a1 1 0 0 1 1-1h6.5a1 1 0 0 1 1 1v6.5a1 1 0 1 1-2 0V6.164l-4.793 4.793a1 1 0 1 1-1.414-1.414l4.793-4.793H13.75a1 1 0 0 1-1-1Z"
-              />
-            </svg>
+            <div class={settingsStyles.spacer} />
+            <ExternalIcon />
           </div>,
         ]}
       >
-        <svg
-          class={'w-6 h-6 mr-4 fill-black dark:fill-white'}
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            class={'fill-black dark:fill-white'}
-            d="M12 1.999c5.524 0 10.002 4.478 10.002 10.002 0 5.523-4.478 10.001-10.002 10.001-5.524 0-10.002-4.478-10.002-10.001C1.998 6.477 6.476 1.999 12 1.999Zm0 1.5a8.502 8.502 0 1 0 0 17.003A8.502 8.502 0 0 0 12 3.5Zm-.004 7a.75.75 0 0 1 .744.648l.007.102.003 5.502a.75.75 0 0 1-1.493.102l-.007-.101-.003-5.502a.75.75 0 0 1 .75-.75ZM12 7.003a.999.999 0 1 1 0 1.997.999.999 0 0 1 0-1.997Z"
-          />
-        </svg>
-        <div class={'flex flex-col justify-center items-start'}>
-          <div class={'text-md'}>
+        <Info class={settingsStyles.iconMedium} />
+        <div class={settingsStyles.cardColumn}>
+          <div class={settingsStyles.cardTitle}>
             <Trans key={'setting.about.version'} />
           </div>
-          <div class={'text-xs text-black/50 dark:text-white/75'}>
-            {packageJson.version}
-          </div>
+          <div class={settingsStyles.cardCaption}>{packageJson.version}</div>
         </div>
       </Card>
-      <div class={'text-md mt-8 mb-1'}>
+      <div class={settingsStyles.sectionTitle}>
         <Trans key={'setting.about.developer'} />
       </div>
-      <Card
-        class={'flex flex-row justify-start items-center gap-1'}
-        onClick={() => onLink('https://github.com/HelloWorld017')}
-      >
-        <img
-          alt="Khinenw Profile Image"
-          class={'w-6 h-6 mr-4 rounded-full'}
-          src={'https://avatars.githubusercontent.com/u/3919433?s=64&v=4'}
-        />
-        <div class={'flex flex-col justify-center items-start'}>
-          <div class={''}>Khinenw</div>
-          <div class={'text-xs text-black/50 dark:text-white/75'}>
+      <LinkCard
+        alt="Khinenw"
+        avatar
+        image="https://avatars.githubusercontent.com/u/3919433?s=64&v=4"
+        subtitle={
+          <>
             <Trans key={'setting.about.alspotify-developer'} />,{' '}
             <Trans key={'setting.about.lyrs-developer'} />
-          </div>
-        </div>
-        <div class={'flex-1'} />
-        <svg
-          fill="none"
-          height="16"
-          viewBox="0 0 24 24"
-          width="16"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            class={'fill-black dark:fill-white'}
-            d="M6.25 4.75a1.5 1.5 0 0 0-1.5 1.5v11.5a1.5 1.5 0 0 0 1.5 1.5h11.5a1.5 1.5 0 0 0 1.5-1.5v-4a1 1 0 1 1 2 0v4a3.5 3.5 0 0 1-3.5 3.5H6.25a3.5 3.5 0 0 1-3.5-3.5V6.25a3.5 3.5 0 0 1 3.5-3.5h4a1 1 0 1 1 0 2h-4Zm6.5-1a1 1 0 0 1 1-1h6.5a1 1 0 0 1 1 1v6.5a1 1 0 1 1-2 0V6.164l-4.793 4.793a1 1 0 1 1-1.414-1.414l4.793-4.793H13.75a1 1 0 0 1-1-1Z"
-          />
-        </svg>
-      </Card>
-      <Card
-        class={'flex flex-row justify-start items-center gap-1'}
-        onClick={() => onLink('https://github.com/Su-Yong')}
-      >
-        <img
-          alt="Su-Yong Profile Image"
-          class={'w-6 h-6 mr-4 rounded-full'}
-          src={'https://avatars.githubusercontent.com/u/13764936?s=64&v=4'}
-        />
-        <div class={'flex flex-col justify-center items-start'}>
-          <div class={''}>Su-Yong</div>
-          <div class={'text-xs text-black/50 dark:text-white/75'}>
-            <Trans key={'setting.about.lyrs-developer'} />
-          </div>
-        </div>
-        <div class={'flex-1'} />
-        <svg
-          fill="none"
-          height="16"
-          viewBox="0 0 24 24"
-          width="16"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            class={'fill-black dark:fill-white'}
-            d="M6.25 4.75a1.5 1.5 0 0 0-1.5 1.5v11.5a1.5 1.5 0 0 0 1.5 1.5h11.5a1.5 1.5 0 0 0 1.5-1.5v-4a1 1 0 1 1 2 0v4a3.5 3.5 0 0 1-3.5 3.5H6.25a3.5 3.5 0 0 1-3.5-3.5V6.25a3.5 3.5 0 0 1 3.5-3.5h4a1 1 0 1 1 0 2h-4Zm6.5-1a1 1 0 0 1 1-1h6.5a1 1 0 0 1 1 1v6.5a1 1 0 1 1-2 0V6.164l-4.793 4.793a1 1 0 1 1-1.414-1.414l4.793-4.793H13.75a1 1 0 0 1-1-1Z"
-          />
-        </svg>
-      </Card>
-      <Card
-        class={'flex flex-row justify-start items-center gap-1'}
-        onClick={() => onLink('https://github.com/JellyBrick')}
-      >
-        <img
-          alt="JellyBrick Profile Image"
-          class={'w-6 h-6 mr-4 rounded-full'}
-          src={'https://avatars.githubusercontent.com/u/16558115?s=64&v=4'}
-        />
-        <div class={'flex flex-col justify-center items-start'}>
-          <div class={''}>JellyBrick</div>
-          <div class={'text-xs text-black/50 dark:text-white/75'}>
-            <Trans key={'setting.about.lyrs-developer'} />
-          </div>
-        </div>
-        <div class={'flex-1'} />
-        <svg
-          fill="none"
-          height="16"
-          viewBox="0 0 24 24"
-          width="16"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            class={'fill-black dark:fill-white'}
-            d="M6.25 4.75a1.5 1.5 0 0 0-1.5 1.5v11.5a1.5 1.5 0 0 0 1.5 1.5h11.5a1.5 1.5 0 0 0 1.5-1.5v-4a1 1 0 1 1 2 0v4a3.5 3.5 0 0 1-3.5 3.5H6.25a3.5 3.5 0 0 1-3.5-3.5V6.25a3.5 3.5 0 0 1 3.5-3.5h4a1 1 0 1 1 0 2h-4Zm6.5-1a1 1 0 0 1 1-1h6.5a1 1 0 0 1 1 1v6.5a1 1 0 1 1-2 0V6.164l-4.793 4.793a1 1 0 1 1-1.414-1.414l4.793-4.793H13.75a1 1 0 0 1-1-1Z"
-          />
-        </svg>
-      </Card>
-      <Card
-        class={'flex flex-row justify-start items-center gap-1'}
-        onClick={() => onLink('https://github.com/smnis')}
-      >
-        <img
-          alt="smnis Profile Image"
-          class={'w-6 h-6 mr-4 rounded-full'}
-          src={'https://avatars.githubusercontent.com/u/13712304?s=64&v=4'}
-        />
-        <div class={'flex flex-col justify-center items-start'}>
-          <div class={''}>SeongMin Park</div>
-          <div class={'text-xs text-black/50 dark:text-white/75'}>
-            <Trans key={'setting.about.lyrs-developer'} />
-          </div>
-        </div>
-        <div class={'flex-1'} />
-        <svg
-          fill="none"
-          height="16"
-          viewBox="0 0 24 24"
-          width="16"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            class={'fill-black dark:fill-white'}
-            d="M6.25 4.75a1.5 1.5 0 0 0-1.5 1.5v11.5a1.5 1.5 0 0 0 1.5 1.5h11.5a1.5 1.5 0 0 0 1.5-1.5v-4a1 1 0 1 1 2 0v4a3.5 3.5 0 0 1-3.5 3.5H6.25a3.5 3.5 0 0 1-3.5-3.5V6.25a3.5 3.5 0 0 1 3.5-3.5h4a1 1 0 1 1 0 2h-4Zm6.5-1a1 1 0 0 1 1-1h6.5a1 1 0 0 1 1 1v6.5a1 1 0 1 1-2 0V6.164l-4.793 4.793a1 1 0 1 1-1.414-1.414l4.793-4.793H13.75a1 1 0 0 1-1-1Z"
-          />
-        </svg>
-      </Card>
-      <Card
-        class={'flex flex-row justify-start items-center gap-1'}
-        onClick={() => onLink('https://github.com/alvin0319')}
-      >
-        <img
-          alt="alvin0319 Profile Image"
-          class={'w-6 h-6 mr-4 rounded-full'}
-          src={'https://avatars.githubusercontent.com/u/32565818?s=64&v=4'}
-        />
-        <div class={'flex flex-col justify-center items-start'}>
-          <div class={''}>alvin0319</div>
-          <div class={'text-xs text-black/50 dark:text-white/75'}>
-            <Trans key={'setting.about.lyrs-contributor'} />
-          </div>
-        </div>
-        <div class={'flex-1'} />
-        <svg
-          fill="none"
-          height="16"
-          viewBox="0 0 24 24"
-          width="16"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            class={'fill-black dark:fill-white'}
-            d="M6.25 4.75a1.5 1.5 0 0 0-1.5 1.5v11.5a1.5 1.5 0 0 0 1.5 1.5h11.5a1.5 1.5 0 0 0 1.5-1.5v-4a1 1 0 1 1 2 0v4a3.5 3.5 0 0 1-3.5 3.5H6.25a3.5 3.5 0 0 1-3.5-3.5V6.25a3.5 3.5 0 0 1 3.5-3.5h4a1 1 0 1 1 0 2h-4Zm6.5-1a1 1 0 0 1 1-1h6.5a1 1 0 0 1 1 1v6.5a1 1 0 1 1-2 0V6.164l-4.793 4.793a1 1 0 1 1-1.414-1.414l4.793-4.793H13.75a1 1 0 0 1-1-1Z"
-          />
-        </svg>
-      </Card>
-      <Card
-        class={'flex flex-row justify-start items-center gap-1'}
-        onClick={() => onLink('https://github.com/SemteulGaram')}
-      >
-        <img
-          alt="STGR Profile Image"
-          class={'w-6 h-6 mr-4 rounded-full'}
-          src={'https://avatars.githubusercontent.com/u/6727533?s=64&v=4'}
-        />
-        <div class={'flex flex-col justify-center items-start'}>
-          <div class={''}>STGR</div>
-          <div class={'text-xs text-black/50 dark:text-white/75'}>
-            <Trans key={'setting.about.lyrs-contributor'} />
-          </div>
-        </div>
-        <div class={'flex-1'} />
-        <svg
-          fill="none"
-          height="16"
-          viewBox="0 0 24 24"
-          width="16"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            class={'fill-black dark:fill-white'}
-            d="M6.25 4.75a1.5 1.5 0 0 0-1.5 1.5v11.5a1.5 1.5 0 0 0 1.5 1.5h11.5a1.5 1.5 0 0 0 1.5-1.5v-4a1 1 0 1 1 2 0v4a3.5 3.5 0 0 1-3.5 3.5H6.25a3.5 3.5 0 0 1-3.5-3.5V6.25a3.5 3.5 0 0 1 3.5-3.5h4a1 1 0 1 1 0 2h-4Zm6.5-1a1 1 0 0 1 1-1h6.5a1 1 0 0 1 1 1v6.5a1 1 0 1 1-2 0V6.164l-4.793 4.793a1 1 0 1 1-1.414-1.414l4.793-4.793H13.75a1 1 0 0 1-1-1Z"
-          />
-        </svg>
-      </Card>
-      <div class={'text-md mt-8 mb-1'}>
+          </>
+        }
+        title="Khinenw"
+        url="https://github.com/HelloWorld017"
+      />
+      <LinkCard
+        alt="Su-Yong"
+        avatar
+        image="https://avatars.githubusercontent.com/u/13764936?s=64&v=4"
+        subtitle={<Trans key={'setting.about.lyrs-developer'} />}
+        title="Su-Yong"
+        url="https://github.com/Su-Yong"
+      />
+      <LinkCard
+        alt="JellyBrick"
+        avatar
+        image="https://avatars.githubusercontent.com/u/16558115?s=64&v=4"
+        subtitle={<Trans key={'setting.about.lyrs-developer'} />}
+        title="JellyBrick"
+        url="https://github.com/JellyBrick"
+      />
+      <LinkCard
+        alt="SeongMin Park"
+        avatar
+        image="https://avatars.githubusercontent.com/u/13712304?s=64&v=4"
+        subtitle={<Trans key={'setting.about.lyrs-developer'} />}
+        title="SeongMin Park"
+        url="https://github.com/smnis"
+      />
+      <LinkCard
+        alt="alvin0319"
+        avatar
+        image="https://avatars.githubusercontent.com/u/32565818?s=64&v=4"
+        subtitle={<Trans key={'setting.about.lyrs-contributor'} />}
+        title="alvin0319"
+        url="https://github.com/alvin0319"
+      />
+      <LinkCard
+        alt="STGR"
+        avatar
+        image="https://avatars.githubusercontent.com/u/6727533?s=64&v=4"
+        subtitle={<Trans key={'setting.about.lyrs-contributor'} />}
+        title="STGR"
+        url="https://github.com/SemteulGaram"
+      />
+      <div class={settingsStyles.sectionTitle}>
         <Trans key={'setting.about.translator'} />
       </div>
-      <Card
-        class={'flex flex-row justify-start items-center gap-1'}
-        onClick={() => onLink('https://github.com/Flaplim')}
-      >
-        <img
-          alt="Hyeseo Lee Profile Image"
-          class={'w-6 h-6 mr-4 rounded-full'}
-          src={'https://avatars.githubusercontent.com/u/6704921?s=64&v=4'}
-        />
-        <div class={'flex flex-col justify-center items-start'}>
-          <div class={''}>Hyeseo Lee</div>
-          <div class={'text-xs text-black/50 dark:text-white/75'}>
-            <Trans key={'setting.about.lyrs-translator.german'} />
-          </div>
-        </div>
-        <div class={'flex-1'} />
-        <svg
-          fill="none"
-          height="16"
-          viewBox="0 0 24 24"
-          width="16"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            class={'fill-black dark:fill-white'}
-            d="M6.25 4.75a1.5 1.5 0 0 0-1.5 1.5v11.5a1.5 1.5 0 0 0 1.5 1.5h11.5a1.5 1.5 0 0 0 1.5-1.5v-4a1 1 0 1 1 2 0v4a3.5 3.5 0 0 1-3.5 3.5H6.25a3.5 3.5 0 0 1-3.5-3.5V6.25a3.5 3.5 0 0 1 3.5-3.5h4a1 1 0 1 1 0 2h-4Zm6.5-1a1 1 0 0 1 1-1h6.5a1 1 0 0 1 1 1v6.5a1 1 0 1 1-2 0V6.164l-4.793 4.793a1 1 0 1 1-1.414-1.414l4.793-4.793H13.75a1 1 0 0 1-1-1Z"
-          />
-        </svg>
-      </Card>
-      <Card
-        class={'flex flex-row justify-start items-center gap-1'}
-        onClick={() => onLink('https://github.com/hwangseonu')}
-      >
-        <img
-          alt="mocha Profile Image"
-          class={'w-6 h-6 mr-4 rounded-full'}
-          src={'https://avatars.githubusercontent.com/u/30190259?s=64&v=4'}
-        />
-        <div class={'flex flex-col justify-center items-start'}>
-          <div class={''}>mocha</div>
-          <div class={'text-xs text-black/50 dark:text-white/75'}>
-            <Trans key={'setting.about.lyrs-translator.japanese'} />
-          </div>
-        </div>
-        <div class={'flex-1'} />
-        <svg
-          fill="none"
-          height="16"
-          viewBox="0 0 24 24"
-          width="16"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            class={'fill-black dark:fill-white'}
-            d="M6.25 4.75a1.5 1.5 0 0 0-1.5 1.5v11.5a1.5 1.5 0 0 0 1.5 1.5h11.5a1.5 1.5 0 0 0 1.5-1.5v-4a1 1 0 1 1 2 0v4a3.5 3.5 0 0 1-3.5 3.5H6.25a3.5 3.5 0 0 1-3.5-3.5V6.25a3.5 3.5 0 0 1 3.5-3.5h4a1 1 0 1 1 0 2h-4Zm6.5-1a1 1 0 0 1 1-1h6.5a1 1 0 0 1 1 1v6.5a1 1 0 1 1-2 0V6.164l-4.793 4.793a1 1 0 1 1-1.414-1.414l4.793-4.793H13.75a1 1 0 0 1-1-1Z"
-          />
-        </svg>
-      </Card>
-      <Card
-        class={'flex flex-row justify-start items-center gap-1'}
-        onClick={() => onLink('https://github.com/ReturnToFirst')}
-      >
-        <img
-          alt="ReturnToFirst Profile Image"
-          class={'w-6 h-6 mr-4 rounded-full'}
-          src={'https://avatars.githubusercontent.com/u/19341560?s=64&v=4'}
-        />
-        <div class={'flex flex-col justify-center items-start'}>
-          <div class={''}>ReturnToFirst</div>
-          <div class={'text-xs text-black/50 dark:text-white/75'}>
-            <Trans key={'setting.about.lyrs-translator.english'} />
-          </div>
-        </div>
-        <div class={'flex-1'} />
-        <svg
-          fill="none"
-          height="16"
-          viewBox="0 0 24 24"
-          width="16"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            class={'fill-black dark:fill-white'}
-            d="M6.25 4.75a1.5 1.5 0 0 0-1.5 1.5v11.5a1.5 1.5 0 0 0 1.5 1.5h11.5a1.5 1.5 0 0 0 1.5-1.5v-4a1 1 0 1 1 2 0v4a3.5 3.5 0 0 1-3.5 3.5H6.25a3.5 3.5 0 0 1-3.5-3.5V6.25a3.5 3.5 0 0 1 3.5-3.5h4a1 1 0 1 1 0 2h-4Zm6.5-1a1 1 0 0 1 1-1h6.5a1 1 0 0 1 1 1v6.5a1 1 0 1 1-2 0V6.164l-4.793 4.793a1 1 0 1 1-1.414-1.414l4.793-4.793H13.75a1 1 0 0 1-1-1Z"
-          />
-        </svg>
-      </Card>
-      <Card
-        class={'flex flex-row justify-start items-center gap-1'}
-        onClick={() => onLink('https://github.com/sbaik2')}
-      >
-        <img
-          alt="Seungho Baik Profile Image"
-          class={'w-6 h-6 mr-4 rounded-full'}
-          src={'https://avatars.githubusercontent.com/u/16580092?s=64&v=4'}
-        />
-        <div class={'flex flex-col justify-center items-start'}>
-          <div class={''}>Seungho Baik</div>
-          <div class={'text-xs text-black/50 dark:text-white/75'}>
-            <Trans key={'setting.about.lyrs-translator.english'} />
-          </div>
-        </div>
-        <div class={'flex-1'} />
-        <svg
-          fill="none"
-          height="16"
-          viewBox="0 0 24 24"
-          width="16"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            class={'fill-black dark:fill-white'}
-            d="M6.25 4.75a1.5 1.5 0 0 0-1.5 1.5v11.5a1.5 1.5 0 0 0 1.5 1.5h11.5a1.5 1.5 0 0 0 1.5-1.5v-4a1 1 0 1 1 2 0v4a3.5 3.5 0 0 1-3.5 3.5H6.25a3.5 3.5 0 0 1-3.5-3.5V6.25a3.5 3.5 0 0 1 3.5-3.5h4a1 1 0 1 1 0 2h-4Zm6.5-1a1 1 0 0 1 1-1h6.5a1 1 0 0 1 1 1v6.5a1 1 0 1 1-2 0V6.164l-4.793 4.793a1 1 0 1 1-1.414-1.414l4.793-4.793H13.75a1 1 0 0 1-1-1Z"
-          />
-        </svg>
-      </Card>
-      <Card
-        class={'flex flex-row justify-start items-center gap-1'}
-        onClick={() => onLink('https://github.com/Aden1126')}
-      >
-        <img
-          alt="Aden1126 Profile Image"
-          class={'w-6 h-6 mr-4 rounded-full'}
-          src={'https://avatars.githubusercontent.com/u/129780719?s=64&v=4'}
-        />
-        <div class={'flex flex-col justify-center items-start'}>
-          <div class={''}>Aden1126</div>
-          <div class={'text-xs text-black/50 dark:text-white/75'}>
-            <Trans key={'setting.about.lyrs-translator.english'} />
-          </div>
-        </div>
-        <div class={'flex-1'} />
-        <svg
-          fill="none"
-          height="16"
-          viewBox="0 0 24 24"
-          width="16"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            class={'fill-black dark:fill-white'}
-            d="M6.25 4.75a1.5 1.5 0 0 0-1.5 1.5v11.5a1.5 1.5 0 0 0 1.5 1.5h11.5a1.5 1.5 0 0 0 1.5-1.5v-4a1 1 0 1 1 2 0v4a3.5 3.5 0 0 1-3.5 3.5H6.25a3.5 3.5 0 0 1-3.5-3.5V6.25a3.5 3.5 0 0 1 3.5-3.5h4a1 1 0 1 1 0 2h-4Zm6.5-1a1 1 0 0 1 1-1h6.5a1 1 0 0 1 1 1v6.5a1 1 0 1 1-2 0V6.164l-4.793 4.793a1 1 0 1 1-1.414-1.414l4.793-4.793H13.75a1 1 0 0 1-1-1Z"
-          />
-        </svg>
-      </Card>
+      <LinkCard
+        alt="Hyeseo Lee"
+        avatar
+        image="https://avatars.githubusercontent.com/u/6704921?s=64&v=4"
+        subtitle={<Trans key={'setting.about.lyrs-translator.german'} />}
+        title="Hyeseo Lee"
+        url="https://github.com/Flaplim"
+      />
+      <LinkCard
+        alt="mocha"
+        avatar
+        image="https://avatars.githubusercontent.com/u/30190259?s=64&v=4"
+        subtitle={<Trans key={'setting.about.lyrs-translator.japanese'} />}
+        title="mocha"
+        url="https://github.com/hwangseonu"
+      />
+      <LinkCard
+        alt="ReturnToFirst"
+        avatar
+        image="https://avatars.githubusercontent.com/u/19341560?s=64&v=4"
+        subtitle={<Trans key={'setting.about.lyrs-translator.english'} />}
+        title="ReturnToFirst"
+        url="https://github.com/ReturnToFirst"
+      />
+      <LinkCard
+        alt="Seungho Baik"
+        avatar
+        image="https://avatars.githubusercontent.com/u/16580092?s=64&v=4"
+        subtitle={<Trans key={'setting.about.lyrs-translator.english'} />}
+        title="Seungho Baik"
+        url="https://github.com/sbaik2"
+      />
+      <LinkCard
+        alt="Aden1126"
+        avatar
+        image="https://avatars.githubusercontent.com/u/129780719?s=64&v=4"
+        subtitle={<Trans key={'setting.about.lyrs-translator.english'} />}
+        title="Aden1126"
+        url="https://github.com/Aden1126"
+      />
     </div>
   );
 };

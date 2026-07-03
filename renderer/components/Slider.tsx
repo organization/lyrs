@@ -7,7 +7,7 @@ import {
   splitProps,
 } from 'solid-js';
 
-import { cx } from '../utils/classNames';
+import * as styles from './components.css';
 
 interface SliderLabel {
   value: number;
@@ -24,6 +24,7 @@ export interface SliderProps extends Omit<
   value?: number;
   onChange?: (value: number) => void;
   label?: SliderLabel[];
+  width?: string;
 }
 
 export const Slider = (props: SliderProps) => {
@@ -38,7 +39,7 @@ export const Slider = (props: SliderProps) => {
       },
       props,
     ),
-    ['min', 'max', 'value', 'step', 'label', 'onChange'],
+    ['min', 'max', 'value', 'step', 'label', 'onChange', 'width'],
   );
 
   const [slider, setSlider] = createSignal<HTMLDivElement | null>(null);
@@ -88,43 +89,28 @@ export const Slider = (props: SliderProps) => {
   return (
     <div
       {...leftProps}
-      class={cx(
-        'relative min-w-[120px] h-16px flex justify-start items-center z-0 cursor-pointer',
-        local.label.length > 0 && 'pb-6',
-        leftProps.class,
-      )}
+      class={
+        local.label.length > 0
+          ? `${styles.sliderRoot} ${styles.sliderRootWithLabels}`
+          : styles.sliderRoot
+      }
       onPointerDown={onMoveStart}
       ref={setSlider}
-      style={`--value: ${value()}`}
+      style={{
+        '--value': value(),
+        'width': local.width,
+      }}
     >
+      <div class={styles.sliderRail} />
+      <div class={styles.sliderFill} />
       <div
-        class={
-          'absolute left-[4px] right-[4px] h-[4px] bg-gray-300 rounded-full -z-2'
-        }
-      />
-      <div
-        class={
-          'absolute left-[4px] right-[4px] h-[4px] bg-primary-500 rounded-full -z-1 origin-left'
-        }
-        style={{ 'scale': 'var(--value) 100%' }}
-      />
-      <div
-        class={`
-          w-[16px] h-[16px] rounded-full shadow-[0_0_0_1px_var(--tw-shadow-color)] z-0
-          bg-primary-500 border-[3px] border-gray-100 shadow-gray-300
-          dark:border-gray-700 dark:shadow-gray-500
-        `}
+        class={styles.sliderThumb}
         style={`translate: calc(var(--value, 0) * ${maxWidth()}px) 0;`}
       />
       <For each={local.label}>
         {(item) => (
           <div
-            class={`
-              absolute left-[8px] bottom-0 text-sm
-              w-full text-center
-              text-black dark:text-white
-              translate-x-[-50%] pointer-events-none
-             `}
+            class={styles.sliderLabel}
             style={`left: ${((item.value - local.min) / (local.max - local.min)) * maxWidth() + 8}px;`}
           >
             {item.label}

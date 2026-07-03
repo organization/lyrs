@@ -10,6 +10,7 @@ import {
 import ListItem from './ListItem';
 
 import { cx } from '../../utils/classNames';
+import * as settingsStyles from '../settings.css';
 
 export interface ListItemData {
   id: string;
@@ -43,7 +44,7 @@ const ListView = (props: ListViewProps) => {
 
     const offset = listParent?.getBoundingClientRect()?.y ?? 0;
     Array.from(listParent?.children ?? []).forEach((item) => {
-      if (!item.classList.contains('list-view-item')) return;
+      if (!(item instanceof HTMLElement) || !item.dataset.listViewItem) return;
 
       const rect = item.getBoundingClientRect();
       newTabHeight.push(rect.y - offset);
@@ -60,23 +61,21 @@ const ListView = (props: ListViewProps) => {
   return (
     <ul
       {...leftProps}
-      class={cx(
-        'relative flex flex-col justify-start items-start p-4 gap-1',
-        leftProps.class,
-      )}
+      class={cx(settingsStyles.navList, leftProps.class)}
       ref={listParent}
     >
       <div
         class={cx(
-          'absolute w-[3px] h-4 bg-primary-500 rounded-full left-4 top-[10px] bottom-[10px] transition-all duration-300 ease-[cubic-bezier(0.87, 0, 0.13, 1)]',
-          typeof tabHeight()[index()] !== 'number' && 'opacity-0 scale-0',
+          settingsStyles.navIndicator,
+          typeof tabHeight()[index()] !== 'number' &&
+            settingsStyles.navIndicatorHidden,
         )}
         style={`translate: 0px ${tabHeight()[index()] + 1}px;`}
       />
       <For each={local.items}>
         {(item) => (
           <ListItem
-            class={'list-view-item'}
+            data-list-view-item="true"
             icon={item.icon}
             onClick={() => onSelect(item)}
             selected={tab() === item.id}
