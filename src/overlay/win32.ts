@@ -2,8 +2,10 @@ import EventEmitter from 'node:events';
 
 import {
   defaultDllDir,
+  type GpuLuid,
   length,
   Overlay,
+  OverlaySurface,
   percent,
   type PercentLength,
 } from '@asdf-overlay/core';
@@ -62,6 +64,7 @@ class Win32AttachedOverlay implements AttachedOverlay {
     private viewIndex: number,
     private readonly overlay: Overlay,
     private readonly hwnd: number,
+    private readonly surface: OverlaySurface,
     corsCallback?: (webContents: Electron.WebContents) => void,
   ) {
     this.provider = new LyricWindowProvider(viewIndex, {
@@ -207,8 +210,7 @@ class Win32AttachedOverlay implements AttachedOverlay {
           sharedTexture.metadata.captureUpdateRect ?? sharedTexture.contentRect;
 
         // update only changed part
-        await this.overlay.updateShtex(
-          this.hwnd,
+        const update = this.surface.updateShtex(
           sharedTexture.codedSize.width,
           sharedTexture.codedSize.height,
           sharedTexture.handle.ntHandle!,
@@ -218,6 +220,9 @@ class Win32AttachedOverlay implements AttachedOverlay {
             src: rect,
           },
         );
+        if (update) {
+          await this.overlay.updateHandle(this.hwnd, update);
+        }
       }
       return true;
     } catch (e) {
@@ -225,11 +230,13 @@ class Win32AttachedOverlay implements AttachedOverlay {
     }
 
     try {
-      await this.overlay.updateBitmap(
-        this.hwnd,
+      const update = this.surface.updateBitmap(
         bitmap.getSize().width,
         bitmap.toBitmap(),
       );
+      if (update) {
+        await this.overlay.updateHandle(this.hwnd, update);
+      }
     } catch (e) {
       console.error('[Lyrs] error while updating overlay', e);
       throw e;
@@ -248,14 +255,18 @@ class Win32AttachedOverlay implements AttachedOverlay {
     corsCallback?: (webContents: Electron.WebContents) => void,
   ): Promise<Win32AttachedOverlay> {
     // wait for main window
-    const hwnd = await new Promise<number>((resolve) =>
-      overlay.event.once('added', resolve),
+    const [hwnd, luid] = await new Promise<[hwnd: number, luid: GpuLuid]>(
+      (resolve) =>
+        overlay.event.once('added', (id, _width, _height, luid) =>
+          resolve([id, luid]),
+        ),
     );
 
     const instance = new Win32AttachedOverlay(
       viewIndex,
       overlay,
       hwnd,
+      OverlaySurface.create(luid),
       corsCallback,
     );
 

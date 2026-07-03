@@ -22,7 +22,7 @@ const nativeModules = [
   '@alexssmusica/ffi-napi',
   '@alexssmusica/ref-napi',
   '@jellybrick/wql-process-monitor',
-  'asdf-overlay-node',
+  '@asdf-overlay/core',
   'extract-file-icon',
   'glasstron',
   'hmc-win32',
