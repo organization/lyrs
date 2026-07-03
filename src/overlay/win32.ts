@@ -198,6 +198,7 @@ class Win32AttachedOverlay implements AttachedOverlay {
   }
 
   sendEvent(event: string, ...args: unknown[]) {
+    if (this.closed || this.provider.window.isDestroyed()) return;
     this.provider.window.webContents.send(event, ...args);
   }
 
