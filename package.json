@@ -118,7 +118,7 @@
     "mica-electron": "1.5.17"
   },
   "overrides": {
-    "@electron/get": "4.0.2",
+    "@electron/get": "4.0.3",
     "axios": "1.13.2",
     "electron": "43.0.0",
     "http-errors": "2.0.1",
