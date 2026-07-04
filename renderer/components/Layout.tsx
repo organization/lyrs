@@ -1,5 +1,5 @@
 import * as styles from './components.css';
-import TitleBar from './TitleBar';
+import { TitleBar } from './title-bar';
 
 import type { JSX } from 'solid-js/jsx-runtime';
 

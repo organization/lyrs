@@ -30,7 +30,7 @@ const useLyric = () => {
     const tempLyrics = lyrics();
     if (tempLyrics === null || tempLyrics.size() === 0) return null;
 
-    const mapper = lyricMapper()[getLyricMapperId(title(), coverUrl())];
+    const mapper = lyricMapper()[getLyricMapperId(title() ?? '', coverUrl())];
     const delay = mapper?.delay ?? 0;
     const last = tempLyrics.lower_bound(
       progress() +
