@@ -10,6 +10,7 @@ import { SearchContainer } from './SearchContainer';
 
 import MainIcon from '../../../assets/icon_music.png';
 import useConfig from '../../hooks/useConfig';
+import { DebugButton } from '../components/debug-bitton';
 
 type HeaderProps = {
   children?: JSX.Element;
@@ -71,11 +72,6 @@ export const MainContainer = () => {
       w="100%"
     >
       <Header>
-        <Show when={config()?.developer}>
-          <Button onClick={onDebug} size="sm" type="icon" variant="ghost">
-            <Bug size="1.6rem" />
-          </Button>
-        </Show>
         <Button onClick={onToggleMenu} size="sm" type="icon" variant="ghost">
           <SlidersHorizontal size={16} />
         </Button>
@@ -91,18 +87,21 @@ export const MainContainer = () => {
       <SearchContainer />
       <Box bg="surface.higher" h="1px" mx="lg" />
       <Box direction="row" gap="sm" p="md">
-        <Button flex onClick={onSetting} variant="ghost">
+        <Button flex={'auto'} onClick={onSetting} variant="ghost">
           <Box align="center" direction="row" gap="xs" justify="center">
             <Settings size="1.6rem" />
             <Trans key="tray.setting.label" />
           </Box>
         </Button>
-        <Button flex onClick={onSearch} variant="ghost">
+        <Button flex={'auto'} overflow='hidden' onClick={onSearch} variant="ghost">
           <Box align="center" direction="row" gap="xs" justify="center">
             <Search size="1.6rem" />
             <Trans key="tray.lyrics.label" />
           </Box>
         </Button>
+        <Show when={config()?.developer}>
+          <DebugButton />
+        </Show>
       </Box>
     </Box>
   );
