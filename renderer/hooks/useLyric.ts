@@ -3,7 +3,6 @@ import { createMemo } from 'solid-js';
 import useLyricMapper from './useLyricMapper';
 import useStyle from './useStyle';
 
-import { getLyricMapperId } from '../../common/utils';
 import { usePlayingInfo } from '../components/PlayingInfoProvider';
 
 const BIAS = 225; // ms
@@ -12,7 +11,7 @@ const TRANSITION_DURATION = 225; // ms
 const useLyric = () => {
   const style = useStyle();
   const [lyricMapper] = useLyricMapper();
-  const { title, coverUrl, lyrics, progress } = usePlayingInfo();
+  const { id, lyrics, progress } = usePlayingInfo();
 
   const averageLyricLines = createMemo(() => {
     const lyricsArray = Array.from(lyrics() ?? []);
@@ -30,7 +29,7 @@ const useLyric = () => {
     const tempLyrics = lyrics();
     if (tempLyrics === null || tempLyrics.size() === 0) return null;
 
-    const mapper = lyricMapper()[getLyricMapperId(title(), coverUrl())];
+    const mapper = lyricMapper()[id()];
     const delay = mapper?.delay ?? 0;
     const last = tempLyrics.lower_bound(
       progress() +

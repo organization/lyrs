@@ -11,7 +11,7 @@
         .then((payload) =>
           payload.lyrics.syncType === 'LINE_SYNCED'
             ? payload.lyrics.lines
-            : Promise.reject('No synced lyrics'),
+            : Promise.reject(new Error('No synced lyrics')),
         )
         .catch(() => {
           return [];

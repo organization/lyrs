@@ -4,7 +4,6 @@ import { createEffect, createMemo, For, Match, Show, Switch } from 'solid-js';
 import { Entry } from 'tstl';
 
 import { type LyricMapperMode } from '../../common/schema';
-import { getLyricMapperId } from '../../common/utils';
 import Card from '../components/Card';
 import {
   type LyricMode,
@@ -17,25 +16,17 @@ import useLyricMapper from '../hooks/useLyricMapper';
 import LyricProgressBar from '../main/components/LyricProgressBar';
 
 const SideBar = () => {
-  const {
-    coverUrl,
-    title,
-    lyrics,
-    playerLyrics,
-    lyricData,
-    lyricMode,
-    isMapped,
-  } = usePlayingInfo();
+  const { id, lyrics, playerLyrics, lyricData, lyricMode, isMapped } =
+    usePlayingInfo();
   const [, lyricTime] = useLyric();
   const [lyricMapper, setLyricMapper] = useLyricMapper();
   const [t] = useTransContext();
 
-  const lyricMapperItem = () =>
-    lyricMapper()[getLyricMapperId(title(), coverUrl())];
+  const lyricMapperItem = () => lyricMapper()[id()];
   const lyricItems = createMemo(() => {
     if (lyricMode() === 'player') {
       return Object.entries(playerLyrics() ?? {}).map(
-        ([time, lyrics]) => new Entry(~~time, lyrics),
+        ([time, lyrics]) => new Entry(Math.trunc(Number(time)), lyrics),
       );
     } else {
       return lyrics()?.toJSON() ?? [];
@@ -57,7 +48,7 @@ const SideBar = () => {
     if (mode === 'none') newMode = { type: 'none' };
 
     const newMapper = {
-      [getLyricMapperId(title(), coverUrl())]: {
+      [id()]: {
         mode: newMode,
       },
     };
@@ -103,8 +94,8 @@ const SideBar = () => {
                   class={'input w-[20ch]'}
                   onChange={(e) => {
                     setLyricMapper({
-                      [getLyricMapperId(title(), coverUrl())]: {
-                        delay: ~~(e.currentTarget.valueAsNumber ?? 0),
+                      [id()]: {
+                        delay: Math.trunc(e.currentTarget.valueAsNumber || 0),
                       },
                     });
                   }}
@@ -127,7 +118,7 @@ const SideBar = () => {
               min={-3000}
               onChange={(value) => {
                 setLyricMapper({
-                  [getLyricMapperId(title(), coverUrl())]: {
+                  [id()]: {
                     delay: value,
                   },
                 });

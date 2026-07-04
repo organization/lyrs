@@ -6,6 +6,7 @@ import MainIcon from '../../../assets/icon_music.png';
 import packageJson from '../../../package.json';
 import Card from '../../components/Card';
 import Spinner from '../../components/Spinner';
+import { clickOnKeyDown } from '../../utils/keyboard';
 
 import type { UpdateCheckResult } from 'electron-updater';
 
@@ -188,6 +189,9 @@ const InfoContainer = () => {
             onClick={() =>
               onLink('https://github.com/organization/lyrs/releases')
             }
+            onKeyDown={clickOnKeyDown}
+            role={'button'}
+            tabIndex={0}
           >
             <Trans key={'setting.about.visit-releases-page'} />
             <div class={'flex-1'} />
@@ -231,7 +235,7 @@ const InfoContainer = () => {
         onClick={() => onLink('https://github.com/HelloWorld017')}
       >
         <img
-          alt="Khinenw Profile Image"
+          alt="Khinenw Profile"
           class={'w-6 h-6 mr-4 rounded-full'}
           src={'https://avatars.githubusercontent.com/u/3919433?s=64&v=4'}
         />
@@ -261,7 +265,7 @@ const InfoContainer = () => {
         onClick={() => onLink('https://github.com/Su-Yong')}
       >
         <img
-          alt="Su-Yong Profile Image"
+          alt="Su-Yong Profile"
           class={'w-6 h-6 mr-4 rounded-full'}
           src={'https://avatars.githubusercontent.com/u/13764936?s=64&v=4'}
         />
@@ -290,7 +294,7 @@ const InfoContainer = () => {
         onClick={() => onLink('https://github.com/JellyBrick')}
       >
         <img
-          alt="JellyBrick Profile Image"
+          alt="JellyBrick Profile"
           class={'w-6 h-6 mr-4 rounded-full'}
           src={'https://avatars.githubusercontent.com/u/16558115?s=64&v=4'}
         />
@@ -319,7 +323,7 @@ const InfoContainer = () => {
         onClick={() => onLink('https://github.com/smnis')}
       >
         <img
-          alt="smnis Profile Image"
+          alt="smnis Profile"
           class={'w-6 h-6 mr-4 rounded-full'}
           src={'https://avatars.githubusercontent.com/u/13712304?s=64&v=4'}
         />
@@ -348,7 +352,7 @@ const InfoContainer = () => {
         onClick={() => onLink('https://github.com/alvin0319')}
       >
         <img
-          alt="alvin0319 Profile Image"
+          alt="alvin0319 Profile"
           class={'w-6 h-6 mr-4 rounded-full'}
           src={'https://avatars.githubusercontent.com/u/32565818?s=64&v=4'}
         />
@@ -377,7 +381,7 @@ const InfoContainer = () => {
         onClick={() => onLink('https://github.com/SemteulGaram')}
       >
         <img
-          alt="STGR Profile Image"
+          alt="STGR Profile"
           class={'w-6 h-6 mr-4 rounded-full'}
           src={'https://avatars.githubusercontent.com/u/6727533?s=64&v=4'}
         />
@@ -409,7 +413,7 @@ const InfoContainer = () => {
         onClick={() => onLink('https://github.com/Flaplim')}
       >
         <img
-          alt="Hyeseo Lee Profile Image"
+          alt="Hyeseo Lee Profile"
           class={'w-6 h-6 mr-4 rounded-full'}
           src={'https://avatars.githubusercontent.com/u/6704921?s=64&v=4'}
         />
@@ -438,7 +442,7 @@ const InfoContainer = () => {
         onClick={() => onLink('https://github.com/hwangseonu')}
       >
         <img
-          alt="mocha Profile Image"
+          alt="mocha Profile"
           class={'w-6 h-6 mr-4 rounded-full'}
           src={'https://avatars.githubusercontent.com/u/30190259?s=64&v=4'}
         />
@@ -467,7 +471,7 @@ const InfoContainer = () => {
         onClick={() => onLink('https://github.com/ReturnToFirst')}
       >
         <img
-          alt="ReturnToFirst Profile Image"
+          alt="ReturnToFirst Profile"
           class={'w-6 h-6 mr-4 rounded-full'}
           src={'https://avatars.githubusercontent.com/u/19341560?s=64&v=4'}
         />
@@ -496,7 +500,7 @@ const InfoContainer = () => {
         onClick={() => onLink('https://github.com/sbaik2')}
       >
         <img
-          alt="Seungho Baik Profile Image"
+          alt="Seungho Baik Profile"
           class={'w-6 h-6 mr-4 rounded-full'}
           src={'https://avatars.githubusercontent.com/u/16580092?s=64&v=4'}
         />
@@ -525,7 +529,7 @@ const InfoContainer = () => {
         onClick={() => onLink('https://github.com/Aden1126')}
       >
         <img
-          alt="Aden1126 Profile Image"
+          alt="Aden1126 Profile"
           class={'w-6 h-6 mr-4 rounded-full'}
           src={'https://avatars.githubusercontent.com/u/129780719?s=64&v=4'}
         />

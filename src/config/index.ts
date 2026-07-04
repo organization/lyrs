@@ -98,7 +98,7 @@ const tryMigration = () => {
         __internal__: {
           version: nowVersion,
         },
-      } as never);
+      });
 
       console.log('[Lyrs] Migrating data... Done');
     }

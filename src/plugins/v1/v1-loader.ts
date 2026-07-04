@@ -49,7 +49,7 @@ export const loadFromPath: VersionedPluginPathLoader = async (
       (module) => (module as { default: PluginProvider | undefined }).default,
     )
     .catch((err) => {
-      const error = Error(`Failed to load plugin: Cannot load "${jsPath}"`);
+      const error = new Error(`Failed to load plugin: Cannot load "${jsPath}"`);
       error.cause = err;
 
       throw error;
@@ -153,9 +153,7 @@ export const loadPlugin: VersionedPluginLoader = (
         newPlugin.js.providers.source.push(provider);
 
         return () => {
-          const index = newPlugin.js.providers.source.findIndex(
-            (it) => it === provider,
-          );
+          const index = newPlugin.js.providers.source.indexOf(provider);
           if (index >= 0) {
             newPlugin.js.providers.source.splice(index, 1);
           }
@@ -165,9 +163,7 @@ export const loadPlugin: VersionedPluginLoader = (
         newPlugin.js.providers.lyric.push(provider);
 
         return () => {
-          const index = newPlugin.js.providers.lyric.findIndex(
-            (it) => it === provider,
-          );
+          const index = newPlugin.js.providers.lyric.indexOf(provider);
           if (index >= 0) {
             newPlugin.js.providers.lyric.splice(index, 1);
           }

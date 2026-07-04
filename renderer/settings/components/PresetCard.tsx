@@ -22,7 +22,7 @@ const PresetCard = (props: PresetCardProps) => {
       )}
     >
       <img
-        alt={'Preset Image'}
+        alt={'Preset Preview'}
         class={'-z-1 group-hover:opacity-50'}
         src={local.url}
       />

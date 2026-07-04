@@ -60,7 +60,9 @@ export class SettingWindowProvider implements WindowProvider {
     if (!app.isPackaged && process.env.ELECTRON_RENDERER_URL) {
       this.window.loadURL(`${process.env.ELECTRON_RENDERER_URL}/settings.html`);
     } else {
-      this.window.loadFile(path.join(import.meta.dirname, '../renderer/settings.html'));
+      this.window.loadFile(
+        path.join(import.meta.dirname, '../renderer/settings.html'),
+      );
     }
   }
 }

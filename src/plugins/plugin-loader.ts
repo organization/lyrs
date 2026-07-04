@@ -24,7 +24,7 @@ export interface PluginLoaderOptions {
 }
 
 class PluginLoader {
-  private folder: string;
+  private readonly folder: string;
 
   constructor(options: PluginLoaderOptions) {
     this.folder = options.folder ?? './plugins';
@@ -52,7 +52,7 @@ class PluginLoader {
       .extract(pluginPath, extractPath)
       .catch((err) => err as Error);
     if (extractResult instanceof Error) {
-      const error = Error('Failed to extract plugin');
+      const error = new Error('Failed to extract plugin');
       error.cause = extractResult;
 
       return error;
@@ -69,7 +69,7 @@ class PluginLoader {
         await fs.rm(extractPath, { recursive: true, force: true });
         await fs.rename(tempPath, extractPath);
       } catch (err) {
-        const error = Error('Failed to extract plugin');
+        const error = new Error('Failed to extract plugin');
         error.cause = err;
 
         return error;
@@ -100,7 +100,7 @@ class PluginLoader {
       );
 
     if (!newPlugin)
-      throw Error(
+      throw new Error(
         `Manifest version "${manifestJson.manifestVersion}" is not supported`,
       );
 
@@ -121,7 +121,7 @@ class PluginLoader {
       fn(plugin);
     } catch (err) {
       const logger = createLogger(plugin);
-      const error = Error(message ?? 'Failed to run plugin');
+      const error = new Error(message ?? 'Failed to run plugin');
       error.cause = err;
 
       if (err instanceof Error)
@@ -146,12 +146,13 @@ class PluginLoader {
     state: PluginState = 'enable',
   ): Promise<Plugin> {
     const stats = await fs.stat(pluginPath);
-    if (!stats.isDirectory()) throw Error(`"${pluginPath}" is not a directory`);
+    if (!stats.isDirectory())
+      throw new Error(`"${pluginPath}" is not a directory`);
 
     const manifest = await fs
       .readFile(path.join(pluginPath, 'manifest.json'), 'utf-8')
       .catch((err) => {
-        const error = Error('Cannot load manifest.json');
+        const error = new Error('Cannot load manifest.json');
         error.cause = err;
 
         throw error;
@@ -161,7 +162,7 @@ class PluginLoader {
       PluginManifestSchema.parse(JSON.parse(manifest)),
     );
     if (err || manifestJson === null) {
-      const error = Error('Manifest is not valid');
+      const error = new Error('Manifest is not valid');
       error.cause = err;
 
       throw error;
@@ -179,7 +180,7 @@ class PluginLoader {
       );
 
     if (!newPlugin)
-      throw Error(
+      throw new Error(
         `Manifest version "${manifestJson.manifestVersion}" is not supported`,
       );
 

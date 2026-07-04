@@ -7,6 +7,7 @@ import Card from '../../components/Card';
 import Modal from '../../components/Modal';
 import useConfig from '../../hooks/useConfig';
 import useGameList from '../../hooks/useGameList';
+import { clickOnKeyDown } from '../../utils/keyboard';
 import GameCard from '../components/GameCard';
 
 interface GameList {
@@ -99,18 +100,18 @@ const GameListContainer = () => {
     const path = window.getPathForFile(data);
 
     const list = { ...gameList() };
-    if (!list[viewName]) {
+    if (list[viewName]) {
+      list[viewName].push({
+        name: data.name,
+        path,
+      });
+    } else {
       list[viewName] = [
         {
           name: data.name,
           path,
         },
       ];
-    } else {
-      list[viewName].push({
-        name: data.name,
-        path,
-      });
     }
 
     setGameList(list, false);
@@ -154,6 +155,9 @@ const GameListContainer = () => {
         <span
           class={'text-3xl opacity-80 hover:opacity-100 '}
           onClick={onGamePage}
+          onKeyDown={clickOnKeyDown}
+          role={'button'}
+          tabIndex={0}
         >
           <Trans key={'setting.title.game-overlay'} />
         </span>

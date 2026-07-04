@@ -23,13 +23,19 @@ export interface ModalProps extends JSX.HTMLAttributes<HTMLDivElement> {
   buttons?: ButtonOptions[];
 }
 
+const buttonClass = (type?: ButtonOptions['type']) => {
+  if (type === 'positive') return 'btn-primary';
+  if (type === 'negative') return 'btn-error';
+  return 'btn-text';
+};
+
 const Modal = (props: ModalProps) => {
   const [local, leftProps] = splitProps(props, ['open', 'onClose', 'buttons']);
 
   let content!: HTMLDivElement;
 
   const listener = (event: MouseEvent) => {
-    const isOutside = !event.composedPath().some((it) => it === content);
+    const isOutside = !event.composedPath().includes(content);
 
     if (isOutside) local.onClose?.();
   };
@@ -80,13 +86,7 @@ const Modal = (props: ModalProps) => {
                   <For each={local.buttons ?? []}>
                     {(button) => (
                       <button
-                        class={
-                          button.type === 'positive'
-                            ? 'btn-primary'
-                            : button.type === 'negative'
-                              ? 'btn-error'
-                              : 'btn-text'
-                        }
+                        class={buttonClass(button.type)}
                         onClick={button.onClick}
                       >
                         {button.name}

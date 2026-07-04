@@ -167,11 +167,10 @@ const runner: PluginProvider = ({
   const findSpicetifyCommandPath = () => {
     let commandPath: string | null = path.resolve(
       root,
-      'spicetify\\spicetify.exe',
+      String.raw`spicetify\spicetify.exe`,
     );
-    if (!fsSync.existsSync(commandPath))
-      commandPath = path.resolve(root, '.spicetify/spicetify');
-    else commandPath = 'spicetify';
+    if (fsSync.existsSync(commandPath)) commandPath = 'spicetify';
+    else commandPath = path.resolve(root, '.spicetify/spicetify');
 
     return commandPath;
   };
@@ -219,9 +218,9 @@ const runner: PluginProvider = ({
       'config',
       'extensions',
       'lyrs.js',
-    ]).catch((code: number) => code);
+    ]).catch((error: number) => error);
     const command2 = await runCommand(command, ['apply']).catch(
-      (code: number) => code,
+      (error: number) => error,
     );
 
     if (command1 !== 0 || command2 !== 0) {
@@ -255,7 +254,7 @@ const runner: PluginProvider = ({
       'config',
       'extensions',
       '-lyrs.js',
-    ]).catch((code: number) => code);
+    ]).catch((error: number) => error);
     if (command !== 0) {
       logger.error('Failed to reinstall Spicetify extension:', command);
 
@@ -293,17 +292,14 @@ const runner: PluginProvider = ({
     description: t.setting.alreadyInstalled.description,
   });
   const updateLabel = (installed: boolean) => {
-    if (installed) {
-      label.set({
-        name: t.setting.alreadyInstalled.name,
-        description: t.setting.alreadyInstalled.description,
-      });
-    } else {
-      label.set({
-        name: t.setting.notInstalled.name,
-        description: t.setting.notInstalled.description,
-      });
-    }
+    const state = installed
+      ? t.setting.alreadyInstalled
+      : t.setting.notInstalled;
+
+    label.set({
+      name: state.name,
+      description: state.description,
+    });
   };
 
   useSetting({

@@ -193,11 +193,12 @@ const PlayingInfoProvider = (props: { children: JSX.Element }) => {
 
     setIsMapped(!!mapperData);
     setLyricData(lyricData);
-    if (lyricData && lyricData?.lyric) {
+    const lyric = lyricData?.lyric;
+    if (lyric) {
       const treeMap = new experimental.FlatMap<number, string[]>();
 
-      for (const key in lyricData.lyric) {
-        treeMap.emplace(~~key, lyricData.lyric[key]);
+      for (const key in lyric) {
+        treeMap.emplace(Math.trunc(Number(key)), lyric[key]);
       }
 
       setLyrics(treeMap);

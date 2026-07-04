@@ -4,9 +4,10 @@ import { IS_WINDOWS_11, MicaBrowserWindow } from 'mica-electron';
 
 import { isWin32, isXfce } from '../../utils/is';
 
-export const PlatformBrowserWindow =
-  isWin32() && IS_WINDOWS_11
-    ? MicaBrowserWindow
-    : isXfce()
-      ? BrowserWindow
-      : GlassBrowserWindow;
+const resolvePlatformBrowserWindow = () => {
+  if (isWin32() && IS_WINDOWS_11) return MicaBrowserWindow;
+  if (isXfce()) return BrowserWindow;
+  return GlassBrowserWindow;
+};
+
+export const PlatformBrowserWindow = resolvePlatformBrowserWindow();

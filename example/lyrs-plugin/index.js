@@ -1,5 +1,5 @@
 const titleParserRegex =
-  /(?:[[({【]([^\])}】]+)[\])}】]\s*)*([^[({【「\])}】」\-/]+)(?:[[({【]([^\])}】]+)[\])}】]\s*)*/g;
+  /(?:[[({【]([^[({【\])}】]+)[\])}】]\s*)*([^[({【「\])}】」\-/]+)(?:[[({【]([^[({【\])}】]+)[\])}】]\s*)*/g;
 
 const parse = (data) => {
   let artist = data.artist;
@@ -12,16 +12,16 @@ const parse = (data) => {
         artist = matchResult[0][1].trim();
         title = matchResult[0][2].trim();
       } else {
-        if (matchResult[0]?.[2]) artists = matchResult[0][2].trim();
+        if (matchResult[0]?.[2]) artist = matchResult[0][2].trim();
         title = matchResult[1][2].trim();
       }
     } else {
-      if (matchResult[0]?.[1]) artists = matchResult[0][1].trim();
+      if (matchResult[0]?.[1]) artist = matchResult[0][1].trim();
       title = matchResult[0][2].trim();
     }
   }
 
-  return [artists, title];
+  return [artist, title];
 };
 
 const translation = {
@@ -47,7 +47,12 @@ const translation = {
   },
 };
 
-module.exports = ({ useConfig, useSetting, useOverride, logger }) => {
+const improveMusicSearchPlugin = ({
+  useConfig,
+  useSetting,
+  useOverride,
+  logger,
+}) => {
   const [config] = useConfig();
 
   logger.info('improve music search plugin is loaded', config().language);
@@ -89,3 +94,5 @@ module.exports = ({ useConfig, useSetting, useOverride, logger }) => {
     fn(...newArgs);
   });
 };
+
+module.exports = improveMusicSearchPlugin;

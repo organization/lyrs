@@ -26,10 +26,7 @@ const ListItem = (props: ListItemProps) => {
         leftProps.class,
       )}
     >
-      <Show
-        fallback={local.icon as JSX.Element}
-        when={typeof local.icon === 'string'}
-      >
+      <Show fallback={local.icon} when={typeof local.icon === 'string'}>
         <img alt="Local Icon" src={local.icon as string} />
       </Show>
       <div class={'text-md ml-4'}>{local.title}</div>

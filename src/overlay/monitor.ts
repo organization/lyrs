@@ -19,21 +19,17 @@ export interface ProcMonitor {
 }
 
 export async function getProcMonitor(): Promise<ProcMonitor> {
-  switch (process.platform) {
-    case 'win32': {
-      const win32Module = await import('./win32');
-      return await win32Module.Win32ProcMonitor.initialize();
-    }
-
-    default: {
-      const event: ProcMonitorEventEmitter = new EventEmitter();
-      return {
-        event,
-        getProcessList() {
-          return [];
-        },
-        async close() {},
-      };
-    }
+  if (process.platform === 'win32') {
+    const win32Module = await import('./win32');
+    return await win32Module.Win32ProcMonitor.initialize();
   }
+
+  const event: ProcMonitorEventEmitter = new EventEmitter();
+  return {
+    event,
+    getProcessList() {
+      return [];
+    },
+    async close() {},
+  };
 }

@@ -1,7 +1,6 @@
 // ---
 import type { ButtonOption, SettingOption } from '../../plugins';
 
-export type LyricTimestamp = number;
 export type LyricRegister = {
   id?: string;
   name: string;
@@ -13,7 +12,7 @@ export type LyricMetadata = {
   title: string;
   album?: string;
   artist?: string;
-  playtime?: LyricTimestamp;
+  playtime?: number;
   registerDate?: Date;
 };
 
@@ -28,7 +27,7 @@ export type SearchParams = {
   title?: string;
   artist?: string;
   album?: string;
-  playtime?: LyricTimestamp;
+  playtime?: number;
   page?: number;
 };
 export interface LyricProvider {

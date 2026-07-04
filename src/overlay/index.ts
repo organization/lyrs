@@ -208,27 +208,21 @@ export class OverlayManager {
    */
   static async initialize(): Promise<OverlayManager> {
     let factory: OverlayFactory;
-    switch (process.platform) {
-      case 'win32': {
-        const win32Module = await import('./win32');
-        factory = new win32Module.Win32OverlayFactory();
-        break;
-      }
-
+    if (process.platform === 'win32') {
+      const win32Module = await import('./win32');
+      factory = new win32Module.Win32OverlayFactory();
+    } else {
       // Create a dummy factory returning dummy AttachedOverlay
-      default: {
-        factory = {
-          applyCorsCallback() {},
-          create(_) {
-            return Promise.resolve({
-              async updateViewIndex() {},
-              sendEvent() {},
-              close() {},
-            });
-          },
-        };
-        break;
-      }
+      factory = {
+        applyCorsCallback() {},
+        create(_) {
+          return Promise.resolve({
+            async updateViewIndex() {},
+            sendEvent() {},
+            close() {},
+          });
+        },
+      };
     }
 
     return new OverlayManager(factory, await getProcMonitor());

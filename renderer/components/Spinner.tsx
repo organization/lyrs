@@ -27,12 +27,12 @@ const Spinner = (props: SpinnerProps): JSX.Element => {
       <svg
         class={'animate-spin duration-[1400ms]'}
         style={
-          typeof leftProps.style !== 'string'
-            ? {
+          typeof leftProps.style === 'string'
+            ? {}
+            : {
                 width: leftProps.style?.width,
                 height: leftProps.style?.height,
               }
-            : {}
         }
         viewBox={'0 0 24 24'}
         xmlns={'http://www.w3.org/2000/svg'}

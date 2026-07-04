@@ -1,5 +1,10 @@
 const isUnderscored = (name) => {
-  const stripped = name.replace(/^_+|_+$/g, '');
+  let start = 0;
+  let end = name.length;
+  while (start < end && name[start] === '_') start += 1;
+  while (end > start && name[end - 1] === '_') end -= 1;
+
+  const stripped = name.slice(start, end);
   if (!stripped.includes('_')) return false;
   return stripped !== stripped.toUpperCase();
 };
@@ -40,7 +45,7 @@ const camelcase = {
     const isAllowed = (name) => allowPatterns.some((re) => re.test(name));
 
     const report = (node) => {
-      if (!node || node.type !== 'Identifier') return;
+      if (node?.type !== 'Identifier') return;
       if (reported.has(node)) return;
       if (isAllowed(node.name)) return;
       if (!isUnderscored(node.name)) return;
@@ -132,7 +137,7 @@ const camelcase = {
       },
       Property(node) {
         if (!checkProps || node.computed) return;
-        if (node.parent && node.parent.type === 'ObjectPattern') return;
+        if (node.parent?.type === 'ObjectPattern') return;
         report(node.key);
       },
       MethodDefinition(node) {

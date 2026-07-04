@@ -73,7 +73,7 @@ export const Slider = (props: SliderProps) => {
     const max = Math.max(1, maxWidth());
     const now = Math.min(Math.max(0, event.pageX - domRect.left - 6), max);
     const value = local.min + (now / max) * (local.max - local.min);
-    const newValue = ~~(value / local.step) * local.step;
+    const newValue = Math.trunc(value / local.step) * local.step;
 
     local.onChange?.(newValue);
   };

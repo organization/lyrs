@@ -4,6 +4,8 @@
 }
 .lyric-none-exit-active {
   transition: all 0.3s;
+  display: none;
+  position: absolute;
 }
 .lyric-none-move {
   transition: all 0.625s ease-in-out;
@@ -11,11 +13,6 @@
 
 .lyric-none-enter {
   opacity: 1;
-}
-
-.lyric-none-exit-active {
-  display: none;
-  position: absolute;
 }
 
 .lyric-none-exit-to {
@@ -28,6 +25,7 @@
 }
 .lyric-fade-exit-active {
   transition: all 0.5s;
+  position: absolute;
 }
 .lyric-fade-move {
   transition: all 0.625s ease-in-out;
@@ -35,10 +33,6 @@
 
 .lyric-fade-enter {
   opacity: 0;
-}
-
-.lyric-fade-exit-active {
-  position: absolute;
 }
 
 .lyric-fade-exit-to {
@@ -53,6 +47,7 @@
 .lyric-pretty-exit-active {
   transition: all 0.3s cubic-bezier(0.5, 0, 0.75, 0);
   transform-origin: 100% 50%;
+  position: absolute;
 }
 .lyric-pretty-move {
   transition: all 0.625s ease-in-out;
@@ -63,10 +58,6 @@
   transform: translateY(200%) scale(0.9);
   opacity: 0;
   filter: blur(4px);
-}
-
-.lyric-pretty-exit-active {
-  position: absolute;
 }
 
 .lyric-pretty-exit-to {
@@ -81,6 +72,7 @@
 }
 .lyric-slide-exit-active {
   transition: all 0.3s cubic-bezier(0.5, 0, 0.75, 0);
+  position: absolute;
 }
 .lyric-slide-move {
   transition: all 0.625s ease-in-out;
@@ -89,10 +81,6 @@
 .lyric-slide-enter {
   transform: translateX(100%);
   opacity: 0;
-}
-
-.lyric-slide-exit-active {
-  position: absolute;
 }
 
 .lyric-slide-exit-to {
@@ -108,6 +96,7 @@
 .lyric-show-up-exit-active {
   transition: all 0.3s cubic-bezier(0.5, 0, 0.75, 0);
   transform-origin: center;
+  position: absolute;
 }
 .lyric-show-up-move {
   transition: all 0.625s ease-in-out;
@@ -117,10 +106,6 @@
 .lyric-show-up-enter {
   transform: translateY(100%);
   opacity: 0;
-}
-
-.lyric-show-up-exit-active {
-  position: absolute;
 }
 
 .lyric-show-up-exit-to {
@@ -137,6 +122,7 @@
 .lyric-scale-exit-active {
   transition: all 0.3s cubic-bezier(0.5, 0, 0.75, 0);
   transform-origin: center;
+  position: absolute;
 }
 .lyric-scale-move {
   transition: all 0.625s ease-in-out;
@@ -147,10 +133,6 @@
   transform: scale(200%);
   opacity: 0;
   filter: blur(4px);
-}
-
-.lyric-scale-exit-active {
-  position: absolute;
 }
 
 .lyric-scale-exit-to {
@@ -167,6 +149,7 @@
 .lyric-slime-exit-active {
   transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   transform-origin: center;
+  position: absolute;
 }
 .lyric-slime-move {
   transition: all 0.6s cubic-bezier(0.68, -0.6, 0.32, 1.6);
@@ -176,10 +159,6 @@
 .lyric-slime-enter {
   transform: scaleX(50%) scaleY(120%);
   opacity: 0;
-}
-
-.lyric-slime-exit-active {
-  position: absolute;
 }
 
 .lyric-slime-exit-to {

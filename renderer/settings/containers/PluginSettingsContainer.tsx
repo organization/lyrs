@@ -1,18 +1,14 @@
 import { Trans, useTransContext } from '@jellybrick/solid-i18next';
 import { useNavigate, useParams } from '@solidjs/router';
 import { Marquee } from '@suyongs/solid-utility';
-import { For, Switch as SwitchFlow, Match, Show, createSignal } from 'solid-js';
+import { For, Show, createSignal } from 'solid-js';
 
-import {
-  type ButtonOption,
-  SelectOption,
-  type SettingOption,
-} from '../../../common/plugins';
+import { type ButtonOption, type SettingOption } from '../../../common/plugins';
 import Card from '../../components/Card';
-import Selector from '../../components/Select';
 import Switch from '../../components/Switch';
 import useConfig from '../../hooks/useConfig';
 import usePlugins from '../../hooks/usePlugins';
+import { clickOnKeyDown } from '../../utils/keyboard';
 import PluginLog from '../components/PluginLog';
 import { SettingOptionRenderer } from '../components/SettingOptionRenderer';
 
@@ -71,6 +67,9 @@ const PluginSettingsContainer = () => {
         <span
           class={'text-3xl opacity-80 hover:opacity-100'}
           onClick={onPluginPage}
+          onKeyDown={clickOnKeyDown}
+          role={'button'}
+          tabIndex={0}
         >
           <Trans key={'setting.title.plugin'} />
         </span>

@@ -16,3 +16,4 @@ export const lyricMapper = new State<LyricMapper>(
     },
   },
 );
+lyricMapper.loadFromPath().catch((err: unknown) => console.error(err));

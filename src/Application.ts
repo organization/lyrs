@@ -81,10 +81,10 @@ class Application {
       event.returnValue = config.get();
     },
   } satisfies Record<string, (event: Electron.IpcMainEvent) => void>;
-  private overlayManager: OverlayManager;
+  private readonly overlayManager: OverlayManager;
   private pluginManager!: PluginManager;
-  private sourceProviders: SourceProvider[] = [];
-  private lyricProviders: LyricProvider[] = [];
+  private readonly sourceProviders: SourceProvider[] = [];
+  private readonly lyricProviders: LyricProvider[] = [];
   private contextMenu: Menu | null = null;
   private tray!: Tray;
   private lastUpdate: UpdateData | null = null;
@@ -271,28 +271,14 @@ class Application {
       bounds?: Rectangle,
     ) => {
       if (target === 'lyrics') {
-        if (
-          this.lyricSearchWindowProvider &&
-          !this.lyricSearchWindowProvider.window.isDestroyed()
-        ) {
-          if (this.lyricSearchWindowProvider.window.isMinimized())
-            this.lyricSearchWindowProvider.window.restore();
-          this.lyricSearchWindowProvider.window.show();
-        } else {
-          this.initLyricSearchWindow();
-        }
+        this.showOrInitWindow(this.lyricSearchWindowProvider, () =>
+          this.initLyricSearchWindow(),
+        );
       }
       if (target === 'settings') {
-        if (
-          this.settingWindowProvider &&
-          !this.settingWindowProvider.window.isDestroyed()
-        ) {
-          if (this.settingWindowProvider.window.isMinimized())
-            this.settingWindowProvider.window.restore();
-          this.settingWindowProvider.window.show();
-        } else {
-          this.initSettingWindow();
-        }
+        this.showOrInitWindow(this.settingWindowProvider, () =>
+          this.initSettingWindow(),
+        );
       }
       if (target === 'tray') {
         if (!this.trayWindowProvider) this.initTrayWindow();
@@ -304,45 +290,11 @@ class Application {
       target: 'main' | 'lyrics' | 'settings' | 'tray',
       index: number = 0,
     ) => {
-      if (target === 'main') {
-        if (
-          this.lyricWindowProviders &&
-          !this.lyricWindowProviders[index].window.isDestroyed()
-        ) {
-          this.lyricWindowProviders[index].window.webContents.openDevTools({
-            mode: 'detach',
-          });
-        }
-      }
-      if (target === 'lyrics') {
-        if (
-          this.lyricSearchWindowProvider &&
-          !this.lyricSearchWindowProvider.window.isDestroyed()
-        ) {
-          this.lyricSearchWindowProvider.window.webContents.openDevTools({
-            mode: 'detach',
-          });
-        }
-      }
-      if (target === 'settings') {
-        if (
-          this.settingWindowProvider &&
-          !this.settingWindowProvider.window.isDestroyed()
-        ) {
-          this.settingWindowProvider.window.webContents.openDevTools({
-            mode: 'detach',
-          });
-        }
-      }
-      if (target === 'tray') {
-        if (
-          this.trayWindowProvider &&
-          !this.trayWindowProvider.window.isDestroyed()
-        ) {
-          this.trayWindowProvider.window.webContents.openDevTools({
-            mode: 'detach',
-          });
-        }
+      const provider = this.getWindowProvider(target, index);
+      if (provider && !provider.window.isDestroyed()) {
+        provider.window.webContents.openDevTools({
+          mode: 'detach',
+        });
       }
     },
     'get-plugin-list': () => pure(this.pluginManager.getPlugins()),
@@ -364,7 +316,7 @@ class Application {
         pluginPath,
       );
 
-      return error as Error | null;
+      return error;
     },
     'get-plugin': (_, id: string) =>
       pure(this.pluginManager.getPlugins().find((it) => it.id === id)),
@@ -445,12 +397,13 @@ class Application {
     'get-current-source-provider-state': () =>
       this.sourceProvider.isRunning() ? 'start' : 'close',
     'restart-source-provider': () => {
-      if (!this.sourceProvider) this.initSourceProvider();
-      else {
+      if (this.sourceProvider) {
         if (this.sourceProvider.isRunning()) this.sourceProvider.close();
         this.sourceProvider.start(
           config.get().providers.source.config[this.sourceProvider.name],
         );
+      } else {
+        this.initSourceProvider();
       }
     },
 
@@ -948,7 +901,7 @@ class Application {
     });
 
     Object.entries(this.onMap).forEach(([event, handler]) => {
-      ipcMain.on(event, handler as (event: Electron.IpcMainEvent) => unknown);
+      ipcMain.on(event, handler);
     });
   }
 
@@ -1011,11 +964,33 @@ class Application {
     this.lyricSearchWindowProvider.window.show();
   }
 
+  private showOrInitWindow(
+    provider: { window: BrowserWindow } | null,
+    init: () => void,
+  ) {
+    if (provider && !provider.window.isDestroyed()) {
+      if (provider.window.isMinimized()) provider.window.restore();
+      provider.window.show();
+    } else {
+      init();
+    }
+  }
+
+  private getWindowProvider(
+    target: 'main' | 'lyrics' | 'settings' | 'tray',
+    index = 0,
+  ): { window: BrowserWindow } | null {
+    if (target === 'main') return this.lyricWindowProviders[index] ?? null;
+    if (target === 'lyrics') return this.lyricSearchWindowProvider;
+    if (target === 'settings') return this.settingWindowProvider;
+    return this.trayWindowProvider;
+  }
+
   private setCorsHandler(webContents: Electron.WebContents) {
     webContents.session.webRequest.onBeforeSendHeaders((details, callback) => {
       const provider = this.lyricProvider;
 
-      if (provider && provider.onBeforeSendHeaders) {
+      if (provider?.onBeforeSendHeaders) {
         const result = provider.onBeforeSendHeaders(details);
 
         callback(result);
@@ -1027,7 +1002,7 @@ class Application {
     webContents.session.webRequest.onHeadersReceived((details, callback) => {
       const provider = this.lyricProvider;
 
-      if (provider && provider.onHeadersReceived) {
+      if (provider?.onHeadersReceived) {
         const result = provider.onHeadersReceived(details);
 
         callback(result);

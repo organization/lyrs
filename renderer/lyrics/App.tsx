@@ -116,11 +116,11 @@ const LyricsMapEditor = () => {
         if (nextPage) {
           const isDuplicated = searchList().at(-1)?.id === list.at(-1)?.id;
 
-          if (!isDuplicated) {
+          if (isDuplicated) {
+            setHasNext(false);
+          } else {
             setPage(page() + 1);
             setSearchList([...searchList(), ...list]);
-          } else {
-            setHasNext(false);
           }
         } else {
           setPage(0);
@@ -209,14 +209,12 @@ const LyricsMapEditor = () => {
                 </>
               </Match>
               <Match when={searchMode() === 'id'}>
-                <>
-                  <input
-                    class={'input flex-1 w-16 basis-1/5'}
-                    onInput={(event) => setId(event.target.value)}
-                    placeholder={t('lyrics.id')}
-                    value={id()}
-                  />
-                </>
+                <input
+                  class={'input flex-1 w-16 basis-1/5'}
+                  onInput={(event) => setId(event.target.value)}
+                  placeholder={t('lyrics.id')}
+                  value={id()}
+                />
               </Match>
             </Switch>
             <button class={'btn-text btn-icon min-w-0!'} type={'submit'}>

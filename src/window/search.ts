@@ -1,7 +1,7 @@
 import path from 'node:path';
 
-import { app } from 'electron';
 import { type GlasstronOptions } from '@jellybrick/glasstron';
+import { app } from 'electron';
 import { MicaBrowserWindow } from 'mica-electron';
 
 import { PlatformBrowserWindow } from './platform-browser-window';
@@ -54,7 +54,9 @@ export class LyricSearchWindowProvider implements WindowProvider {
     if (!app.isPackaged && process.env.ELECTRON_RENDERER_URL) {
       this.window.loadURL(`${process.env.ELECTRON_RENDERER_URL}/lyrics.html`);
     } else {
-      this.window.loadFile(path.join(import.meta.dirname, '../renderer/lyrics.html'));
+      this.window.loadFile(
+        path.join(import.meta.dirname, '../renderer/lyrics.html'),
+      );
     }
   }
 }

@@ -2,6 +2,7 @@ import { createSignal, For, Match, Show, splitProps, Switch } from 'solid-js';
 import { TransitionGroup } from 'solid-transition-group';
 
 import { cx } from '../utils/classNames';
+import { clickOnKeyDown } from '../utils/keyboard';
 
 import type { JSX } from 'solid-js/jsx-runtime';
 
@@ -26,6 +27,7 @@ const Card = (props: CardProps) => {
     : createSignal(local.expand);
 
   const isSubCard = () => 'subCards' in local;
+  const isInteractive = () => isSubCard() || leftProps.onClick != null;
 
   const onClick: JSX.EventHandlerUnion<HTMLDivElement, MouseEvent> = (
     event,
@@ -57,6 +59,11 @@ const Card = (props: CardProps) => {
         isSubCard() && !expand() && 'rounded-b-sm',
       )}
       onClick={onClick}
+      onKeyDown={(event) => {
+        if (isInteractive()) clickOnKeyDown(event);
+      }}
+      role={isInteractive() ? 'button' : undefined}
+      tabIndex={isInteractive() ? 0 : undefined}
     >
       {leftProps.children}
       <Switch>

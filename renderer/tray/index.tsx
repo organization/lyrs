@@ -10,5 +10,5 @@ render(
       <App />
     </Provider>
   ),
-  document && document.querySelector('#app')!,
+  document.querySelector('#app')!,
 );

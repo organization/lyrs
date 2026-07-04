@@ -2,16 +2,14 @@ import { Trans, useTransContext } from '@jellybrick/solid-i18next';
 import { useNavigate } from '@solidjs/router';
 import { For, Show, createSignal, type JSX } from 'solid-js';
 
-import { DEFAULT_STYLE, PRESET_PREFIX } from '../../../common/constants';
+import { DEFAULT_STYLE } from '../../../common/constants';
 import presetThemes from '../../../common/presets';
 import { type StyleConfig } from '../../../common/schema';
 import Card from '../../components/Card';
 import Modal from '../../components/Modal';
-import useConfig from '../../hooks/useConfig';
 import useThemeList from '../../hooks/useThemeList';
 
 const ThemeListContainer = () => {
-  const [config, setConfig] = useConfig();
   const navigate = useNavigate();
   const [t] = useTransContext();
   const [themeList, setTheme] = useThemeList();
@@ -200,9 +198,9 @@ const ThemeListContainer = () => {
         <Trans key={'setting.theme.import-theme'} />
         <div class={'flex-1'} />
         <label for={'import-theme'}>
-          <a class={'btn-primary'}>
+          <span class={'btn-primary'}>
             <Trans key={'setting.theme.import-from-file'} />
-          </a>
+          </span>
           <input
             accept={'application/json'}
             class={'hidden'}

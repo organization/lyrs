@@ -10,7 +10,6 @@ import {
   onMount,
   splitProps,
 } from 'solid-js';
-import { Dynamic } from 'solid-js/web';
 import { Transition } from 'solid-transition-group';
 
 import { cx } from '../utils/classNames';
@@ -68,8 +67,10 @@ const Selector = <T extends string>(props: SelectProps<T>) => {
   const itemHeight = () =>
     (popper()?.scrollHeight ?? popper()?.clientHeight ?? 0) /
     local.options.length;
-  const selectIndex = () =>
-    local.options.findIndex((option) => option === local.value) ?? 0;
+  const selectIndex = () => {
+    const { value } = local;
+    return value !== undefined ? local.options.indexOf(value) : -1;
+  };
 
   /* defines */
   const position = useFloating(anchor, popper, {
@@ -153,6 +154,11 @@ const Selector = <T extends string>(props: SelectProps<T>) => {
     setOpen(true);
   };
 
+  const popupWidth = () => {
+    const anchorWidth = anchor()?.clientWidth;
+    return anchorWidth ? `${anchorWidth}px` : 'fit-content';
+  };
+
   const onClick = (event: MouseEvent) => {
     event.stopPropagation();
     if (local.mode === 'autocomplete') input()?.focus();
@@ -171,6 +177,8 @@ const Selector = <T extends string>(props: SelectProps<T>) => {
         onClick={onClick}
         onKeyDown={onKeydown}
         ref={setAnchor}
+        role={'button'}
+        tabIndex={0}
       >
         <Show
           fallback={
@@ -238,7 +246,8 @@ const Selector = <T extends string>(props: SelectProps<T>) => {
               `,
                 popup.popupClass,
               )}
-              style={`width: ${anchor()?.clientWidth ? `${anchor()?.clientWidth ?? 0}px` : 'fit-content'}; ${popup.popupStyle ?? ''};`}
+              role={'listbox'}
+              style={`width: ${popupWidth()}; ${popup.popupStyle ?? ''};`}
             >
               <For each={options()}>
                 {(option, index) =>
@@ -248,12 +257,14 @@ const Selector = <T extends string>(props: SelectProps<T>) => {
                     option === local.value,
                   ) ?? (
                     <li
+                      aria-selected={option === local.value}
                       class={cx(
                         'w-full py-2 hover:bg-black/10 dark:hover:bg-white/10 rounded-lg truncate flex items-center',
                         option === local.value && 'bg-white/10',
                       )}
                       onClick={() => onSelect(option, index())}
                       onKeyDown={() => onSelect(option, index())}
+                      role={'option'}
                     >
                       <Show when={option === local.value}>
                         <div class={'bg-primary-500 rounded-sm w-1 h-4'} />

@@ -11,6 +11,7 @@ import Switch from '../../components/Switch';
 import useConfig from '../../hooks/useConfig';
 import { useLyricProvider } from '../../hooks/useLyricProvider';
 import useServer from '../../hooks/useServer';
+import { clickOnKeyDown } from '../../utils/keyboard';
 import { SettingOptionRenderer } from '../components/SettingOptionRenderer';
 
 const GeneralContainer = () => {
@@ -295,6 +296,9 @@ const GeneralContainer = () => {
                     onClick={() =>
                       window.ipcRenderer.invoke('open-devtool', 'lyrics')
                     }
+                    onKeyDown={clickOnKeyDown}
+                    role={'button'}
+                    tabIndex={0}
                   >
                     <div class={'text-md'}>
                       <Trans key={'tray.devtools.lyrics.label'} />
@@ -316,6 +320,9 @@ const GeneralContainer = () => {
                     onClick={() =>
                       window.ipcRenderer.invoke('open-devtool', 'settings')
                     }
+                    onKeyDown={clickOnKeyDown}
+                    role={'button'}
+                    tabIndex={0}
                   >
                     <div class={'text-md'}>
                       <Trans key={'tray.devtools.setting.label'} />

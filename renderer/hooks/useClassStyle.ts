@@ -4,8 +4,8 @@ export const useClassStyle = (className: string, style: Accessor<string>) => {
   const stylesheet = new CSSStyleSheet();
 
   onMount(() => {
-    const isExist = Array.from(document.adoptedStyleSheets).some(
-      (adoptedStyleSheet) => adoptedStyleSheet === stylesheet,
+    const isExist = Array.from(document.adoptedStyleSheets).includes(
+      stylesheet,
     );
     if (isExist) return;
 

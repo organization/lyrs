@@ -84,7 +84,7 @@ export const MenuContainer = (props: MenuContainerProps) => {
 
     setLyricMapper({
       [id()]: {
-        delay: ~~nextDelay,
+        delay: Math.trunc(nextDelay),
       },
     });
   }, 300);

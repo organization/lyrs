@@ -27,3 +27,4 @@ export const config = new State<Config>(DEFAULT_CONFIG, {
     autoSync: true,
   },
 });
+config.loadFromPath().catch((err: unknown) => console.error(err));

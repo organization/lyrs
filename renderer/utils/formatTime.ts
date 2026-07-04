@@ -1,7 +1,7 @@
 export const formatTime = (ms: number) => {
-  const seconds = ~~(ms / 1000);
-  const minutes = ~~(seconds / 60);
-  const hours = ~~(minutes / 60);
+  const seconds = Math.trunc(ms / 1000);
+  const minutes = Math.trunc(seconds / 60);
+  const hours = Math.trunc(minutes / 60);
 
   return `${hours.toString().padStart(2, '0')}:${(minutes % 60)
     .toString()

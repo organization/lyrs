@@ -70,7 +70,7 @@ const LyricProgressBar = (props: LyricProgressBarProps) => {
       background-color: ${style.nowPlaying.background};
       font-family: ${style.font};
       font-weight: ${style.fontWeight};
-      opacity: ${status() !== 'playing' ? style.nowPlaying.stoppedOpacity : 1};
+      opacity: ${status() === 'playing' ? 1 : style.nowPlaying.stoppedOpacity};
       border-radius: 0.375rem;
       
       overflow: hidden;

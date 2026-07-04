@@ -19,13 +19,15 @@ export interface PluginManagerOptions extends PluginLoaderOptions {
 }
 
 class PluginManager {
-  private loader: PluginLoader;
+  private readonly loader: PluginLoader;
 
   private plugins: Plugin[] = [];
-  private config: () => Config['plugins'];
-  private setConfig: (config: PartialDeep<Config['plugins']>) => void;
+  private readonly config: () => Config['plugins'];
+  private readonly setConfig: (config: PartialDeep<Config['plugins']>) => void;
 
-  private predefinedPlugins: PredefinedPlugin[] = [SpiceifyIntegrationPlugin];
+  private readonly predefinedPlugins: PredefinedPlugin[] = [
+    SpiceifyIntegrationPlugin,
+  ];
 
   constructor(options: PluginManagerOptions) {
     this.config = options.config;
@@ -120,7 +122,8 @@ class PluginManager {
   public async reloadPlugin(plugin: Plugin): Promise<Plugin | Error> {
     const path = this.getPluginPath(plugin.id);
     const index = this.plugins.indexOf(plugin);
-    if (typeof path !== 'string' || index < 0) return Error('Plugin not found');
+    if (typeof path !== 'string' || index < 0)
+      return new Error('Plugin not found');
 
     this.loader.unloadPlugin(plugin);
     const reloadedPlugin = await this.loader.loadFromFile(path);

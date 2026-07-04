@@ -11,6 +11,7 @@ import useThemeList from '../../hooks/useThemeList';
 import { useLyricsStyle } from '../../main/components/Lyrics';
 import LyricsTransition from '../../main/components/LyricsTransition';
 import { cx } from '../../utils/classNames';
+import { clickOnKeyDown } from '../../utils/keyboard';
 import { userCSSTransitions } from '../../utils/userCSSSelectors';
 import ColorPicker from '../components/ColorPicker';
 import LyricPreview from '../components/LyricPreview';
@@ -151,6 +152,9 @@ const ThemeContainer = () => {
         <span
           class={'text-3xl opacity-80 hover:opacity-100'}
           onClick={onThemeListPage}
+          onKeyDown={clickOnKeyDown}
+          role={'button'}
+          tabIndex={0}
         >
           <Trans key={'setting.title.theme'} />
         </span>
@@ -959,7 +963,7 @@ const ThemeContainer = () => {
               />
             </div>
           </div>
-          <label class={'input-group group'}>
+          <div class={'input-group group'}>
             <input
               class={'input w-48'}
               onChange={(event) =>
@@ -970,7 +974,7 @@ const ThemeContainer = () => {
               type={'number'}
               value={theme()?.lyric.prevNextLyricThreshold ?? -1}
             />
-          </label>
+          </div>
         </Card>
       </div>
       <div class={'text-md mt-4 mb-1 px-4'}>

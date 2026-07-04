@@ -94,9 +94,9 @@ const PluginContainer = () => {
       <Card class={'flex flex-row justify-between items-center gap-1'}>
         <Trans key={'setting.plugin.add-plugin'} />
         <label for={'plugin'}>
-          <a class={'btn-primary'}>
+          <span class={'btn-primary'}>
             <Trans key={'setting.plugin.add-plugin.from-file'} />
-          </a>
+          </span>
           <input
             accept={'application/zip'}
             class={'hidden'}

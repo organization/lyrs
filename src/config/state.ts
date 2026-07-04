@@ -41,10 +41,6 @@ export class State<T> {
     this.value = defaultValue;
     this.defaultValue = defaultValue;
     this.setOptions(options);
-
-    if (typeof this.throttle === 'number') {
-      this.loadFromPath();
-    }
   }
 
   public get(): T {
@@ -104,7 +100,7 @@ export class State<T> {
 
   /* utils */
   public async loadFromPath(): Promise<void> {
-    if (!this.path) throw Error('Cannot load data without path');
+    if (!this.path) throw new Error('Cannot load data without path');
     if (!fsSync.existsSync(this.path)) {
       await fs.writeFile(
         this.path,
@@ -140,7 +136,7 @@ export class State<T> {
   }
 
   public async save(): Promise<void> {
-    if (!this.path) throw Error('Cannot save data without path');
+    if (!this.path) throw new Error('Cannot save data without path');
 
     await fs.writeFile(this.path, JSON.stringify(this.value, null, 2), 'utf-8');
   }

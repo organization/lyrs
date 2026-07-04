@@ -1,4 +1,4 @@
-import { createMemo, createSignal, getOwner, runWithOwner } from 'solid-js';
+import { createSignal, getOwner, runWithOwner } from 'solid-js';
 
 import { createIpcListener } from './createIpcListener';
 

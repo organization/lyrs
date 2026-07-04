@@ -16,3 +16,4 @@ export const gameList = new State<GameList>(
     },
   },
 );
+gameList.loadFromPath().catch((err: unknown) => console.error(err));

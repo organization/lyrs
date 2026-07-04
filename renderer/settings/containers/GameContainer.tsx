@@ -42,15 +42,15 @@ const GameContainer = () => {
     processViewMode,
     async (viewMode) => {
       const availableWindows = window.hmc.getAllWindowsHandle(true);
-      const availableWindowsPID = availableWindows.map((it) =>
-        window.hmc.getHandleProcessID(it),
+      const availableWindowsPID = new Set(
+        availableWindows.map((it) => window.hmc.getHandleProcessID(it)),
       );
 
       const root = window.systemRoot.toLowerCase();
       const isAll = viewMode === 'all';
       const processList = window.hmc
         .getDetailsProcessList()
-        .filter(({ pid }) => isAll || availableWindowsPID.includes(pid));
+        .filter(({ pid }) => isAll || availableWindowsPID.has(pid));
 
       const result: (ProcessData | null)[] = await Promise.all(
         processList.map(async (data) => {
@@ -74,18 +74,18 @@ const GameContainer = () => {
     if (!data) return;
 
     const list = { ...gameList() };
-    if (!list[viewName]) {
+    if (list[viewName]) {
+      list[viewName].push({
+        name: data.name,
+        path: data.path,
+      });
+    } else {
       list[viewName] = [
         {
           name: data.name,
           path: data.path,
         },
       ];
-    } else {
-      list[viewName].push({
-        name: data.name,
-        path: data.path,
-      });
     }
 
     await setGameList(list, false);

@@ -27,8 +27,8 @@ const iconPath = getFile('./assets/icon_square.png');
 export class TrayWindowProvider implements WindowProvider {
   public window: Electron.BrowserWindow;
 
-  private WIDTH = 250;
-  private HEIGHT = 400;
+  private readonly WIDTH = 250;
+  private readonly HEIGHT = 400;
 
   private _isShowing = false;
 
@@ -71,7 +71,9 @@ export class TrayWindowProvider implements WindowProvider {
     if (!app.isPackaged && process.env.ELECTRON_RENDERER_URL) {
       this.window.loadURL(`${process.env.ELECTRON_RENDERER_URL}/tray.html`);
     } else {
-      this.window.loadFile(path.join(import.meta.dirname, '../renderer/tray.html'));
+      this.window.loadFile(
+        path.join(import.meta.dirname, '../renderer/tray.html'),
+      );
     }
   }
 

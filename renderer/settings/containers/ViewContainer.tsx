@@ -39,6 +39,23 @@ export const ViewContainer = () => {
   const displays = () => getAllDisplays();
   const getCurrentDisplay = (display: number | null) =>
     displays().find((it) => it.id === display) ?? getPrimaryDisplay();
+  const displayLabel = (displayId: number | null) => {
+    if (!displayId) return t('setting.position.use-primary-monitor');
+
+    const isKnownDisplay = displays().some(
+      (display) => display.id === displayId,
+    );
+    if (!isKnownDisplay)
+      return t('setting.position.unknown-monitor', { id: displayId });
+
+    return t('setting.position.monitor-name-with-index', {
+      index:
+        displays().findIndex(
+          (display) => display.id === getCurrentDisplay(displayId).id,
+        ) + 1,
+      name: getCurrentDisplay(displayId).label,
+    });
+  };
 
   const onAddView = () => {
     const newName = t('setting.view.new-view');
@@ -343,26 +360,7 @@ export const ViewContainer = () => {
                       (display, index) => `${index + 1} - ${display.label}`,
                     ),
                   ]}
-                  value={
-                    !view.position.display
-                      ? t('setting.position.use-primary-monitor')
-                      : displays().find(
-                            (display) => display.id === view.position.display,
-                          )
-                        ? t('setting.position.monitor-name-with-index', {
-                            index:
-                              displays().findIndex(
-                                (display) =>
-                                  display.id ===
-                                  getCurrentDisplay(view.position.display).id,
-                              ) + 1,
-                            name: getCurrentDisplay(view.position.display)
-                              .label,
-                          })
-                        : t('setting.position.unknown-monitor', {
-                            id: view.position.display,
-                          })
-                  }
+                  value={displayLabel(view.position.display)}
                 />
               </div>,
               <div

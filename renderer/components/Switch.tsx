@@ -24,6 +24,19 @@ const Switch = (props: SwitchProps) => {
   let transitionTimeout: NodeJS.Timeout | undefined;
   let startX = 0;
   let startXOffset = 0;
+  const scheduleThumbTransition = (newOffset: number) => {
+    setTimeout(() => {
+      const thumbEl = thumb;
+      if (thumbEl && newOffset !== offset()) {
+        thumbEl.style.transition = 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+        transitionTimeout = setTimeout(() => {
+          thumbEl.style.transition = '';
+        }, 500);
+      }
+
+      setOffset(newOffset);
+    }, 16 * 3); // 3 frames
+  };
   const onMoveStart = (event: PointerEvent) => {
     startX = event.pageX - 10;
     startXOffset = offset() * MAX_MOVE_OFFSET;
@@ -39,7 +52,7 @@ const Switch = (props: SwitchProps) => {
       onMove(event);
       setMove(false);
 
-      let newOffset = 0;
+      let newOffset: number;
       if (
         Math.abs(startOffset - offset()) < 0.1 &&
         Math.abs(timestamp - event.timeStamp) < 500
@@ -53,16 +66,7 @@ const Switch = (props: SwitchProps) => {
         newOffset = offset() > 0.5 ? 1 : 0;
       }
 
-      setTimeout(() => {
-        if (thumb && newOffset !== offset()) {
-          thumb.style.transition = 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
-          transitionTimeout = setTimeout(() => {
-            if (thumb) thumb.style.transition = '';
-          }, 500);
-        }
-
-        setOffset(newOffset);
-      }, 16 * 3); // 3 frames
+      scheduleThumbTransition(newOffset);
 
       window.removeEventListener('pointermove', onMove);
       window.removeEventListener('pointerup', cleanUp);
@@ -85,6 +89,7 @@ const Switch = (props: SwitchProps) => {
   return (
     <div
       {...leftProps}
+      aria-checked={local.value ?? false}
       class={cx(
         'relative w-[40px] h-[20px] rounded-full border-[1px]',
         local.value
@@ -92,8 +97,19 @@ const Switch = (props: SwitchProps) => {
           : 'border-black/30 dark:border-white',
       )}
       onClick={(event) => event.stopPropagation()}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+
+          const next = !local.value;
+          local.onChange?.(next);
+          scheduleThumbTransition(next ? 1 : 0);
+        }
+      }}
       onPointerDown={onMoveStart}
+      role={'switch'}
       style={`--offset: ${offset() * MAX_MOVE_OFFSET}px`}
+      tabIndex={0}
     >
       <div
         class={cx(

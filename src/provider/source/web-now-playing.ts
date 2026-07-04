@@ -8,13 +8,13 @@ export class WebNowPlayingProvider extends BaseSourceProvider {
   public override name = 'web-now-playing';
 
   private wss: WebSocketServer | null = null;
-  private port = 1609;
+  private readonly port = 1609;
   private isReady = false;
   private startCalled = false;
   private config: Record<string, unknown> = {};
 
   private type: UpdateData['data']['type'] = 'idle';
-  private lastUpdateData: Partial<BaseUpdateData> = {};
+  private readonly lastUpdateData: Partial<BaseUpdateData> = {};
 
   public override start(config: Record<string, unknown>) {
     this.config = config;
@@ -42,27 +42,40 @@ export class WebNowPlayingProvider extends BaseSourceProvider {
         const [key, ...rest] = e.data.split(':');
         const data = rest.join(':');
 
-        if (key === 'TITLE') this.lastUpdateData.title = data;
-        if (key === 'ARTIST') this.lastUpdateData.artists = [data];
-        if (key === 'POSITION')
-          this.lastUpdateData.progress = this.convertTime(data);
-        if (key === 'DURATION')
-          this.lastUpdateData.duration = this.convertTime(data);
-        if (key === 'COVER') this.lastUpdateData.coverUrl = data;
-        if (key === 'STATE') {
-          if (idleTimeout !== null) {
-            clearTimeout(idleTimeout);
-            idleTimeout = null;
-          }
+        switch (key) {
+          case 'TITLE':
+            this.lastUpdateData.title = data;
+            break;
+          case 'ARTIST':
+            this.lastUpdateData.artists = [data];
+            break;
+          case 'POSITION':
+            this.lastUpdateData.progress = this.convertTime(data);
+            break;
+          case 'DURATION':
+            this.lastUpdateData.duration = this.convertTime(data);
+            break;
+          case 'COVER':
+            this.lastUpdateData.coverUrl = data;
+            break;
+          case 'STATE': {
+            if (idleTimeout !== null) {
+              clearTimeout(idleTimeout);
+              idleTimeout = null;
+            }
 
-          if (data === '0') {
-            idleTimeout = setTimeout(() => {
-              this.type = 'idle';
-              this.updateData();
-            }, 500);
+            if (data === '0') {
+              idleTimeout = setTimeout(() => {
+                this.type = 'idle';
+                this.updateData();
+              }, 500);
+            }
+            if (data === '1') this.type = 'playing';
+            if (data === '2') this.type = 'paused';
+            break;
           }
-          if (data === '1') this.type = 'playing';
-          if (data === '2') this.type = 'paused';
+          default:
+            break;
         }
         if (this.lastUpdateData.title && this.lastUpdateData.coverUrl) {
           this.lastUpdateData.id = `${this.lastUpdateData.title}:${this.lastUpdateData.coverUrl}`;
@@ -120,17 +133,17 @@ export class WebNowPlayingProvider extends BaseSourceProvider {
     };
 
     if (this.type === 'playing' || this.type === 'paused') {
-      let isDataValid = true;
-      if (!this.lastUpdateData.id) isDataValid = false;
-      if (!this.lastUpdateData.title) isDataValid = false;
-      if (!this.lastUpdateData.artists) isDataValid = false;
-      if (!this.lastUpdateData.progress) isDataValid = false;
-      if (this.lastUpdateData.duration === undefined) isDataValid = false;
-      if (this.lastUpdateData.coverUrl === undefined) isDataValid = false;
+      const { id, title, artists, progress, duration, coverUrl } =
+        this.lastUpdateData;
+      const isDataValid =
+        Boolean(id) &&
+        Boolean(title) &&
+        Boolean(artists) &&
+        Boolean(progress) &&
+        duration !== undefined &&
+        coverUrl !== undefined;
 
-      if (!isDataValid) {
-        updateData.data.type = 'idle';
-      } else {
+      if (isDataValid) {
         const fullData = this.lastUpdateData as BaseUpdateData;
         updateData.data = {
           type: this.type,

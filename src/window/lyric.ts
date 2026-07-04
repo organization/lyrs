@@ -64,6 +64,9 @@ export class LyricWindowProvider
     this.window = new BrowserWindow(
       deepmerge(
         LYRIC_WINDOW_OPTIONS,
+        // Widening to the named type keeps deepmerge-ts type inference from
+        // exceeding the instantiation depth limit (TS2589).
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
         options as Electron.BrowserWindowConstructorOptions,
         {
           focusable: config.get().streamingMode,
@@ -93,7 +96,9 @@ export class LyricWindowProvider
     if (!app.isPackaged && process.env.ELECTRON_RENDERER_URL) {
       this.window.loadURL(`${process.env.ELECTRON_RENDERER_URL}/main.html`);
     } else {
-      this.window.loadFile(path.join(import.meta.dirname, '../renderer/main.html'));
+      this.window.loadFile(
+        path.join(import.meta.dirname, '../renderer/main.html'),
+      );
     }
 
     screen.addListener('display-metrics-changed', this.onUpdateWindowConfig);
@@ -104,13 +109,11 @@ export class LyricWindowProvider
     // isAlwaysOnTop으로 감지하여 최대 5번까지 복구 시도
     // setAlwaysOnTop을 main-menu 위로 올리거나, interval안에서 설정할시 창에 포커스되니 주의
     this.invisibleFix = setInterval(() => {
-      if (!this.window.isAlwaysOnTop()) {
-        if (this.invisibleCount > 0) {
-          this.window.show();
-          this.invisibleCount -= 1;
-        }
-      } else {
+      if (this.window.isAlwaysOnTop()) {
         this.invisibleCount = 5;
+      } else if (this.invisibleCount > 0) {
+        this.window.show();
+        this.invisibleCount -= 1;
       }
     }, 1000);
 

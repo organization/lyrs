@@ -21,7 +21,7 @@ type ServerType = NodeServer | Http2Server | Http2SecureServer;
 export class TunaObsProvider extends BaseSourceProvider {
   public override name = 'tuna-obs';
 
-  private app: Hono;
+  private readonly app: Hono;
   private port = 1608;
   private server: ServerType | null = null;
 
