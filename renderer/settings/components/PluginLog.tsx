@@ -23,32 +23,22 @@ const PluginLog = (props: PluginLogProps) => {
       </span>
       <Switch>
         <Match when={props.log.type === 'error'}>
-          <span class={settingsStyles.pluginLogError}>
-            [ERROR]
-          </span>
+          <span class={settingsStyles.pluginLogError}>[ERROR]</span>
         </Match>
         <Match when={props.log.type === 'warn'}>
-          <span class={settingsStyles.pluginLogWarn}>
-            [WARN]
-          </span>
+          <span class={settingsStyles.pluginLogWarn}>[WARN]</span>
         </Match>
         <Match when={props.log.type === 'info'}>
-          <span class={settingsStyles.pluginLogInfo}>
-            [INFO]
-          </span>
+          <span class={settingsStyles.pluginLogInfo}>[INFO]</span>
         </Match>
         <Match when={props.log.type === 'debug'}>
-          <span class={settingsStyles.pluginLogDebug}>
-            [DEBUG]
-          </span>
+          <span class={settingsStyles.pluginLogDebug}>[DEBUG]</span>
         </Match>
         <Match when={props.log.type === 'log'}>
           <span>[INFO]</span>
         </Match>
       </Switch>
-      <span class={settingsStyles.pluginLogToken}>
-        {props.log.message}
-      </span>
+      <span class={settingsStyles.pluginLogToken}>{props.log.message}</span>
     </div>
   );
 };

@@ -122,7 +122,7 @@ const ThemeListContainer = () => {
       </div>
       <For each={Object.keys(presetThemes)}>
         {(name) => (
-          <Card >
+          <Card>
             <div class={settingsStyles.cardTitle}>
               <Trans key={`setting.theme.preset.${name}`} />
             </div>
@@ -161,10 +161,7 @@ const ThemeListContainer = () => {
                   <Trans key={'setting.theme.delete-theme'} />
                 </Button>
                 <div class={settingsStyles.spacer} />
-                <Button
-                  onClick={() => onRename(name)}
-                  variant="ghost"
-                >
+                <Button onClick={() => onRename(name)} variant="ghost">
                   <Trans key={'setting.theme.rename-theme'} />
                 </Button>
               </div>,
@@ -187,14 +184,14 @@ const ThemeListContainer = () => {
       <div class={settingsStyles.sectionTitle}>
         <Trans key={'setting.theme.edit-theme'} />
       </div>
-      <Card >
+      <Card>
         <Trans key={'setting.theme.add-theme'} />
         <div class={settingsStyles.spacer} />
         <Button onClick={onShowAdd} variant="primary">
           <Trans key={'setting.theme.add-theme'} />
         </Button>
       </Card>
-      <Card >
+      <Card>
         <Trans key={'setting.theme.import-theme'} />
         <div class={settingsStyles.spacer} />
         <label>
@@ -316,9 +313,7 @@ const ThemeListContainer = () => {
         <Trans key={'setting.theme.built-in-themes'} />
         <For each={Object.keys(presetThemes)}>
           {(name) => (
-            <Card
-              onClick={() => setTarget(name)}
-            >
+            <Card onClick={() => setTarget(name)}>
               <Show
                 fallback={<div class={settingsStyles.checkPlaceholder} />}
                 when={target() === name}
@@ -339,9 +334,7 @@ const ThemeListContainer = () => {
         </div>
         <For each={Object.keys(themeList())}>
           {(name) => (
-            <Card
-              onClick={() => setTarget(name)}
-            >
+            <Card onClick={() => setTarget(name)}>
               <Show
                 fallback={<div class={settingsStyles.checkPlaceholder} />}
                 when={target() === name}

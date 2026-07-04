@@ -6,7 +6,13 @@ import './styles/base.css';
 import './styles/transitions.css';
 
 import { TransProvider } from '@jellybrick/solid-i18next';
-import { createTheme, ThemeProvider, token, useTheme, vars } from '@suis-ui/kit';
+import {
+  createTheme,
+  ThemeProvider,
+  token,
+  useTheme,
+  vars,
+} from '@suis-ui/kit';
 import {
   createRenderEffect,
   createSignal,
@@ -59,6 +65,12 @@ const darkTheme = createTheme({
         containerHigh: token.color.red[200],
         containerHigher: token.color.red[300],
         containerContrast: token.color.gray[100],
+      },
+      secondary: {
+        main: token.color.gray[800],
+        high: token.color.gray[700],
+        higher: token.color.gray[600],
+        contrast: token.color.gray[100],
       },
     },
     font: {

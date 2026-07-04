@@ -40,10 +40,7 @@ const TitleBar = () => {
       }}
     >
       <button
-        class={cx(
-          styles.titleBackButton,
-          isMac && styles.titleBackButtonMac,
-        )}
+        class={cx(styles.titleBackButton, isMac && styles.titleBackButtonMac)}
         onClick={() => history.back()}
         style={{
           '-webkit-app-region': 'no-drag',
@@ -69,11 +66,7 @@ const TitleBar = () => {
             });
           }}
         >
-          <Switch
-            fallback={
-              <Copy class={styles.iconMedium} />
-            }
-          >
+          <Switch fallback={<Copy class={styles.iconMedium} />}>
             <Match when={!isMaximized()}>
               <Square class={styles.iconMedium} />
             </Match>

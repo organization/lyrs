@@ -449,9 +449,7 @@ const GeneralContainer = () => {
         onClose={() => setOpen(false)}
         open={open()}
       >
-        <Box text="title">
-          {t('setting.general.language.alert')}
-        </Box>
+        <Box text="title">{t('setting.general.language.alert')}</Box>
       </Modal>
     </Box>
   );

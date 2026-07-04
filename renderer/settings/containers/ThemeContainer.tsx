@@ -183,21 +183,13 @@ const ThemeContainer = () => {
   useLyricsStyle(() => theme() ?? null, config);
 
   return (
-    <div
-      class={settingsStyles.pageRootFlushX}
-      ref={parentRef}
-    >
+    <div class={settingsStyles.pageRootFlushX} ref={parentRef}>
       <div class={settingsStyles.pageTitleRow}>
-        <span
-          class={settingsStyles.pageTitleLink}
-          onClick={onThemeListPage}
-        >
+        <span class={settingsStyles.pageTitleLink} onClick={onThemeListPage}>
           <Trans key={'setting.title.theme'} />
         </span>
         <ChevronRight class={settingsStyles.iconSmall} />
-        <span>
-          {themeName() ?? t('setting.theme.unknown')}
-        </span>
+        <span>{themeName() ?? t('setting.theme.unknown')}</span>
       </div>
       <Show when={theme()}>
         <div
@@ -211,7 +203,7 @@ const ThemeContainer = () => {
         </div>
       </Show>
       <div class={settingsStyles.paddedSectionStack}>
-        <Card >
+        <Card>
           <Trans key={'setting.theme.export-theme'} />
           <div class={settingsStyles.spacer} />
           <Button onClick={onExport} variant="primary">
@@ -355,7 +347,7 @@ const ThemeContainer = () => {
             value={theme()?.rowGap}
           />
         </Card>
-        <Card >
+        <Card>
           <div class={settingsStyles.cardTitle}>
             <Trans key={'setting.position.select-to-show-now-playing-panel'} />
           </div>
@@ -675,7 +667,7 @@ const ThemeContainer = () => {
             value={theme()?.lyric.multipleContainerRowGap}
           />
         </Card>
-        <Card >
+        <Card>
           <div class={settingsStyles.cardTitle}>
             <Trans
               key={'setting.position.select-orientation-to-display-lyrics'}

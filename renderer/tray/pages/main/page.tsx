@@ -1,16 +1,13 @@
 import { Trans } from '@jellybrick/solid-i18next';
-import { useNavigate } from '@solidjs/router';
 import { Box, Button } from '@suis-ui/kit';
-import { Bug, Power, Search, Settings, SlidersHorizontal } from 'lucide-solid';
-import { createSignal, type JSX, Show } from 'solid-js';
-import { Transition } from 'solid-transition-group';
+import { Power, Search, Settings } from 'lucide-solid';
+import { type JSX, Show } from 'solid-js';
 
-import { MenuContainer } from './MenuContainer';
-import { SearchContainer } from './SearchContainer';
+import { SearchPanel } from '../../components/search-panel';
+import { DebugButton } from '../../components/debug-button';
+import useConfig from '../../../hooks/useConfig';
 
-import MainIcon from '../../../assets/icon_music.png';
-import useConfig from '../../hooks/useConfig';
-import { DebugButton } from '../components/debug-bitton';
+import MainIcon from '../../../../assets/icon_music.png';
 
 type HeaderProps = {
   children?: JSX.Element;
@@ -42,10 +39,8 @@ const Header = (props: HeaderProps) => {
   );
 };
 
-export const MainContainer = () => {
-  const navigate = useNavigate();
+export const MainPage = () => {
   const [config] = useConfig();
-  const [isMenuVisible, setIsMenuVisible] = createSignal(false);
 
   const onSetting = () => {
     window.ipcRenderer.invoke('open-window', 'settings');
@@ -55,12 +50,6 @@ export const MainContainer = () => {
   };
   const onQuit = () => {
     window.ipcRenderer.invoke('quit-application');
-  };
-  const onDebug = () => {
-    navigate('/debug');
-  };
-  const onToggleMenu = () => {
-    setIsMenuVisible((prevIsVisible) => !prevIsVisible);
   };
 
   return (
@@ -72,19 +61,11 @@ export const MainContainer = () => {
       w="100%"
     >
       <Header>
-        <Button onClick={onToggleMenu} size="sm" type="icon" variant="ghost">
-          <SlidersHorizontal size={16} />
-        </Button>
         <Button onClick={onQuit} size="sm" type="icon" variant="ghost">
           <Power size={16} />
         </Button>
       </Header>
-      <Transition name="tray-menu">
-        <Show when={isMenuVisible()}>
-          <MenuContainer onClose={onToggleMenu} />
-        </Show>
-      </Transition>
-      <SearchContainer />
+      <SearchPanel />
       <Box bg="surface.higher" h="1px" mx="lg" />
       <Box direction="row" gap="sm" p="md">
         <Button flex={'auto'} onClick={onSetting} variant="ghost">
@@ -93,7 +74,12 @@ export const MainContainer = () => {
             <Trans key="tray.setting.label" />
           </Box>
         </Button>
-        <Button flex={'auto'} overflow='hidden' onClick={onSearch} variant="ghost">
+        <Button
+          flex={'auto'}
+          overflow="hidden"
+          onClick={onSearch}
+          variant="ghost"
+        >
           <Box align="center" direction="row" gap="xs" justify="center">
             <Search size="1.6rem" />
             <Trans key="tray.lyrics.label" />

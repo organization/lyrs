@@ -130,7 +130,7 @@ const GameContainer = () => {
       <For
         each={playingGame()}
         fallback={
-          <Card >
+          <Card>
             <Trans key={'setting.game.not-detected'} />
           </Card>
         }
@@ -145,9 +145,7 @@ const GameContainer = () => {
       <div class={settingsStyles.sectionTitle}>
         <Trans key={'setting.game.list-of-registered-games'} />
       </div>
-      <Card
-        onClick={onGameListPage}
-      >
+      <Card onClick={onGameListPage}>
         <div class={settingsStyles.pluginSummary}>
           <div class={settingsStyles.pluginNameLine}>
             <Trans key={'setting.game.registered-games'} />
@@ -166,11 +164,7 @@ const GameContainer = () => {
         <span class={settingsStyles.sectionTitle}>
           <Trans key={'setting.game.search-game'} />
         </span>
-        <Button
-          onClick={() => refetch()}
-          type="icon"
-          variant="ghost"
-        >
+        <Button onClick={() => refetch()} type="icon" variant="ghost">
           <LoaderCircle
             class={cx(
               settingsStyles.iconSmall,
@@ -235,9 +229,7 @@ const GameContainer = () => {
             processList.state === 'pending'
           }
         >
-          <Card >
-            {t('setting.game.refreshing-process-list')}
-          </Card>
+          <Card>{t('setting.game.refreshing-process-list')}</Card>
         </Match>
       </Switch>
 
@@ -251,9 +243,7 @@ const GameContainer = () => {
         </div>
         <For each={config()?.views}>
           {(view) => (
-            <Card
-              onClick={() => onAddGame(view.name)}
-            >
+            <Card onClick={() => onAddGame(view.name)}>
               <div class={settingsStyles.checkPlaceholder} />
               <div class={settingsStyles.cardTitle}>{view.name}</div>
               <div class={settingsStyles.spacer} />

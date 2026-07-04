@@ -1,4 +1,12 @@
-import { Box, BoxProps, Button, createClickAway, Item, Popup, vars } from '@suis-ui/kit';
+import {
+  Box,
+  BoxProps,
+  Button,
+  createClickAway,
+  Item,
+  Popup,
+  vars,
+} from '@suis-ui/kit';
 import Bug from 'lucide-solid/icons/bug';
 import useConfig from '../../../hooks/useConfig';
 import { useTransContext } from '@jellybrick/solid-i18next';
@@ -18,23 +26,24 @@ const DebugMenu = (props: DebugMenuProps) => {
     window.ipcRenderer.invoke('open-devtool', 'main', index);
   };
 
-  const targetWindows = () => [
-    {
-      icon: Search,
-      target: 'lyrics',
-      title: t('tray.devtools.lyrics.label'),
-    },
-    {
-      icon: Settings,
-      target: 'settings',
-      title: t('tray.devtools.setting.label'),
-    },
-    {
-      icon: AppWindowMac,
-      target: 'tray',
-      title: t('tray.devtools.tray.label'),
-    },
-  ] as const;
+  const targetWindows = () =>
+    [
+      {
+        icon: Search,
+        target: 'lyrics',
+        title: t('tray.devtools.lyrics.label'),
+      },
+      {
+        icon: Settings,
+        target: 'settings',
+        title: t('tray.devtools.setting.label'),
+      },
+      {
+        icon: AppWindowMac,
+        target: 'tray',
+        title: t('tray.devtools.tray.label'),
+      },
+    ] as const;
 
   return (
     <Box
@@ -47,7 +56,9 @@ const DebugMenu = (props: DebugMenuProps) => {
       r={'lg'}
       shadow={'lg'}
     >
-      <Box text={'caption'} c={'text.caption'} px={'md'} pt={'sm'}>렌더러</Box>
+      <Box text={'caption'} c={'text.caption'} px={'md'} pt={'sm'}>
+        렌더러
+      </Box>
       <Box p={'xs'}>
         <For each={config()?.views}>
           {(_, index) => (
@@ -65,7 +76,9 @@ const DebugMenu = (props: DebugMenuProps) => {
         </For>
       </Box>
       <Box bg={'surface.higher'} h={'1px'} />
-      <Box text={'caption'} c={'text.caption'} px={'md'} pt={'sm'}>기본</Box>
+      <Box text={'caption'} c={'text.caption'} px={'md'} pt={'sm'}>
+        기본
+      </Box>
       <Box p={'xs'}>
         <For each={targetWindows()}>
           {(item) => (
@@ -75,7 +88,13 @@ const DebugMenu = (props: DebugMenuProps) => {
               variant="ghost"
               w="100%"
               title={item.title}
-              media={<Dynamic component={item.icon} width={'1.6rem'} height={'1.6rem'} />}
+              media={
+                <Dynamic
+                  component={item.icon}
+                  width={'1.6rem'}
+                  height={'1.6rem'}
+                />
+              }
               action={<ChevronRight width={'1.6rem'} height={'1.6rem'} />}
             />
           )}
@@ -95,11 +114,7 @@ export const DebugButton = () => {
   return (
     <Popup
       open={open()}
-      element={(
-        <DebugMenu
-          ref={(el) => onCleanup(register(el))}
-        />
-      )}
+      element={<DebugMenu ref={(el) => onCleanup(register(el))} />}
       placement="top-end"
     >
       <Button
@@ -113,5 +128,5 @@ export const DebugButton = () => {
         <Bug size="1.6rem" />
       </Button>
     </Popup>
-  )
+  );
 };

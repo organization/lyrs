@@ -33,9 +33,7 @@ export const SettingOptionRenderer = <Type,>(
         w="0"
       >
         <Marquee>{props.option.name}</Marquee>
-        <Marquee gap={18}>
-          {props.option.description}
-        </Marquee>
+        <Marquee gap={18}>{props.option.description}</Marquee>
       </Box>
       <Box flex={1} />
       <SwitchFlow>

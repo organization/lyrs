@@ -5,10 +5,7 @@ import { Marquee } from '@suyongs/solid-utility';
 import { ChevronRight, Info } from 'lucide-solid';
 import { For, Switch as SwitchFlow, Match, Show, createSignal } from 'solid-js';
 
-import {
-  type ButtonOption,
-  type SettingOption,
-} from '../../../common/plugins';
+import { type ButtonOption, type SettingOption } from '../../../common/plugins';
 import Card from '../../components/Card';
 import * as componentStyles from '../../components/components.css';
 import Switch from '../../components/Switch';
@@ -62,16 +59,11 @@ const PluginSettingsContainer = () => {
   return (
     <div class={settingsStyles.pageRoot}>
       <div class={settingsStyles.pageTitleRow}>
-        <span
-          class={settingsStyles.pageTitleLink}
-          onClick={onPluginPage}
-        >
+        <span class={settingsStyles.pageTitleLink} onClick={onPluginPage}>
           <Trans key={'setting.title.plugin'} />
         </span>
         <ChevronRight class={settingsStyles.iconSmall} />
-        <span>
-          {plugin()?.name ?? t('setting.plugin.unknown')}
-        </span>
+        <span>{plugin()?.name ?? t('setting.plugin.unknown')}</span>
       </div>
       <Card
         subCards={[
@@ -176,7 +168,7 @@ const PluginSettingsContainer = () => {
       </div>
       <For each={plugin()?.js?.settings}>
         {(option) => (
-          <Card >
+          <Card>
             <SettingOptionRenderer
               onChange={(value) => setOption(option, value)}
               onClick={() => onButtonClick(option as ButtonOption)}

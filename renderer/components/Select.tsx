@@ -37,7 +37,9 @@ const Selector = <T extends string>(props: SelectProps<T>) => {
   const onChange = (selected: { value: string } | null) => {
     if (!selected) return;
 
-    const index = props.options.findIndex((option) => option === selected.value);
+    const index = props.options.findIndex(
+      (option) => option === selected.value,
+    );
     props.onChange?.(selected.value as T, index);
   };
 

@@ -16,10 +16,7 @@ const Spinner = (props: SpinnerProps): JSX.Element => {
   );
 
   return (
-    <div
-      {...leftProps}
-      class={styles.spinnerRoot}
-    >
+    <div {...leftProps} class={styles.spinnerRoot}>
       <LoaderCircle
         class={styles.spinnerSvg}
         size={local.size}

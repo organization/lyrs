@@ -100,9 +100,12 @@ export const resultIcon = style({
   color: vars.color.text.main,
 });
 
-export const resultCheckIcon = style([resultIcon, {
-  color: vars.color.success.main,
-}]);
+export const resultCheckIcon = style([
+  resultIcon,
+  {
+    color: vars.color.success.main,
+  },
+]);
 
 export const sidebarRoot = style({
   width: 312,
@@ -122,9 +125,12 @@ export const sidebarTitle = style({
   lineHeight: 1.3,
 });
 
-export const sidebarTitleSpaced = style([sidebarTitle, {
-  marginTop: vars.size.space.lg,
-}]);
+export const sidebarTitleSpaced = style([
+  sidebarTitle,
+  {
+    marginTop: vars.size.space.lg,
+  },
+]);
 
 export const progress = style({
   width: '280px !important',

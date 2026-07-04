@@ -16,13 +16,7 @@ const PresetCard = (props: PresetCardProps) => {
   const [local, leftProps] = splitProps(props, ['selected', 'name', 'url']);
 
   return (
-    <Card
-      {...leftProps}
-      class={cx(
-        settingsStyles.presetCard,
-        leftProps.class,
-      )}
-    >
+    <Card {...leftProps} class={cx(settingsStyles.presetCard, leftProps.class)}>
       <img
         alt={'Preset Image'}
         class={settingsStyles.presetImage}

@@ -177,7 +177,8 @@ const LyricsMapEditor = () => {
             }}
           >
             <Selector
-              format={(str) => t(`lyrics.search-mode.${str}`)} minWidth="90px"
+              format={(str) => t(`lyrics.search-mode.${str}`)}
+              minWidth="90px"
               mode={'select'}
               onChange={setSearchMode}
               options={['default', 'id'] as const}
@@ -238,9 +239,7 @@ const LyricsMapEditor = () => {
                   onClick={() => onSelect(item)}
                 >
                   <div class={lyricStyles.resultContent}>
-                    <div class={lyricStyles.resultMeta}>
-                      ID: {item.id}
-                    </div>
+                    <div class={lyricStyles.resultMeta}>ID: {item.id}</div>
                     <Marquee class={lyricStyles.marquee} gap={16}>
                       {item.title}
                     </Marquee>
@@ -268,9 +267,7 @@ const LyricsMapEditor = () => {
                     </Show>
                   </div>
                   <Show
-                    fallback={
-                      <Check class={lyricStyles.resultCheckIcon} />
-                    }
+                    fallback={<Check class={lyricStyles.resultCheckIcon} />}
                     when={lyricData()?.id !== item.id}
                   >
                     <ChevronRight class={lyricStyles.resultIcon} />

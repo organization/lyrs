@@ -3,13 +3,19 @@ import { globalStyle } from '@vanilla-extract/css';
 const enter = 'all 0.225s cubic-bezier(0.16, 1, 0.3, 1)';
 const exit = 'all 0.225s cubic-bezier(0.5, 0, 0.75, 0)';
 
-globalStyle('.tab-enter-active, .page-right-enter-active, .page-left-enter-active, .card-enter-active', {
-  transition: enter,
-});
+globalStyle(
+  '.tab-enter-active, .page-right-enter-active, .page-left-enter-active, .card-enter-active',
+  {
+    transition: enter,
+  },
+);
 
-globalStyle('.tab-exit-active, .page-right-exit-active, .page-left-exit-active, .card-exit-active', {
-  transition: exit,
-});
+globalStyle(
+  '.tab-exit-active, .page-right-exit-active, .page-left-exit-active, .card-exit-active',
+  {
+    transition: exit,
+  },
+);
 
 globalStyle('.tab-enter', {
   opacity: 0,
@@ -50,9 +56,12 @@ globalStyle('.selector-enter-active', {
   transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
 });
 
-globalStyle('.selector-exit-active, .modal-exit-active, .tray-menu-exit-active', {
-  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-});
+globalStyle(
+  '.selector-exit-active, .modal-exit-active, .tray-menu-exit-active',
+  {
+    transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+  },
+);
 
 globalStyle('.selector-enter', {
   opacity: 0,

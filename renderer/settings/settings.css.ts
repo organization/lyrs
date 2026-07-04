@@ -86,10 +86,13 @@ export const pageRoot = style({
   overflowY: 'auto',
 });
 
-export const pageRootFlushX = style([pageRoot, {
-  paddingRight: 0,
-  paddingLeft: 0,
-}]);
+export const pageRootFlushX = style([
+  pageRoot,
+  {
+    paddingRight: 0,
+    paddingLeft: 0,
+  },
+]);
 
 export const pageTitle = style({
   marginBottom: vars.size.space.xs,
@@ -97,14 +100,17 @@ export const pageTitle = style({
   lineHeight: 1.2,
 });
 
-export const pageTitleRow = style([pageTitle, {
-  display: 'flex',
-  alignItems: 'center',
-  gap: vars.size.space.sm,
-  paddingRight: vars.size.space.lg,
-  paddingLeft: vars.size.space.lg,
-  userSelect: 'none',
-}]);
+export const pageTitleRow = style([
+  pageTitle,
+  {
+    display: 'flex',
+    alignItems: 'center',
+    gap: vars.size.space.sm,
+    paddingRight: vars.size.space.lg,
+    paddingLeft: vars.size.space.lg,
+    userSelect: 'none',
+  },
+]);
 
 export const pageTitleLink = style({
   opacity: 0.8,
@@ -121,10 +127,13 @@ export const sectionTitle = style({
   fontSize: 15,
 });
 
-export const paddedSectionTitle = style([sectionTitle, {
-  paddingRight: vars.size.space.lg,
-  paddingLeft: vars.size.space.lg,
-}]);
+export const paddedSectionTitle = style([
+  sectionTitle,
+  {
+    paddingRight: vars.size.space.lg,
+    paddingLeft: vars.size.space.lg,
+  },
+]);
 
 export const sectionStack = style({
   display: 'flex',
@@ -133,10 +142,13 @@ export const sectionStack = style({
   gap: vars.size.space.xs,
 });
 
-export const paddedSectionStack = style([sectionStack, {
-  paddingRight: vars.size.space.lg,
-  paddingLeft: vars.size.space.lg,
-}]);
+export const paddedSectionStack = style([
+  sectionStack,
+  {
+    paddingRight: vars.size.space.lg,
+    paddingLeft: vars.size.space.lg,
+  },
+]);
 
 export const cardRow = style({
   width: '100%',
@@ -147,9 +159,12 @@ export const cardRow = style({
   gap: vars.size.space.xs,
 });
 
-export const cardRowBetween = style([cardRow, {
-  justifyContent: 'space-between',
-}]);
+export const cardRowBetween = style([
+  cardRow,
+  {
+    justifyContent: 'space-between',
+  },
+]);
 
 export const cardColumn = style({
   width: '100%',
@@ -320,9 +335,12 @@ export const iconMedium = style({
   color: vars.color.text.main,
 });
 
-export const avatar = style([iconMedium, {
-  borderRadius: vars.size.round.full,
-}]);
+export const avatar = style([
+  iconMedium,
+  {
+    borderRadius: vars.size.round.full,
+  },
+]);
 
 export const iconSuccess = style({
   color: vars.color.success.main,
@@ -494,29 +512,47 @@ export const pluginLogToken = style({
   fontFamily: 'monospace',
 });
 
-export const pluginLogPlugin = style([pluginLogToken, {
-  color: vars.color.primary.main,
-}]);
+export const pluginLogPlugin = style([
+  pluginLogToken,
+  {
+    color: vars.color.primary.main,
+  },
+]);
 
-export const pluginLogTime = style([pluginLogToken, {
-  color: vars.color.primary.main,
-}]);
+export const pluginLogTime = style([
+  pluginLogToken,
+  {
+    color: vars.color.primary.main,
+  },
+]);
 
-export const pluginLogError = style([pluginLogToken, {
-  color: vars.color.error.main,
-}]);
+export const pluginLogError = style([
+  pluginLogToken,
+  {
+    color: vars.color.error.main,
+  },
+]);
 
-export const pluginLogWarn = style([pluginLogToken, {
-  color: '#d97706',
-}]);
+export const pluginLogWarn = style([
+  pluginLogToken,
+  {
+    color: '#d97706',
+  },
+]);
 
-export const pluginLogInfo = style([pluginLogToken, {
-  color: '#2563eb',
-}]);
+export const pluginLogInfo = style([
+  pluginLogToken,
+  {
+    color: '#2563eb',
+  },
+]);
 
-export const pluginLogDebug = style([pluginLogToken, {
-  color: vars.color.text.caption,
-}]);
+export const pluginLogDebug = style([
+  pluginLogToken,
+  {
+    color: vars.color.text.caption,
+  },
+]);
 
 export const userCssToolbarScroller = style({
   marginTop: 40,

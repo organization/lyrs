@@ -26,9 +26,9 @@ export type LyricMode = 'auto' | 'manual' | 'player' | 'none';
 export type PlayingInfo = {
   status: Accessor<Status>;
 
-  id: Accessor<string>;
-  title: Accessor<string>;
-  artist: Accessor<string>;
+  id: Accessor<string | null>;
+  title: Accessor<string | null>;
+  artist: Accessor<string | null>;
   progress: Accessor<number>;
   duration: Accessor<number>;
   coverUrl: Accessor<string | null>;
@@ -37,16 +37,16 @@ export type PlayingInfo = {
   lyricData: Accessor<LyricData | null>;
   lyrics: Accessor<experimental.FlatMap<number, string[]> | null>;
   updateData: Accessor<UpdateData | null>;
-  lyricMode: Accessor<LyricMode>;
+  lyricMode: Accessor<LyricMode | null>;
   isMapped: Accessor<boolean>;
 };
 
 const PlayingInfoContext = createContext<PlayingInfo>({
   status: () => 'idle' as const,
 
-  id: () => '',
-  title: () => 'Not Playing' as const,
-  artist: () => 'N/A' as const,
+  id: () => null,
+  title: () => null,
+  artist: () => null,
   progress: () => 0,
   duration: () => 0,
   coverUrl: () => null,
@@ -70,9 +70,9 @@ const PlayingInfoProvider = (props: { children: JSX.Element }) => {
       if (data.data.type === 'idle') return defaultValue;
       return getter(data.data);
     });
-  const id = createMemo(get((data) => data.id, ''));
-  const title = createMemo(get((data) => data.title, 'Not Playing'));
-  const artist = createMemo(get((data) => data.artists.join(', '), 'N/A'));
+  const id = createMemo(get((data) => data.id, null));
+  const title = createMemo(get((data) => data.title, null));
+  const artist = createMemo(get((data) => data.artists.join(', '), null));
   const progress = createMemo(get((data) => data.progress, 0));
   const duration = createMemo(get((data) => data.duration, 0));
   const status = createMemo(() => updateData()?.data.type ?? 'idle');
@@ -93,8 +93,10 @@ const PlayingInfoProvider = (props: { children: JSX.Element }) => {
 
   const lyricMode = createMemo(() => {
     const mapper = lyricMapper();
+    const key = id();
+    if (!key) return null;
 
-    const mode = mapper[id()]?.mode;
+    const mode = mapper[key]?.mode;
 
     if (!mode) return 'auto';
     if (mode.type === 'none') return 'none';
@@ -161,7 +163,10 @@ const PlayingInfoProvider = (props: { children: JSX.Element }) => {
 
     if (!data || !lyricProvider) return;
 
-    const mapperData = mapper[id()];
+    const key = id();
+    if (!key) return;
+
+    const mapperData = mapper[key];
 
     let lyricData: LyricData | null = null;
     if (mapperData?.mode?.type === 'none') {

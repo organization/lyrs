@@ -151,10 +151,7 @@ const GameListContainer = () => {
   return (
     <div class={settingsStyles.pageRoot}>
       <div class={settingsStyles.pageTitleRow}>
-        <span
-          class={settingsStyles.pageTitleLink}
-          onClick={onGamePage}
-        >
+        <span class={settingsStyles.pageTitleLink} onClick={onGamePage}>
           <Trans key={'setting.title.game-overlay'} />
         </span>
         <ChevronRight class={settingsStyles.iconSmall} />
@@ -208,9 +205,7 @@ const GameListContainer = () => {
         </div>
         <For each={config()?.views}>
           {(view) => (
-            <Card
-              onClick={() => onAddGame(view.name)}
-            >
+            <Card onClick={() => onAddGame(view.name)}>
               <div class={settingsStyles.checkPlaceholder} />
               <div class={settingsStyles.cardTitle}>{view.name}</div>
               <div class={settingsStyles.spacer} />
@@ -228,9 +223,7 @@ const GameListContainer = () => {
         </div>
         <For each={config()?.views}>
           {(view) => (
-            <Card
-              onClick={() => onApplyTheme(view.name)}
-            >
+            <Card onClick={() => onApplyTheme(view.name)}>
               <div class={settingsStyles.checkPlaceholder} />
               <div class={settingsStyles.cardTitle}>{view.name}</div>
               <div class={settingsStyles.spacer} />

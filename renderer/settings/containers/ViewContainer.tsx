@@ -26,11 +26,7 @@ const getAllDisplays = () =>
 const getPrimaryDisplay = () =>
   window.ipcRenderer.sendSync('get-primary-screen') as ElectronScreenDisplay;
 
-const anchorClass = (
-  anchor: string,
-  enabled: boolean,
-  selected: boolean,
-) =>
+const anchorClass = (anchor: string, enabled: boolean, selected: boolean) =>
   cx(
     settingsStyles.anchorCard,
     anchor.includes('top') && settingsStyles.anchorTop,
@@ -123,7 +119,6 @@ export const ViewContainer = () => {
       <For each={views()}>
         {(view, index) => (
           <Card
-            
             expand={expand() === index()}
             setExpand={(isExpand) => {
               if (isExpand) setExpand(index());
@@ -344,10 +339,7 @@ export const ViewContainer = () => {
                 />
               </div>,
               <div class={settingsStyles.cardRowBetween}>
-                <Button
-                  onClick={() => setTarget(view.name)}
-                  variant="ghost"
-                >
+                <Button onClick={() => setTarget(view.name)} variant="ghost">
                   <Trans key={'setting.view.rename-view'} />
                 </Button>
                 <Button
@@ -398,7 +390,7 @@ export const ViewContainer = () => {
       <div class={settingsStyles.sectionTitle}>
         <Trans key={'setting.view.edit-view'} />
       </div>
-      <Card >
+      <Card>
         <Trans key={'setting.view.add-view'} />
         <div class={settingsStyles.spacer} />
         <Button onClick={onAddView} variant="primary">

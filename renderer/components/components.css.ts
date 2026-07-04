@@ -239,12 +239,15 @@ export const titleButton = style({
   },
 });
 
-export const titleBackButton = style([titleButton, {
-  width: 32,
-  height: 32,
-  marginLeft: vars.size.space.xs,
-  borderRadius: vars.size.round.sm,
-}]);
+export const titleBackButton = style([
+  titleButton,
+  {
+    width: 32,
+    height: 32,
+    marginLeft: vars.size.space.xs,
+    borderRadius: vars.size.round.sm,
+  },
+]);
 
 export const titleBackButtonMac = style({
   width: 24,

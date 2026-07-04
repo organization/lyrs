@@ -74,10 +74,7 @@ const LyricPreview = (props: LyricPreviewProps) => {
   return (
     <Card
       {...leftProps}
-      class={cx(
-        settingsStyles.previewCard,
-        leftProps.class,
-      )}
+      class={cx(settingsStyles.previewCard, leftProps.class)}
       subCards={[
         <>
           <LyricProgressBar theme={props.theme} />

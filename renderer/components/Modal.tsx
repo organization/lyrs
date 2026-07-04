@@ -57,11 +57,7 @@ const Modal = (props: ModalProps) => {
       <Transition name={'modal'}>
         <Show when={local.open}>
           <div class={styles.modalOverlay}>
-            <div
-              {...leftProps}
-              class={styles.modalContent}
-              ref={content}
-            >
+            <div {...leftProps} class={styles.modalContent} ref={content}>
               <div class={styles.modalBody}>{props.children}</div>
               <Show when={local.buttons}>
                 <div class={styles.modalFooter}>
