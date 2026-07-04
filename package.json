@@ -99,7 +99,7 @@
     "eslint-plugin-solid": "0.14.5",
     "node-abi": "4.33.0",
     "node-addon-api": "8.9.0",
-    "oxfmt": "0.56.0",
+    "oxfmt": "0.57.0",
     "oxlint": "1.72.0",
     "oxlint-tsgolint": "0.23.0",
     "patch-package": "8.0.1",
