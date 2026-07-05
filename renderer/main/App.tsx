@@ -5,8 +5,8 @@ import AnchoredView from './components/AnchoredView';
 import LyricProgressBar from './components/LyricProgressBar';
 import Lyrics from './components/Lyrics';
 
-import PlayingInfoProvider from '../components/PlayingInfoProvider';
-import UserCSS from '../components/UserCSS';
+import PlayingInfoProvider from '../components/playing-info-provider';
+import UserCSS from '../components/user-css';
 import useCurrent from '../hooks/useCurrent';
 import usePluginsCSS from '../hooks/usePluginsCSS';
 import useStyle from '../hooks/useStyle';

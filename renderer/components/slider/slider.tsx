@@ -1,3 +1,4 @@
+import { Box, token, vars } from '@suis-ui/kit';
 import {
   createSignal,
   For,
@@ -7,7 +8,14 @@ import {
   splitProps,
 } from 'solid-js';
 
-import * as styles from './components.css';
+import * as styles from './slider.css';
+
+const SLIDER_THUMB_SIZE_PX = 16;
+const SLIDER_POINTER_OFFSET_PX = 6;
+const sliderThumbSize = token.size['1'];
+const sliderTrackInset = vars.size.space.xs;
+const sliderTrackSize = vars.size.space.xs;
+const sliderMinWidth = `calc(${token.size['9']} + ${token.size['7']} + ${vars.size.space.sm})`;
 
 interface SliderLabel {
   value: number;
@@ -39,14 +47,15 @@ export const Slider = (props: SliderProps) => {
       },
       props,
     ),
-    ['min', 'max', 'value', 'step', 'label', 'onChange', 'width'],
+    ['min', 'max', 'value', 'step', 'label', 'onChange', 'width', 'class'],
   );
 
   const [slider, setSlider] = createSignal<HTMLDivElement | null>(null);
   const [rect, setRect] = createSignal<DOMRect | null>(null);
 
   const value = () => (local.value - local.min) / (local.max - local.min);
-  const maxWidth = () => (rect()?.width ?? 16) - 16;
+  const maxWidth = () =>
+    (rect()?.width ?? SLIDER_THUMB_SIZE_PX) - SLIDER_THUMB_SIZE_PX;
 
   const onMoveStart = (event: PointerEvent) => {
     const element = slider();
@@ -72,8 +81,11 @@ export const Slider = (props: SliderProps) => {
     if (!domRect) return;
 
     const max = Math.max(1, maxWidth());
-    const now = Math.min(Math.max(0, event.pageX - domRect.left - 6), max);
-    const value = local.min + (now / max) * (local.max - local.min);
+    const now = Math.min(
+      Math.max(0, event.pageX - domRect.left - SLIDER_POINTER_OFFSET_PX),
+      max,
+    );
+    const value = local.min + ((now / max) * (local.max - local.min));
     const newValue = ~~(value / local.step) * local.step;
 
     local.onChange?.(newValue);
@@ -87,36 +99,73 @@ export const Slider = (props: SliderProps) => {
   });
 
   return (
-    <div
+    <Box
       {...leftProps}
-      class={
-        local.label.length > 0
-          ? `${styles.sliderRoot} ${styles.sliderRootWithLabels}`
-          : styles.sliderRoot
-      }
+      align="center"
+      direction="row"
+      h={sliderThumbSize}
+      justify="flex-start"
+      minW={sliderMinWidth}
       onPointerDown={onMoveStart}
+      pb={local.label.length > 0 ? 'xl' : undefined}
+      pos="relative"
       ref={setSlider}
       style={{
         '--value': value(),
-        'width': local.width,
+        'cursor': 'pointer',
       }}
+      w={local.width}
     >
-      <div class={styles.sliderRail} />
-      <div class={styles.sliderFill} />
-      <div
+      <Box
+        bg="surface.higher"
+        h={sliderTrackSize}
+        left={sliderTrackInset}
+        pos="absolute"
+        r="full"
+        right={sliderTrackInset}
+        z={-2}
+      />
+      <Box
+        bg="primary.main"
+        class={styles.sliderFill}
+        h={sliderTrackSize}
+        left={sliderTrackInset}
+        pos="absolute"
+        r="full"
+        right={sliderTrackInset}
+        z={-1}
+      />
+      <Box
+        bg="primary.main"
         class={styles.sliderThumb}
-        style={`translate: calc(var(--value, 0) * ${maxWidth()}px) 0;`}
+        h={sliderThumbSize}
+        r="full"
+        style={{
+          translate: `calc(var(--value, 0) * ${maxWidth()}px) 0`,
+        }}
+        w={sliderThumbSize}
+        z={0}
       />
       <For each={local.label}>
         {(item) => (
-          <div
+          <Box
+            bottom="0"
+            c="text.main"
             class={styles.sliderLabel}
-            style={`left: ${((item.value - local.min) / (local.max - local.min)) * maxWidth() + 8}px;`}
+            pos="absolute"
+            style={{
+              left: `${
+                (((item.value - local.min) / (local.max - local.min)) *
+                  maxWidth()) +
+                8
+              }px`,
+            }}
+            w="100%"
           >
             {item.label}
-          </div>
+          </Box>
         )}
       </For>
-    </div>
+    </Box>
   );
 };

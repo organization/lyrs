@@ -1,6 +1,7 @@
+import { vars } from '@suis-ui/kit/css';
 import { splitProps } from 'solid-js';
 
-import { usePlayingInfo } from '../../components/PlayingInfoProvider';
+import { usePlayingInfo } from '../../components/playing-info-provider';
 import { useClassStyle } from '../../hooks/useClassStyle';
 import useCurrent from '../../hooks/useCurrent';
 import useStyle from '../../hooks/useStyle';
@@ -60,7 +61,7 @@ const AnchoredView = (props: AnchoredViewProps) => {
       row-gap: ${style()?.rowGap ?? '2'}rem;
       
       opacity: var(${userCSSVariables['var-proximity-opacity']}, 1);
-      transition: opacity 0.225s linear;
+      transition: opacity ${vars.motion.duration.fast} ${vars.motion.easing.linear};
     `;
   });
 

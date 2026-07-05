@@ -1,5 +1,5 @@
 import { Trans, useTransContext } from '@jellybrick/solid-i18next';
-import { Box, Button } from '@suis-ui/kit';
+import { Button, token } from '@suis-ui/kit';
 import {
   For,
   Show,
@@ -12,8 +12,9 @@ import {
 import PluginCard from './components/plugin-card';
 import PluginLog from './components/plugin-log';
 
-import Card from '../../../components/Card';
-import Modal from '../../../components/Modal';
+import Card from '../../../components/card';
+import Modal from '../../../components/modal';
+import { ScrollArea } from '../../../components/scroll-area';
 import useConfig from '../../../hooks/useConfig';
 import usePlugins from '../../../hooks/usePlugins';
 import {
@@ -24,6 +25,8 @@ import {
   PageTitle,
   SectionTitle,
 } from '../../components/setting-layout';
+
+const LOG_LIST_MAX_HEIGHT = `calc(${token.size['9']} * 4)`;
 
 export const PluginPage = () => {
   const [t] = useTransContext();
@@ -124,13 +127,13 @@ export const PluginPage = () => {
           justify="between"
           setExpand={setShowLog}
           subCards={[
-            <Box maxH="400px" overflow="yAuto">
+            <ScrollArea fadeAxes="y" maxH={LOG_LIST_MAX_HEIGHT} overflow="yAuto">
               <For each={logs()}>
                 {({ plugin, log }) => (
                   <PluginLog log={log} showPlugin={plugin} />
                 )}
               </For>
-            </Box>,
+            </ScrollArea>,
           ]}
         >
           <Trans key={'setting.plugin.show-log'} />

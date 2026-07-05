@@ -1,7 +1,7 @@
 import { Trans, useTransContext } from '@jellybrick/solid-i18next';
 import { Box, Input } from '@suis-ui/kit';
 
-import { Slider } from '../../../components/Slider';
+import { Slider } from '../../../components/slider';
 
 type LyricDelayEditorProps = {
   onChange: (value: number) => void;

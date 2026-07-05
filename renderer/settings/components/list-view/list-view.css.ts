@@ -1,27 +1,34 @@
-import { vars } from '@suis-ui/kit/css';
+import { token, vars } from '@suis-ui/kit/css';
 import { style } from '@vanilla-extract/css';
+
+export const navScrollArea = style({
+  position: 'relative',
+  width: `calc(${token.size['9']} * 4 + ${token.size['4']} + ${token.size['3']})`,
+  height: '100%',
+  flexShrink: 0,
+});
 
 export const navList = style({
   position: 'relative',
-  width: 312,
-  flexShrink: 0,
+  width: '100%',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'stretch',
   gap: vars.size.space.xs,
+  margin: 0,
   padding: vars.size.space.lg,
-  overflowY: 'auto',
+  listStyle: 'none',
 });
 
 export const navIndicator = style({
   position: 'absolute',
   left: vars.size.space.lg,
-  top: 10,
-  width: 3,
-  height: 16,
+  top: `calc(${vars.size.space.md} - ${vars.size.line.thick})`,
+  width: `calc(${vars.size.line.thick} + ${vars.size.line.md})`,
+  height: token.size['1'],
   background: vars.color.primary.main,
   borderRadius: vars.size.round.full,
-  transition: 'all 0.3s cubic-bezier(0.87, 0, 0.13, 1)',
+  transition: vars.motion.transition.normal,
 });
 
 export const navIndicatorHidden = style({
@@ -32,7 +39,7 @@ export const navIndicatorHidden = style({
 export const navItem = style({
   position: 'relative',
   width: '100%',
-  minHeight: 36,
+  minHeight: token.size['5'],
   display: 'flex',
   alignItems: 'center',
   gap: vars.size.space.xs,
@@ -57,5 +64,5 @@ export const navItemSelected = style({
 
 export const navItemTitle = style({
   marginLeft: vars.size.space.lg,
-  fontSize: 15,
+  fontSize: `calc(${vars.font.body.fontSize} + ${vars.size.line.md})`,
 });

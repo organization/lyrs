@@ -1,7 +1,7 @@
 import { createEffect, createSignal, on } from 'solid-js';
 
 import { type LyricMetadata } from '../../../common/provider';
-import { usePlayingInfo } from '../../components/PlayingInfoProvider';
+import { usePlayingInfo } from '../../components/playing-info-provider';
 import useLyricMapper from '../../hooks/useLyricMapper';
 import { useLyricProvider } from '../../hooks/useLyricProvider';
 import usePluginOverride from '../../hooks/usePluginOverride';

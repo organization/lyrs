@@ -5,19 +5,19 @@ import { Transition } from 'solid-transition-group';
 
 import { MainPage } from './pages';
 
-import PlayingInfoProvider from '../components/PlayingInfoProvider';
 import { alpha } from '../../utils/style';
+import PlayingInfoProvider from '../components/playing-info-provider';
 
 export const App = () => {
   const [url, setUrl] = createSignal('/');
 
   return (
     <Box
-      w={'100%'}
       h={'100%'}
       style={{
         background: alpha(token.color.gray[950], 0.5),
       }}
+      w={'100%'}
     >
       <PlayingInfoProvider>
         <Transition

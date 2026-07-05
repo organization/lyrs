@@ -2,9 +2,9 @@ import { Box, Button, Input } from '@suis-ui/kit';
 import { Marquee } from '@suyongs/solid-utility';
 import { Match, Switch as SwitchFlow } from 'solid-js';
 
-import * as componentStyles from '../../../components/components.css';
-import Selector from '../../../components/Select';
-import Switch from '../../../components/Switch';
+import { dangerButton } from '../../../components/button';
+import Selector from '../../../components/select';
+import Switch from '../../../components/switch';
 
 import type {
   ButtonOption,
@@ -78,7 +78,7 @@ export const SettingOptionRenderer = <Type,>(
           <Button
             class={
               (props.option as ButtonOption).variant === 'error'
-                ? componentStyles.dangerButton
+                ? dangerButton
                 : undefined
             }
             onClick={() => props.onClick?.()}

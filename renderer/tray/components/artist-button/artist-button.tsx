@@ -5,7 +5,7 @@ import {
   createClickAway,
   Input,
   Popup,
-  Tooltip,
+  token,
 } from '@suis-ui/kit';
 import { UserRoundSearch } from 'lucide-solid';
 import { createEffect, createSignal, onCleanup } from 'solid-js';
@@ -28,24 +28,22 @@ export const ArtistButton = (props: ArtistButtonProps) => {
 
   return (
     <Popup
-      open={open()}
-      placement={'bottom-end'}
       element={
         <Box
-          ref={(el) => onCleanup(register(el))}
-          bg={'surface.main'}
-          bd={'md'}
+          align={'flex-end'}
           bc={'surface.higher'}
+          bd={'md'}
+          bg={'surface.main'}
+          gap={'sm'}
           p={'sm'}
           r={'lg'}
+          ref={(el) => onCleanup(register(el))}
           shadow={'lg'}
-          gap={'sm'}
-          align={'flex-end'}
         >
           <Input
-            value={value()}
             onChange={(e) => setValue(e.target.value)}
             placeholder={t('lyrics.artist')}
+            value={value()}
           />
           <Button
             onClick={() => {
@@ -56,16 +54,18 @@ export const ArtistButton = (props: ArtistButtonProps) => {
             {t('common.okay')}
           </Button>
         </Box>
-      }
+        }
+      open={open()}
+      placement={'bottom-end'}
     >
       <Button
+        onClick={() => setOpen(!open())}
+        r={'sm'}
+        size={'sm'}
         type={'icon'}
         variant="ghost"
-        size={'sm'}
-        r={'sm'}
-        onClick={() => setOpen(!open())}
       >
-        <UserRoundSearch size={16} />
+        <UserRoundSearch size={token.size['1']} />
       </Button>
     </Popup>
   );

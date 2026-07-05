@@ -4,10 +4,10 @@ import { Button, Input } from '@suis-ui/kit';
 import icon from '../../../../../assets/icon_music.png';
 import { PRESET_PREFIX } from '../../../../../common/constants';
 import presetThemes from '../../../../../common/presets';
-import Card from '../../../../components/Card';
-import * as componentStyles from '../../../../components/components.css';
-import Selector from '../../../../components/Select';
-import Switch from '../../../../components/Switch';
+import { dangerButton } from '../../../../components/button';
+import Card from '../../../../components/card';
+import Selector from '../../../../components/select';
+import Switch from '../../../../components/switch';
 import { AnchorGrid } from '../../../components/anchor-grid';
 import {
   PositionGrid,
@@ -225,7 +225,7 @@ const ViewCard = (props: ViewCardProps) => {
             <Trans key={'setting.view.rename-view'} />
           </Button>
           <Button
-            class={componentStyles.dangerButton}
+            class={dangerButton}
             onClick={() => {
               updateView((views) => {
                 views.splice(props.viewIndex, 1);

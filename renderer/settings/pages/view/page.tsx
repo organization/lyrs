@@ -6,7 +6,7 @@ import ViewCard from './components/view-card';
 import ViewRenameModal from './components/view-rename-modal';
 
 import { DEFAULT_CONFIG } from '../../../../common/constants';
-import Card from '../../../components/Card';
+import Card from '../../../components/card';
 import useConfig from '../../../hooks/useConfig';
 import useGameList from '../../../hooks/useGameList';
 import useThemeList from '../../../hooks/useThemeList';

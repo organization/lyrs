@@ -14,13 +14,13 @@ import {
   type Middleware,
 } from 'stylis';
 
-import useStyle from '../hooks/useStyle';
+import useStyle from '../../hooks/useStyle';
 import {
   userCSSSelectors,
   userCSSTransitions,
-} from '../utils/userCSSSelectors';
+} from '../../utils/userCSSSelectors';
 
-import type { StyleConfig } from '../../common/schema';
+import type { StyleConfig } from '../../../common/schema';
 
 const userCSSMiddleware: Middleware = (element) => {
   if (element.type !== 'rule') {

@@ -1,4 +1,4 @@
-import { Box, Input } from '@suis-ui/kit';
+import { Box, Input, token } from '@suis-ui/kit';
 import { Show } from 'solid-js';
 
 import { UnitInput } from '../../../../components/setting-layout';
@@ -22,7 +22,7 @@ const NumberField = (props: NumberFieldProps) => (
       step={props.step}
       type="number"
       value={props.value}
-      w={props.width ?? '12rem'}
+      w={props.width ?? `calc(${token.size['9']} * 2)`}
     />
     <Show when={props.unit}>
       <Box text="caption">{props.unit}</Box>

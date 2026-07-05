@@ -10,8 +10,8 @@ import {
 
 import * as styles from './lyric-preview.css';
 
-import Card from '../../../../../components/Card';
-import UserCSS from '../../../../../components/UserCSS';
+import Card from '../../../../../components/card';
+import UserCSS from '../../../../../components/user-css';
 import useConfig from '../../../../../hooks/useConfig';
 import LyricProgressBar from '../../../../../main/components/LyricProgressBar';
 import { useLyricsStyle } from '../../../../../main/components/Lyrics';

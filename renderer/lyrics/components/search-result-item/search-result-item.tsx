@@ -1,6 +1,6 @@
 import { Trans } from '@jellybrick/solid-i18next';
 import { Box, Button, Item, Tooltip } from '@suis-ui/kit';
-import { vars } from '@suis-ui/kit/css';
+import { component, token, vars } from '@suis-ui/kit/css';
 import { Check, ChevronRight } from 'lucide-solid';
 import { Show } from 'solid-js';
 
@@ -37,7 +37,7 @@ export const SearchResultItem = (props: SearchResultItemProps) => {
               align="flex-end"
               c="text.caption"
               direction="column"
-              minW="9rem"
+              minW={`calc(${token.size['9']} + ${token.size['3']} + ${vars.size.line.thick})`}
               style={{ 'text-align': 'right' }}
               text="caption"
             >
@@ -50,10 +50,15 @@ export const SearchResultItem = (props: SearchResultItemProps) => {
               </Show>
             </Box>
             <Show
-              fallback={<Check color={vars.color.success.main} size="1.6rem" />}
+              fallback={
+                <Check
+                  color={vars.color.success.main}
+                  size={component.select.check.size}
+                />
+              }
               when={!props.selected}
             >
-              <ChevronRight size="1.6rem" />
+              <ChevronRight size={component.select.indicator.size} />
             </Show>
           </Box>
         }
@@ -66,8 +71,8 @@ export const SearchResultItem = (props: SearchResultItemProps) => {
             <Box>{props.item.artist ?? 'N/A'}</Box>
           </Box>
         }
+        minH={`calc(${token.size['9']} + ${vars.size.space.xs} - ${vars.size.line.md})`}
         onClick={() => props.onSelect(props.item)}
-        style={{ 'min-height': '67px' }}
         title={props.item.title}
         variant="secondary"
         w="100%"

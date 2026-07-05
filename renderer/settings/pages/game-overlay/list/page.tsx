@@ -3,7 +3,7 @@ import { useNavigate } from '@solidjs/router';
 import { Box, Button } from '@suis-ui/kit';
 import { createEffect, createSignal, For, type JSX } from 'solid-js';
 
-import * as componentStyles from '../../../../components/components.css';
+import { dangerButton } from '../../../../components/button';
 import useConfig from '../../../../hooks/useConfig';
 import useGameList from '../../../../hooks/useGameList';
 import {
@@ -171,7 +171,7 @@ export const GameListPage = () => {
               </Box>
             </Button>
             <Button
-              class={componentStyles.dangerButton}
+              class={dangerButton}
               onClick={() => onRemoveGame(game.path)}
               variant="primary"
             >

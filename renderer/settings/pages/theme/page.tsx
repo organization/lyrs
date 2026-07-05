@@ -7,9 +7,9 @@ import { For, Show, createSignal, type JSX } from 'solid-js';
 import { DEFAULT_STYLE } from '../../../../common/constants';
 import presetThemes from '../../../../common/presets';
 import { type StyleConfig } from '../../../../common/schema';
-import Card from '../../../components/Card';
-import * as componentStyles from '../../../components/components.css';
-import Modal from '../../../components/Modal';
+import { dangerButton } from '../../../components/button';
+import Card from '../../../components/card';
+import Modal from '../../../components/modal';
 import useThemeList from '../../../hooks/useThemeList';
 import {
   CardRow,
@@ -165,7 +165,7 @@ export const ThemeListPage = () => {
             subCards={[
               <CardRow>
                 <Button
-                  class={componentStyles.dangerButton}
+                  class={dangerButton}
                   onClick={() => onDelete(name)}
                   variant="primary"
                 >

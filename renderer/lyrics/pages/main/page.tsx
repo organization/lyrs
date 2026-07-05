@@ -1,10 +1,10 @@
 import { Box } from '@suis-ui/kit';
 
-import Layout from '../../../components/Layout';
-import PlayingInfoProvider from '../../../components/PlayingInfoProvider';
+import Layout from '../../../components/layout';
+import PlayingInfoProvider from '../../../components/playing-info-provider';
 import usePluginsCSS from '../../../hooks/usePluginsCSS';
-import { SearchToolbar } from '../../components/search-toolbar';
 import { SearchPanel } from '../../components/search-panel';
+import { SearchToolbar } from '../../components/search-toolbar';
 import { Sidebar } from '../../components/sidebar';
 import { useLyricsSearch } from '../../hooks/useLyricsSearch';
 
@@ -26,11 +26,7 @@ export const MainPage = () => {
         <PlayingInfoProvider>
           <Sidebar />
         </PlayingInfoProvider>
-        <Box
-          align="center"
-          overflow="hidden"
-          flex={1}
-        >
+        <Box align="center" flex={1} overflow="hidden">
           <SearchToolbar search={search} />
           <SearchPanel search={search} />
         </Box>

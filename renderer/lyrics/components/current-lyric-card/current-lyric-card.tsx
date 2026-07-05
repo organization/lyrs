@@ -5,11 +5,11 @@ import { Match, Show, Switch } from 'solid-js';
 
 import { type LyricMapperMode } from '../../../../common/schema';
 import { getLyricMapperId } from '../../../../common/utils';
-import Card from '../../../components/Card';
+import Card from '../../../components/card';
 import {
   type LyricMode,
   usePlayingInfo,
-} from '../../../components/PlayingInfoProvider';
+} from '../../../components/playing-info-provider';
 import useLyricMapper from '../../../hooks/useLyricMapper';
 import { LyricDelayEditor } from '../lyric-delay-editor';
 

@@ -1,6 +1,7 @@
 import { Box } from '@suis-ui/kit';
 import { createEffect, For } from 'solid-js';
 
+import { ScrollArea } from '../../../components/scroll-area';
 import useLyric from '../../../hooks/useLyric';
 import { useCurrentLyricItems } from '../../hooks/useCurrentLyricItems';
 
@@ -18,7 +19,8 @@ export const LyricLineList = () => {
   });
 
   return (
-    <Box
+    <ScrollArea
+      fadeAxes="y"
       flex={1}
       minH="0"
       overflow="auto"
@@ -40,6 +42,6 @@ export const LyricLineList = () => {
           </Box>
         )}
       </For>
-    </Box>
+    </ScrollArea>
   );
 };

@@ -1,6 +1,6 @@
 import { Trans, useTransContext } from '@jellybrick/solid-i18next';
 import { useNavigate, useParams } from '@solidjs/router';
-import { Box, Button } from '@suis-ui/kit';
+import { Box, Button, token } from '@suis-ui/kit';
 import { createSignal, onCleanup, onMount, Show, untrack } from 'solid-js';
 
 import ColorPicker from './components/color-picker';
@@ -10,9 +10,9 @@ import UserCSSEditor from './components/user-css-editor';
 import * as styles from './page.css';
 
 import icon from '../../../../../assets/icon_music.png';
-import Card from '../../../../components/Card';
-import Selector from '../../../../components/Select';
-import Switch from '../../../../components/Switch';
+import Card from '../../../../components/card';
+import Selector from '../../../../components/select';
+import Switch from '../../../../components/switch';
 import useConfig from '../../../../hooks/useConfig';
 import useThemeList from '../../../../hooks/useThemeList';
 import { useLyricsStyle } from '../../../../main/components/Lyrics';
@@ -50,6 +50,8 @@ const ANIMATION_LIST = [
   'slime',
   'custom',
 ];
+const CONTROL_WIDTH = `calc(${token.size['9']} * 2)`;
+const PREVIEW_MAX_HEIGHT = `calc(${token.size['9']} + ${token.size['1']})`;
 
 export const ThemePage = () => {
   const params = useParams();
@@ -193,7 +195,7 @@ export const ThemePage = () => {
             <Trans key={'setting.theme.font'} />
           </CardTitle>
           <Selector
-            minWidth="210px"
+            minWidth={CONTROL_WIDTH}
             onChange={(value) => setTheme({ font: value })}
             options={fontList()}
             placeholder={t('setting.theme.font.placeholder')}
@@ -226,7 +228,7 @@ export const ThemePage = () => {
               'font-weight': theme()?.fontWeight,
             }}
             value={theme()?.fontWeight ?? '400'}
-            width="12rem"
+            width={CONTROL_WIDTH}
           />
         </Card>
         <Card
@@ -241,7 +243,7 @@ export const ThemePage = () => {
                 direction="column"
                 gap="lg"
                 justify="flex-start"
-                maxH="128px"
+                maxH={PREVIEW_MAX_HEIGHT}
                 pos="relative"
                 w="100%"
               >
@@ -264,7 +266,7 @@ export const ThemePage = () => {
                 options={ANIMATION_LIST}
                 placeholder={t('setting.theme.animation.placeholder')}
                 value={theme()?.animation ?? 'pretty'}
-                width="12rem"
+                width={CONTROL_WIDTH}
               />
             </CardRow>,
             <CardRow>

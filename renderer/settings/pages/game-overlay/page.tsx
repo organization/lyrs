@@ -15,7 +15,7 @@ import GameCard from './components/game-card';
 import GameViewModal from './components/game-view-modal';
 import * as styles from './page.css';
 
-import Card from '../../../components/Card';
+import Card from '../../../components/card';
 import useConfig from '../../../hooks/useConfig';
 import useGameList from '../../../hooks/useGameList';
 import usePlayingGame from '../../../hooks/usePlayingGame';

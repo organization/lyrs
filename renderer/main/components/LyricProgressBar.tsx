@@ -1,8 +1,9 @@
+import { token, vars } from '@suis-ui/kit/css';
 import { Marquee } from '@suyongs/solid-utility';
 import { createEffect, createSignal, splitProps } from 'solid-js';
 
 import icon from '../../../assets/icon_music.png';
-import { usePlayingInfo } from '../../components/PlayingInfoProvider';
+import { usePlayingInfo } from '../../components/playing-info-provider';
 import { useClassStyle } from '../../hooks/useClassStyle';
 import useStyle from '../../hooks/useStyle';
 import { cx } from '../../utils/classNames';
@@ -64,19 +65,19 @@ const LyricProgressBar = (props: LyricProgressBarProps) => {
       position: relative;
       
       max-width: ${style.nowPlaying.maxWidth}px;
-      padding: 0.75rem;
+      padding: ${vars.size.space.sm};
 
       color: ${style.nowPlaying.color};
       background-color: ${style.nowPlaying.background};
       font-family: ${style.font};
       font-weight: ${style.fontWeight};
       opacity: ${status() !== 'playing' ? style.nowPlaying.stoppedOpacity : 1};
-      border-radius: 0.375rem;
+      border-radius: ${vars.size.round.xs};
       
       overflow: hidden;
       
       will-change: opacity, transform;
-      transition: all 0.225s ease-out;
+      transition: ${vars.motion.transition.fast};
     `;
   });
 
@@ -99,7 +100,7 @@ const LyricProgressBar = (props: LyricProgressBarProps) => {
     transform-origin: left;
     transform: scaleX(var(${userCSSVariables['var-nowplaying-percent']}));
     
-    ${progressTransition() ? 'transition: transform 0.225s cubic-bezier(0.34, 1.56, 0.64, 1);' : ''}
+    ${progressTransition() ? `transition: transform ${vars.motion.duration.fast} ${vars.motion.easing.emphasized};` : ''}
   `,
   );
 
@@ -110,19 +111,19 @@ const LyricProgressBar = (props: LyricProgressBarProps) => {
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    gap: 0.5rem;
+    gap: ${vars.size.space.xs};
   `,
   );
 
   useClassStyle(
     userCSSSelectors['nowplaying-cover'],
     () => `
-    width: 1.5rem;
-    height: 1.5rem;
+    width: ${token.size['1']};
+    height: ${token.size['1']};
     
     object-fit: contain;
 
-    transition: all 0.225s ease-out;
+    transition: ${vars.motion.transition.fast};
   `,
   );
 
@@ -147,7 +148,7 @@ const LyricProgressBar = (props: LyricProgressBarProps) => {
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    gap: 0.5rem;
+    gap: ${vars.size.space.xs};
   `,
   );
 

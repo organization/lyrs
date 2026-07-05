@@ -1,7 +1,7 @@
 import { useTransContext } from '@jellybrick/solid-i18next';
 import { Input } from '@suis-ui/kit';
 
-import Modal from '../../../../components/Modal';
+import Modal from '../../../../components/modal';
 import { ModalBody, ModalTitle } from '../../../components/setting-layout';
 
 export interface ViewRenameModalProps {

@@ -5,8 +5,8 @@ import { Marquee } from '@suyongs/solid-utility';
 import { Check, ChevronRight, CircleMinus } from 'lucide-solid';
 import { Show } from 'solid-js';
 
-import Card from '../../../../components/Card';
-import Switch from '../../../../components/Switch';
+import Card from '../../../../components/card';
+import Switch from '../../../../components/switch';
 import usePlugins from '../../../../hooks/usePlugins';
 import {
   CardCaptionLarge,

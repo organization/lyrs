@@ -11,15 +11,15 @@ import {
 } from 'solid-js';
 import { experimental } from 'tstl';
 
-import { type LyricData, type LyricMetadata } from '../../common/provider';
+import { type LyricData, type LyricMetadata } from '../../../common/provider';
 import {
   type PausedData,
   type PlayingData,
   type UpdateData,
-} from '../../common/schema';
-import useLyricMapper from '../hooks/useLyricMapper';
-import { useLyricProvider } from '../hooks/useLyricProvider';
-import usePluginOverride from '../hooks/usePluginOverride';
+} from '../../../common/schema';
+import useLyricMapper from '../../hooks/useLyricMapper';
+import { useLyricProvider } from '../../hooks/useLyricProvider';
+import usePluginOverride from '../../hooks/usePluginOverride';
 
 export type Status = UpdateData['data']['type'];
 export type LyricMode = 'auto' | 'manual' | 'player' | 'none';

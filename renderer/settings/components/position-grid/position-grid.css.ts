@@ -1,4 +1,4 @@
-import { vars } from '@suis-ui/kit/css';
+import { token, vars } from '@suis-ui/kit/css';
 import { style } from '@vanilla-extract/css';
 
 export const positionGrid = style({
@@ -12,8 +12,8 @@ export const positionGrid = style({
 });
 
 export const positionIcon = style({
-  width: 48,
-  height: 48,
+  width: token.size['7'],
+  height: token.size['7'],
   objectFit: 'contain',
   alignSelf: 'center',
   justifySelf: 'center',

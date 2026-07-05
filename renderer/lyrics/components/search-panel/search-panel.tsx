@@ -1,12 +1,12 @@
-import { Trans, useTransContext } from '@jellybrick/solid-i18next';
+import { useTransContext } from '@jellybrick/solid-i18next';
 import { Box } from '@suis-ui/kit';
-import { createEffect, For, Match, onCleanup, Show, Switch } from 'solid-js';
+import { createEffect, For, onCleanup, Show } from 'solid-js';
 
-import Spinner from '../../../components/Spinner';
-import { type LyricsSearchState } from '../../hooks/useLyricsSearch';
-import { SearchResultItem } from '../search-result-item';
 import { Empty } from '../../../components/empty';
 import { ScrollArea } from '../../../components/scroll-area';
+import Spinner from '../../../components/spinner';
+import { type LyricsSearchState } from '../../hooks/useLyricsSearch';
+import { SearchResultItem } from '../search-result-item';
 
 type SearchPanelProps = {
   search: LyricsSearchState;
@@ -38,12 +38,13 @@ export const SearchPanel = (props: SearchPanelProps) => {
     <ScrollArea
       align="stretch"
       direction="column"
+      fadeAxes="y"
       flex={1}
       gap="xs"
       minH="0"
-      w="100%"
-      p={'md'}
       overflow={'auto'}
+      p={'md'}
+      w="100%"
     >
       <Show when={props.search.loading()}>
         <Box align="center" justify="center" p="md" w="100%">
@@ -54,8 +55,8 @@ export const SearchPanel = (props: SearchPanelProps) => {
         when={!props.search.loading() && props.search.searchList().length === 0}
       >
         <Empty
-          title={t('lyrics.lyric-search-not-found')}
           description={t('lyrics.lyric-search-not-found-description')}
+          title={t('lyrics.lyric-search-not-found')}
         />
       </Show>
       <For each={props.search.searchList()}>

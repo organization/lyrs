@@ -1,6 +1,6 @@
 import { Trans, useTransContext } from '@jellybrick/solid-i18next';
 import { useNavigate, useParams } from '@solidjs/router';
-import { Box, Button } from '@suis-ui/kit';
+import { Button, token } from '@suis-ui/kit';
 import { Info } from 'lucide-solid';
 import { For, Show, createSignal } from 'solid-js';
 
@@ -10,9 +10,10 @@ import {
   type ButtonOption,
   type SettingOption,
 } from '../../../../../common/plugins';
-import Card from '../../../../components/Card';
-import * as componentStyles from '../../../../components/components.css';
-import Switch from '../../../../components/Switch';
+import { dangerButton } from '../../../../components/button';
+import Card from '../../../../components/card';
+import { ScrollArea } from '../../../../components/scroll-area';
+import Switch from '../../../../components/switch';
 import useConfig from '../../../../hooks/useConfig';
 import usePlugins from '../../../../hooks/usePlugins';
 import {
@@ -25,6 +26,8 @@ import {
 } from '../../../components/setting-layout';
 import { SettingOptionRenderer } from '../../../components/setting-option-renderer';
 import PluginLog from '../components/plugin-log';
+
+const LOG_LIST_MAX_HEIGHT = `calc(${token.size['9']} * 4)`;
 
 export const PluginSettingsPage = () => {
   const params = useParams();
@@ -102,11 +105,11 @@ export const PluginSettingsPage = () => {
           justify="between"
           setExpand={setShowLog}
           subCards={[
-            <Box maxH="400px" overflow="yAuto">
+            <ScrollArea fadeAxes="y" maxH={LOG_LIST_MAX_HEIGHT} overflow="yAuto">
               <For each={plugin()?.logs}>
                 {(log) => <PluginLog log={log} />}
               </For>
-            </Box>,
+            </ScrollArea>,
           ]}
         >
           <Trans key={'setting.plugin.show-log'} />
@@ -135,7 +138,7 @@ export const PluginSettingsPage = () => {
         subCards={[
           <CardRow>
             <Button
-              class={componentStyles.dangerButton}
+              class={dangerButton}
               onClick={deletePlugin}
               variant="primary"
             >

@@ -1,4 +1,4 @@
-import { Button } from '@suis-ui/kit';
+import { Box, Button, token } from '@suis-ui/kit';
 import {
   createEffect,
   For,
@@ -10,7 +10,9 @@ import {
 import { Portal } from 'solid-js/web';
 import { Transition } from 'solid-transition-group';
 
-import * as styles from './components.css';
+import { alpha } from '../../../utils/style';
+import { dangerButton } from '../button';
+import { ScrollArea } from '../scroll-area';
 
 export interface ButtonOptions {
   type?: 'positive' | 'negative' | 'normal';
@@ -56,18 +58,61 @@ const Modal = (props: ModalProps) => {
     <Portal mount={document.querySelector('#app')!}>
       <Transition name={'modal'}>
         <Show when={local.open}>
-          <div class={styles.modalOverlay}>
-            <div {...leftProps} class={styles.modalContent} ref={content}>
-              <div class={styles.modalBody}>{props.children}</div>
+          <Box
+            align="center"
+            bottom="0"
+            direction="row"
+            h="100%"
+            justify="center"
+            left="0"
+            pos="fixed"
+            right="0"
+            style={{ background: alpha(token.color.gray[900], 0.4) }}
+            top="0"
+            w="100%"
+          >
+            <Box
+              {...leftProps}
+              bc="surface.higher"
+              bd="thin"
+              bg="surface.main"
+              c="text.main"
+              direction="column"
+              h="fit-content"
+              maxH="80vh"
+              overflow="hidden"
+              r="sm"
+              ref={(element) => {
+                content = element;
+              }}
+              shadow="xl"
+              w="fit-content"
+            >
+              <ScrollArea
+                align="stretch"
+                direction="column"
+                fadeAxes="y"
+                overflow="auto"
+                px="xxl"
+                py="xl"
+              >
+                {props.children}
+              </ScrollArea>
               <Show when={local.buttons}>
-                <div class={styles.modalFooter}>
+                <Box
+                  align="center"
+                  bg="surface.high"
+                  direction="row"
+                  gap="sm"
+                  justify="flex-end"
+                  px="xxl"
+                  py="xl"
+                >
                   <For each={local.buttons ?? []}>
                     {(button) => (
                       <Button
                         class={
-                          button.type === 'negative'
-                            ? styles.dangerButton
-                            : undefined
+                          button.type === 'negative' ? dangerButton : undefined
                         }
                         onClick={button.onClick}
                         variant={
@@ -78,10 +123,10 @@ const Modal = (props: ModalProps) => {
                       </Button>
                     )}
                   </For>
-                </div>
+                </Box>
               </Show>
-            </div>
-          </div>
+            </Box>
+          </Box>
         </Show>
       </Transition>
     </Portal>

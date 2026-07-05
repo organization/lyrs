@@ -1,5 +1,5 @@
 import { Trans } from '@jellybrick/solid-i18next';
-import { Button } from '@suis-ui/kit';
+import { Button, token } from '@suis-ui/kit';
 import { CloudDownload, ExternalLink, Info } from 'lucide-solid';
 import { createSignal, Match, Switch } from 'solid-js';
 
@@ -8,8 +8,8 @@ import AboutLinkCard from './components/about-link-card';
 import ErrorIcon from '../../../../assets/icon_error.png';
 import MainIcon from '../../../../assets/icon_music.png';
 import packageJson from '../../../../package.json';
-import Card from '../../../components/Card';
-import Spinner from '../../../components/Spinner';
+import Card from '../../../components/card';
+import Spinner from '../../../components/spinner';
 import {
   CardCaption,
   CardColumn,
@@ -96,7 +96,7 @@ export const AboutPage = () => {
               <Switch
                 fallback={
                   <CardRow>
-                    <Spinner size="1rem" />
+                    <Spinner size={token.textSize['-2']} />
                     <Trans key={'setting.about.checking-for-updates'} />
                   </CardRow>
                 }

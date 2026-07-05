@@ -1,4 +1,4 @@
-import { vars } from '@suis-ui/kit/css';
+import { token, vars } from '@suis-ui/kit/css';
 import { style } from '@vanilla-extract/css';
 
 export const detailList = style({
@@ -7,7 +7,7 @@ export const detailList = style({
   flexDirection: 'column',
   alignItems: 'stretch',
   gap: vars.size.space.xs,
-  paddingLeft: 40,
+  paddingLeft: `calc(${token.size['4']} + ${vars.size.space.sm})`,
 });
 
 export const detailRow = style({
@@ -20,13 +20,13 @@ export const detailRow = style({
 });
 
 export const detailKey = style({
-  minWidth: 128,
-  fontSize: 15,
+  minWidth: `calc(${token.size['9']} * 2)`,
+  fontSize: `calc(${vars.font.body.fontSize} + ${vars.size.line.md})`,
 });
 
 export const detailValue = style({
   width: '100%',
   minWidth: 0,
   color: vars.color.text.caption,
-  fontSize: 15,
+  fontSize: `calc(${vars.font.body.fontSize} + ${vars.size.line.md})`,
 });

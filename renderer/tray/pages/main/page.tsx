@@ -1,13 +1,12 @@
 import { Trans } from '@jellybrick/solid-i18next';
-import { Box, Button } from '@suis-ui/kit';
+import { Box, Button, token, vars } from '@suis-ui/kit';
 import { Power, Search, Settings } from 'lucide-solid';
 import { type JSX, Show } from 'solid-js';
 
-import { SearchPanel } from '../../components/search-panel';
-import { DebugButton } from '../../components/debug-button';
-import useConfig from '../../../hooks/useConfig';
-
 import MainIcon from '../../../../assets/icon_music.png';
+import useConfig from '../../../hooks/useConfig';
+import { DebugButton } from '../../components/debug-button';
+import { SearchPanel } from '../../components/search-panel';
 
 type HeaderProps = {
   children?: JSX.Element;
@@ -27,10 +26,10 @@ const Header = (props: HeaderProps) => {
         <Box
           alt="Main Icon"
           as="img"
-          h="1.6rem"
+          h={token.size['1']}
           src={MainIcon}
           style={{ 'object-fit': 'contain' }}
-          w="1.6rem"
+          w={token.size['1']}
         />
         Lyrs
       </Box>
@@ -62,26 +61,26 @@ export const MainPage = () => {
     >
       <Header>
         <Button onClick={onQuit} size="sm" type="icon" variant="ghost">
-          <Power size={16} />
+          <Power size={token.size['1']} />
         </Button>
       </Header>
       <SearchPanel />
-      <Box bg="surface.higher" h="1px" mx="lg" />
+      <Box bg="surface.higher" h={vars.size.line.md} mx="lg" />
       <Box direction="row" gap="sm" p="md">
         <Button flex={'auto'} onClick={onSetting} variant="ghost">
           <Box align="center" direction="row" gap="xs" justify="center">
-            <Settings size="1.6rem" />
+            <Settings size={token.size['1']} />
             <Trans key="tray.setting.label" />
           </Box>
         </Button>
         <Button
           flex={'auto'}
-          overflow="hidden"
           onClick={onSearch}
+          overflow="hidden"
           variant="ghost"
         >
           <Box align="center" direction="row" gap="xs" justify="center">
-            <Search size="1.6rem" />
+            <Search size={token.size['1']} />
             <Trans key="tray.lyrics.label" />
           </Box>
         </Button>

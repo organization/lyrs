@@ -1,4 +1,4 @@
-import { Box } from '@suis-ui/kit';
+import { Box, token } from '@suis-ui/kit';
 import { splitProps } from 'solid-js';
 
 import * as styles from './setting-layout.css';
@@ -31,8 +31,8 @@ export const CheckPlaceholder = (props: DivBoxProps) => {
     <Box
       {...leftProps}
       class={cx(styles.checkPlaceholder, local.class)}
-      h="24px"
-      w="24px"
+      h={token.size['1']}
+      w={token.size['1']}
     />
   );
 };

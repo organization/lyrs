@@ -1,4 +1,4 @@
-import { vars } from '@suis-ui/kit/css';
+import { token, vars } from '@suis-ui/kit/css';
 import { style } from '@vanilla-extract/css';
 
 export const description = style({
@@ -14,8 +14,8 @@ export const checkPlaceholder = style({
 });
 
 export const iconImage = style({
-  width: 24,
-  height: 24,
+  width: token.size['3'],
+  height: token.size['3'],
   flexShrink: 0,
   objectFit: 'contain',
 });
@@ -33,8 +33,8 @@ export const breadcrumbParent = style({
 });
 
 export const codeBlock = style({
-  color: '#fff',
-  background: '#334155',
+  color: vars.color.surface.main,
+  background: token.color.gray[700],
   fontFamily: 'monospace',
   whiteSpace: 'pre-wrap',
 });

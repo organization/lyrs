@@ -1,9 +1,10 @@
-import { Box, Button } from '@suis-ui/kit';
+import { Box, Button, token, vars } from '@suis-ui/kit';
 import { ArrowLeft, Copy, Minus, Square, X } from 'lucide-solid';
 import { createSignal, Match, Show, Switch } from 'solid-js';
 
-import type { JSX } from 'solid-js/jsx-runtime';
 import MainIcon from '../../../assets/icon_music.png';
+
+import type { JSX } from 'solid-js/jsx-runtime';
 
 
 const isMac = /Mac/.test(navigator.userAgent);
@@ -14,18 +15,18 @@ type TitleButtonProps = {
   children: JSX.Element;
 };
 
-const TITLE_BUTTON_HEIGHT = '40px';
+const TITLE_BUTTON_HEIGHT = `calc(${vars.size.space.xxl} + ${vars.size.space.sm})`;
 const TitleButton = (props: TitleButtonProps) => {
   return (
     <Button
-      variant={'ghost'}
-      type={"icon"}
-      c={"text.caption"}
-      size={'sm'}
+      c={'text.caption'}
       onClick={() => props?.onClick?.()}
+      size={'sm'}
       style={{
         '-webkit-app-region': 'no-drag',
       }}
+      type={'icon'}
+      variant={'ghost'}
     >
       {props.children}
     </Button>
@@ -42,73 +43,75 @@ const Logo = () => {
       w="100%"
     >
       <Box
-        flex
-        direction="row"
         align="center"
+        direction="row"
+        flex
         gap="xs"
         text="title"
       >
         <Box
           alt="Main Icon"
           as="img"
-          h="1.2rem"
+          h={token.size['0']}
           src={MainIcon}
           style={{ 'object-fit': 'contain' }}
-          w="1.2rem"
+          w={token.size['0']}
         />
         Lyrs
       </Box>
     </Box>
-  )
-}
+  );
+};
 
 export const TitleBar = () => {
   const [isMaximized, setMaximized] = createSignal(false);
 
   return (
     <Box
-      w="100%"
-      h={TITLE_BUTTON_HEIGHT}
-      direction="row"
       align="center"
+      direction="row"
+      h={TITLE_BUTTON_HEIGHT}
       justify="flex-end"
+      p={'xs'}
       style={{
         '-webkit-app-region': 'drag',
         '-webkit-user-select': 'none',
-        'margin-top': isWindows ? '-2px' : undefined,
+        'margin-top': isWindows ? `calc(-1 * ${vars.size.space.xxs})` : undefined,
       }}
+      w="100%"
       z={50}
-      p={'xs'}
     >
       <Button
-        variant={'ghost'}
-        type={"icon"}
-        c={"text.caption"}
-        size={'sm'}
+        c={'text.caption'}
         onClick={() => history.back()}
+        size={'sm'}
         style={{
           '-webkit-app-region': 'no-drag',
-          'margin-left': isMac ? '70px' : undefined,
-          'margin-top': isMac ? '4px' : undefined,
+          'margin-left': isMac
+            ? `calc(${token.size['9']} + ${token.size['-2']})`
+            : undefined,
+          'margin-top': isMac ? vars.size.space.xs : undefined,
         }}
+        type={'icon'}
+        variant={'ghost'}
       >
-        <ArrowLeft size={'1.2rem'} />
+        <ArrowLeft size={token.size['0']} />
       </Button>
       <Logo />
       <Box flex={1} />
       <Show when={!isMac}>
         <Box
-          direction={'row'}
-          justify={'flex-end'}
           align={'center'}
+          direction={'row'}
           gap={'xs'}
+          justify={'flex-end'}
         >
           <TitleButton
             onClick={() => {
               window.ipcRenderer.invoke('window-minimize');
             }}
           >
-            <Minus size={'1.2rem'} />
+            <Minus size={token.size['0']} />
           </TitleButton>
           <TitleButton
             onClick={() => {
@@ -119,9 +122,9 @@ export const TitleBar = () => {
               });
             }}
           >
-            <Switch fallback={<Copy size={'1.2rem'} />}>
+            <Switch fallback={<Copy size={token.size['0']} />}>
               <Match when={!isMaximized()}>
-                <Square size={'1.2rem'} />
+                <Square size={token.size['0']} />
               </Match>
             </Switch>
           </TitleButton>
@@ -130,7 +133,7 @@ export const TitleBar = () => {
               window.ipcRenderer.invoke('window-close');
             }}
           >
-            <X size={'1.2rem'} />
+            <X size={token.size['0']} />
           </TitleButton>
         </Box>
       </Show>

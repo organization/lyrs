@@ -1,7 +1,7 @@
 import { Marquee } from '@suyongs/solid-utility';
 import { type JSX, Show, createSignal } from 'solid-js';
 
-import Card from '../../../../components/Card';
+import Card from '../../../../components/card';
 import {
   CardCaptionLarge,
   CardSummary,

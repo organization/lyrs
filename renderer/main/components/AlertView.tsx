@@ -1,4 +1,5 @@
 import { Trans } from '@jellybrick/solid-i18next';
+import { token, vars } from '@suis-ui/kit/css';
 
 import { useClassStyle } from '../../hooks/useClassStyle';
 import useServer from '../../hooks/useServer';
@@ -16,10 +17,10 @@ export const AlertView = () => {
     
     width: fit-content;
     height: fit-content;
-    padding: 32px 64px;
-    border-radius: 24px;
+    padding: ${token.size['2']} calc(${token.size['2']} * 2);
+    border-radius: ${token.size['1']};
     
-    z-index: 100;
+    z-index: ${vars.zIndex.dropdown};
   `,
   );
   useClassStyle(
@@ -30,19 +31,19 @@ export const AlertView = () => {
     justify-content: center;
     align-items: center;
     
-    font-size: 1.5rem;
-    color: rgba(255, 255, 255, 0.75);
+    font-size: ${token.textSize['1']};
+    color: oklch(from ${vars.color.surface.main} l c h / 0.75);
     background-image: linear-gradient(
       135deg,
-      rgba(255, 34, 34, 0.2) 25%,
-      rgba(255, 34, 34, 0.1) 25%,
-      rgba(255, 34, 34, 0.1) 50%,
-      rgba(255, 34, 34, 0.2) 50%,
-      rgba(255, 34, 34, 0.2) 75%,
-      rgba(255, 34, 34, 0.1) 75%
+      oklch(from ${vars.color.error.main} l c h / 0.2) 25%,
+      oklch(from ${vars.color.error.main} l c h / 0.1) 25%,
+      oklch(from ${vars.color.error.main} l c h / 0.1) 50%,
+      oklch(from ${vars.color.error.main} l c h / 0.2) 50%,
+      oklch(from ${vars.color.error.main} l c h / 0.2) 75%,
+      oklch(from ${vars.color.error.main} l c h / 0.1) 75%
     );
-    background-size: 24px 24px;
-    box-shadow: 0 0 0 4px rgba(255, 34, 34, 0.1) inset;
+    background-size: ${token.size['1']} ${token.size['1']};
+    box-shadow: 0 0 0 ${vars.size.line.thick} oklch(from ${vars.color.error.main} l c h / 0.1) inset;
     
     animation: background 10s linear infinite;
   `,
@@ -53,8 +54,8 @@ export const AlertView = () => {
     text-wrap: balance;
     word-break: keep-all;
     text-align: center;
-    font-size: 1rem;
-    color: rgba(255, 255, 255, 0.5);
+    font-size: ${token.textSize['-2']};
+    color: oklch(from ${vars.color.surface.main} l c h / 0.5);
   `,
   );
 

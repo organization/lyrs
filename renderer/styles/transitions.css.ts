@@ -1,6 +1,7 @@
+import { token, vars } from '@suis-ui/kit/css';
 import { globalStyle } from '@vanilla-extract/css';
 
-const enter = 'all 0.225s cubic-bezier(0.16, 1, 0.3, 1)';
+const enter = `all 0.225s ${vars.motion.easing.emphasized}`;
 const exit = 'all 0.225s cubic-bezier(0.5, 0, 0.75, 0)';
 
 globalStyle(
@@ -19,7 +20,7 @@ globalStyle(
 
 globalStyle('.tab-enter', {
   opacity: 0,
-  transform: 'translateY(128px)',
+  transform: `translateY(calc(${token.size['9']} * 2))`,
 });
 
 globalStyle('.tab-exit-to, .card-exit-to', {
@@ -48,18 +49,18 @@ globalStyle('.page-left-exit-to', {
 
 globalStyle('.card-enter', {
   opacity: 0,
-  transform: 'translateY(-32px)',
+  transform: `translateY(calc(-1 * ${vars.size.space.xxl}))`,
 });
 
 globalStyle('.selector-enter-active', {
   transformOrigin: '0% var(--percent, 0%)',
-  transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+  transition: `all ${vars.motion.duration.slower} ${vars.motion.easing.emphasized}`,
 });
 
 globalStyle(
   '.selector-exit-active, .modal-exit-active, .tray-menu-exit-active',
   {
-    transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+    transition: `all ${vars.motion.duration.normal} ${vars.motion.easing.emphasized}`,
   },
 );
 
@@ -74,7 +75,7 @@ globalStyle('.selector-exit-to, .tray-menu-enter, .tray-menu-exit-to', {
 });
 
 globalStyle('.modal-enter-active, .tray-menu-enter-active', {
-  transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+  transition: `all ${vars.motion.duration.slower} ${vars.motion.easing.emphasized}`,
 });
 
 globalStyle('.modal-enter', {

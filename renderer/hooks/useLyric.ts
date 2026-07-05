@@ -4,7 +4,7 @@ import useLyricMapper from './useLyricMapper';
 import useStyle from './useStyle';
 
 import { getLyricMapperId } from '../../common/utils';
-import { usePlayingInfo } from '../components/PlayingInfoProvider';
+import { usePlayingInfo } from '../components/playing-info-provider';
 
 const BIAS = 225; // ms
 const TRANSITION_DURATION = 225; // ms

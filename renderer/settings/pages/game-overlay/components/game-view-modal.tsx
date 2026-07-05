@@ -3,8 +3,8 @@ import { For } from 'solid-js';
 
 import * as styles from './game-view-modal.css';
 
-import Card from '../../../../components/Card';
-import Modal from '../../../../components/Modal';
+import Card from '../../../../components/card';
+import Modal from '../../../../components/modal';
 import {
   CardTitle,
   CheckPlaceholder,

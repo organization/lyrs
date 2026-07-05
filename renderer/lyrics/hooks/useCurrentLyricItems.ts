@@ -1,7 +1,7 @@
 import { createMemo } from 'solid-js';
 import { Entry } from 'tstl';
 
-import { usePlayingInfo } from '../../components/PlayingInfoProvider';
+import { usePlayingInfo } from '../../components/playing-info-provider';
 
 export const useCurrentLyricItems = () => {
   const { lyricMode, lyrics, playerLyrics } = usePlayingInfo();

@@ -1,19 +1,23 @@
 import { Trans, useTransContext } from '@jellybrick/solid-i18next';
-import { Box, Button } from '@suis-ui/kit';
+import { Box, Button, token } from '@suis-ui/kit';
 import { ExternalLink, FlaskConical } from 'lucide-solid';
 import { createResource, createSignal } from 'solid-js';
 
 import { DEFAULT_CONFIG } from '../../../../common/constants';
 import { getTranslation } from '../../../../common/intl';
 import { type SettingOption } from '../../../../common/plugins';
-import Card from '../../../components/Card';
-import Modal from '../../../components/Modal';
-import Selector from '../../../components/Select';
-import Switch from '../../../components/Switch';
+import Card from '../../../components/card';
+import Modal from '../../../components/modal';
+import { ScrollArea } from '../../../components/scroll-area';
+import Selector from '../../../components/select';
+import Switch from '../../../components/switch';
 import useConfig from '../../../hooks/useConfig';
 import { useLyricProvider } from '../../../hooks/useLyricProvider';
 import useServer from '../../../hooks/useServer';
 import { SettingOptionRenderer } from '../../components/setting-option-renderer';
+
+const SELECTOR_MIN_WIDTH = `calc(${token.size['9']} * 2)`;
+const MODAL_MAX_WIDTH = `calc(${token.size['9']} * 5)`;
 
 export const GeneralPage = () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -59,9 +63,10 @@ export const GeneralPage = () => {
     .then(setSourceProviders);
 
   return (
-    <Box
+    <ScrollArea
       align="stretch"
       direction="column"
+      fadeAxes="y"
       flex={1}
       gap="xs"
       justify="flex-start"
@@ -81,7 +86,7 @@ export const GeneralPage = () => {
           </Box>
           <Selector
             format={(str) => getTranslation('language.name', str)}
-            minWidth="210px"
+            minWidth={SELECTOR_MIN_WIDTH}
             mode={'select'}
             onChange={(value) => {
               setConfig({ language: value });
@@ -108,7 +113,7 @@ export const GeneralPage = () => {
           </Box>
           <Selector
             format={(str) => t(`setting.general.app-theme.${str}`)}
-            minWidth="210px"
+            minWidth={SELECTOR_MIN_WIDTH}
             mode={'select'}
             onChange={(value) => {
               setConfig({ appTheme: value });
@@ -162,7 +167,7 @@ export const GeneralPage = () => {
                 defaultValue: str,
               })
             }
-            minWidth="210px"
+            minWidth={SELECTOR_MIN_WIDTH}
             mode={'select'}
             onChange={(value) => {
               setConfig({ sourceProvider: value });
@@ -216,7 +221,7 @@ export const GeneralPage = () => {
                 defaultValue: str,
               })
             }
-            minWidth="210px"
+            minWidth={SELECTOR_MIN_WIDTH}
             mode={'select'}
             onChange={(value) => {
               setConfig({ lyricProvider: value });
@@ -360,7 +365,7 @@ export const GeneralPage = () => {
         onClose={() => setRequireOpen(false)}
         open={requireOpen()}
       >
-        <Box maxW="500px" text="title">
+        <Box maxW={MODAL_MAX_WIDTH} text="title">
           {t('setting.general.require-alert')}
         </Box>
       </Modal>
@@ -382,7 +387,7 @@ export const GeneralPage = () => {
         onClose={() => setRestartOpen(false)}
         open={restartOpen()}
       >
-        <Box maxW="500px" mb="sm" text="title">
+        <Box maxW={MODAL_MAX_WIDTH} mb="sm" text="title">
           <Trans key={'setting.general.restart-alert-title'} />
         </Box>
         <Box mb="xs" text="body">
@@ -407,7 +412,7 @@ export const GeneralPage = () => {
         onClose={() => setResetOpen(false)}
         open={resetOpen()}
       >
-        <Box maxW="500px" mb="sm" text="title">
+        <Box maxW={MODAL_MAX_WIDTH} mb="sm" text="title">
           <Trans key={'setting.general.reset-alert-title'} />
         </Box>
         <Box mb="xs" text="body">
@@ -431,7 +436,7 @@ export const GeneralPage = () => {
         onClose={() => setResetLastOpen(false)}
         open={resetLastOpen()}
       >
-        <Box maxW="500px" mb="sm" text="title">
+        <Box maxW={MODAL_MAX_WIDTH} mb="sm" text="title">
           <Trans key={'setting.general.reset-alert-title'} />
         </Box>
         <Box mb="xs" text="body">
@@ -451,6 +456,6 @@ export const GeneralPage = () => {
       >
         <Box text="title">{t('setting.general.language.alert')}</Box>
       </Modal>
-    </Box>
+    </ScrollArea>
   );
 };

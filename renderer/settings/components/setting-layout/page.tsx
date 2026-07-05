@@ -5,6 +5,7 @@ import { createSignal, splitProps, type JSX } from 'solid-js';
 import { iconSmallProps } from './icon-props';
 import * as styles from './setting-layout.css';
 
+import { ScrollArea } from '../../../components/scroll-area';
 import { cx } from '../../../utils/classNames';
 
 import type { DivBoxProps } from './types';
@@ -17,10 +18,11 @@ export const PageRoot = (props: PageRootProps) => {
   const [local, leftProps] = splitProps(props, ['flushX']);
 
   return (
-    <Box
+    <ScrollArea
       {...leftProps}
       align="stretch"
       direction="column"
+      fadeAxes="y"
       flex={1}
       gap="xs"
       justify="flex-start"

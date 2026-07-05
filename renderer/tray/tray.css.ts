@@ -1,10 +1,10 @@
-import { vars } from '@suis-ui/kit/css';
+import { token, vars } from '@suis-ui/kit/css';
 import { style } from '@vanilla-extract/css';
 
 export const menuPanel = style({
-  background: 'rgb(0 0 0 / 0.2)',
-  borderBottom: `${vars.size.line.thin} solid rgb(255 255 255 / 0.1)`,
-  backdropFilter: 'blur(24px)',
+  background: `oklch(from ${token.color.gray[950]} l c h / 20%)`,
+  borderBottom: `${vars.size.line.thin} solid oklch(from ${token.color.gray[50]} l c h / 10%)`,
+  backdropFilter: `blur(${vars.size.space.xl})`,
 });
 
 export const segmentGroup = style({

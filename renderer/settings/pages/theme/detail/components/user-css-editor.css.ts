@@ -1,22 +1,22 @@
-import { vars } from '@suis-ui/kit/css';
+import { token, vars } from '@suis-ui/kit/css';
 import { style } from '@vanilla-extract/css';
 
 export const toolbarScroller = style({
-  marginTop: 40,
+  marginTop: `calc(${token.size['4']} + ${vars.size.space.sm})`,
   paddingBottom: vars.size.space.sm,
-  overflowX: 'auto',
 });
 
 export const toolbar = style({
-  minWidth: 750,
+  minWidth: `calc(${token.size['9']} * 11 + ${token.size['4']} + ${vars.size.space.md} + ${vars.size.line.thick})`,
+  width: 'max-content',
   display: 'flex',
-  flexWrap: 'wrap',
+  flexWrap: 'nowrap',
   gap: vars.size.space.xs,
 });
 
 export const editor = style({
-  minHeight: 300,
-  marginTop: 40,
+  minHeight: `calc(${token.size['9']} * 4 + ${token.size['4']} + ${vars.size.space.md})`,
+  marginTop: `calc(${token.size['4']} + ${vars.size.space.sm})`,
   overflow: 'hidden',
   borderRadius: vars.size.round.md,
 });

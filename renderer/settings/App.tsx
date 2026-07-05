@@ -32,7 +32,7 @@ import {
   ViewPage,
 } from './pages';
 
-import Layout from '../components/Layout';
+import Layout from '../components/layout';
 import usePluginsCSS from '../hooks/usePluginsCSS';
 
 export interface TabItemData extends Omit<ListItemData, 'label'> {

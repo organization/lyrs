@@ -10,6 +10,7 @@ import {
 
 import * as styles from './list-view.css';
 
+import { ScrollArea } from '../../../components/scroll-area';
 import { cx } from '../../../utils/classNames';
 
 export interface ListItemData {
@@ -88,30 +89,40 @@ const ListView = (props: ListViewProps) => {
   };
 
   return (
-    <ul
-      {...leftProps}
-      class={cx(styles.navList, leftProps.class)}
-      ref={listParent}
+    <ScrollArea
+      align="stretch"
+      class={styles.navScrollArea}
+      direction="column"
+      fadeAxes="y"
+      overflow="yAuto"
     >
-      <div
-        class={cx(
-          styles.navIndicator,
-          typeof tabHeight()[index()] !== 'number' && styles.navIndicatorHidden,
-        )}
-        style={{ translate: `0px ${tabHeight()[index()] + 1}px` }}
-      />
-      <For each={local.items}>
-        {(item) => (
-          <ListItem
-            data-list-view-item="true"
-            icon={item.icon}
-            onClick={() => onSelect(item)}
-            selected={tab() === item.id}
-            title={item.label}
-          />
-        )}
-      </For>
-    </ul>
+      <ul
+        {...leftProps}
+        class={cx(styles.navList, leftProps.class)}
+        ref={listParent}
+      >
+        <li
+          aria-hidden="true"
+          class={cx(
+            styles.navIndicator,
+            typeof tabHeight()[index()] !== 'number' &&
+              styles.navIndicatorHidden,
+          )}
+          style={{ translate: `0px ${tabHeight()[index()] + 1}px` }}
+        />
+        <For each={local.items}>
+          {(item) => (
+            <ListItem
+              data-list-view-item="true"
+              icon={item.icon}
+              onClick={() => onSelect(item)}
+              selected={tab() === item.id}
+              title={item.label}
+            />
+          )}
+        </For>
+      </ul>
+    </ScrollArea>
   );
 };
 

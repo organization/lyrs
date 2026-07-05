@@ -3,7 +3,7 @@ import { For } from 'solid-js';
 
 import * as styles from './anchor-grid.css';
 
-import Card from '../../../components/Card';
+import Card from '../../../components/card';
 import { cx } from '../../../utils/classNames';
 import { PositionGrid } from '../position-grid';
 

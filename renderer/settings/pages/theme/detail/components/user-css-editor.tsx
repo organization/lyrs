@@ -4,6 +4,7 @@ import { keymap } from '@codemirror/view';
 import { Trans } from '@jellybrick/solid-i18next';
 import { CodeMirror } from '@solid-codemirror/codemirror';
 import { Button } from '@suis-ui/kit';
+import { token, vars } from '@suis-ui/kit/css';
 import { githubDarkInit } from '@uiw/codemirror-theme-github';
 import { basicSetup, EditorView } from 'codemirror';
 import {
@@ -17,6 +18,7 @@ import {
 
 import * as styles from './user-css-editor.css';
 
+import { ScrollArea } from '../../../../../components/scroll-area';
 import {
   userCSSSelectors,
   userCSSTransitions,
@@ -74,7 +76,7 @@ const UserCSSEditor = (props: UserCSSEditorProps) => {
 
   const userCSSTheme = EditorView.theme({
     '.cm-activeLine': {
-      'border-radius': '4px',
+      'border-radius': vars.size.round.xs,
     },
 
     '.cm-activeLineGutter': {
@@ -82,18 +84,18 @@ const UserCSSEditor = (props: UserCSSEditorProps) => {
     },
 
     '.cm-content': {
-      'padding-right': '8px',
-      'min-height': '300px',
+      'padding-right': vars.size.space.sm,
+      'min-height': `calc(${token.size['9']} * 4 + ${token.size['4']} + ${vars.size.space.md})`,
     },
 
     '.cm-editor': {
       'flex': 1,
       'min-width': '0',
-      'padding': '6px 3px',
+      'padding': `${token.size['-2']} calc(${vars.size.line.thick} + ${vars.size.line.md})`,
     },
 
     '.cm-gutters': {
-      'padding-left': '8px',
+      'padding-left': vars.size.space.sm,
     },
   });
 
@@ -138,7 +140,13 @@ const UserCSSEditor = (props: UserCSSEditorProps) => {
         <Trans key={'setting.user-css-warning.1'} />
       </div>
 
-      <div class={styles.toolbarScroller}>
+      <ScrollArea
+        align="stretch"
+        class={styles.toolbarScroller}
+        direction="column"
+        fadeAxes="x"
+        overflow="xAuto"
+      >
         <div class={styles.toolbar}>
           <For each={Object.keys(userCSSSelectors)}>
             {(selectorName) => (
@@ -173,7 +181,7 @@ const UserCSSEditor = (props: UserCSSEditorProps) => {
             )}
           </For>
         </div>
-      </div>
+      </ScrollArea>
 
       <CodeMirror
         class={styles.editor}

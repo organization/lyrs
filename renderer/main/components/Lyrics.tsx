@@ -1,9 +1,10 @@
+import { vars } from '@suis-ui/kit/css';
 import { type Accessor, For, type JSX, splitProps } from 'solid-js';
 import { TransitionGroup } from 'solid-transition-group';
 
 import LyricsTransition from './LyricsTransition';
 
-import { usePlayingInfo } from '../../components/PlayingInfoProvider';
+import { usePlayingInfo } from '../../components/playing-info-provider';
 import { useClassStyle } from '../../hooks/useClassStyle';
 import useConfig from '../../hooks/useConfig';
 import useCurrent from '../../hooks/useCurrent';
@@ -79,7 +80,7 @@ export const useLyricsStyle = (
   useClassStyle(
     userCSSSelectors['lyrics-wrapper'],
     () => `
-    transition: all 0.6s;
+    transition: ${vars.motion.transition.slower};
   `,
   );
   useClassStyle(
@@ -118,11 +119,11 @@ export const useLyricsStyle = (
     
     width: fit-content;
     
-    padding: 0.25rem 0.5rem;
+    padding: ${vars.size.space.xxs} ${vars.size.space.xs};
     whitespace: pre-line;
     text-align: center;
     
-    transition: all 0.225s ease-out;
+    transition: ${vars.motion.transition.fast};
     transition-delay: var(--transition-delay, 0s);
     transform-origin: ${anchorTypeToOriginType(view()?.position.anchor)};
     will-change: transform;

@@ -1,6 +1,6 @@
 import { createMemo, createSignal, onMount, splitProps } from 'solid-js';
 
-import { type Status } from '../../components/PlayingInfoProvider';
+import { type Status } from '../../components/playing-info-provider';
 import { userCSSVariables } from '../../utils/userCSSSelectors';
 
 import type { JSX } from 'solid-js/jsx-runtime';

@@ -3,7 +3,7 @@ import { TransitionGroup } from 'solid-transition-group';
 
 import LyricsItem from './LyricsItem';
 
-import { type Status } from '../../components/PlayingInfoProvider';
+import { type Status } from '../../components/playing-info-provider';
 import useStyle from '../../hooks/useStyle';
 import { cx } from '../../utils/classNames';
 import {

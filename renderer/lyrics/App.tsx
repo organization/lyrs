@@ -3,8 +3,8 @@ import { TransProvider } from '@jellybrick/solid-i18next';
 import { MainPage } from './pages/main';
 
 import { LangResource } from '../../common/intl';
-import PlayingInfoProvider from '../components/PlayingInfoProvider';
-import UserCSS from '../components/UserCSS';
+import PlayingInfoProvider from '../components/playing-info-provider';
+import UserCSS from '../components/user-css';
 import useConfig from '../hooks/useConfig';
 
 const [config] = useConfig();

@@ -1,6 +1,6 @@
 import { useTransContext } from '@jellybrick/solid-i18next';
-import { Box, Button, Input, Item, Tooltip } from '@suis-ui/kit';
-import { Check, ChevronRight, Search, UserRoundSearch } from 'lucide-solid';
+import { Box, Button, Input, Item, token, Tooltip } from '@suis-ui/kit';
+import { Check, ChevronRight, Search } from 'lucide-solid';
 import {
   createEffect,
   createSignal,
@@ -12,9 +12,9 @@ import {
 } from 'solid-js';
 
 import { type LyricMetadata } from '../../../../common/provider';
-import Modal from '../../../components/Modal';
-import { usePlayingInfo } from '../../../components/PlayingInfoProvider';
-import Spinner from '../../../components/Spinner';
+import { usePlayingInfo } from '../../../components/playing-info-provider';
+import { ScrollArea } from '../../../components/scroll-area';
+import Spinner from '../../../components/spinner';
 import useLyricMapper from '../../../hooks/useLyricMapper';
 import { useLyricProvider } from '../../../hooks/useLyricProvider';
 import usePluginOverride from '../../../hooks/usePluginOverride';
@@ -104,7 +104,7 @@ export const SearchPanel = () => {
   };
 
   return (
-    <Box w="100%" align="stretch" direction="column" flex={1} minH="0">
+    <Box align="stretch" direction="column" flex={1} minH="0" w="100%">
       <Box
         align="center"
         as="form"
@@ -118,23 +118,24 @@ export const SearchPanel = () => {
           flex={1}
           onInput={(event) => setTitle(event.target.value)}
           placeholder={t('lyrics.title')}
-          value={title() ?? ''}
           style={{ 'min-width': '0' }}
+          value={title() ?? ''}
         />
-        <Button type={'icon'} variant="ghost" size={'sm'} r={'sm'}>
-          <Search size={16} />
+        <Button r={'sm'} size={'sm'} type={'icon'} variant="ghost">
+          <Search size={token.size['1']} />
         </Button>
         <ArtistButton artist={artist() ?? ''} onChange={onArtistChange} />
       </Box>
-      <Box
+      <ScrollArea
         align="stretch"
         direction="column"
+        fadeAxes="y"
         flex={1}
+        gap={'sm'}
         minH="0"
         overflow="auto"
-        w="100%"
         p={'md'}
-        gap={'sm'}
+        w="100%"
       >
         <Show when={loading()}>
           <Box align="center" h="100%" justify="center" p="lg" w="100%">
@@ -148,24 +149,27 @@ export const SearchPanel = () => {
               shadow={'lg'}
             >
               <Item
-                as={Button}
-                variant={'secondary'}
-                title={item.title}
-                description={item.artist}
-                onClick={() => onSelect(item)}
                 action={
                   currentLyricID() === item.id ? (
-                    <Check width={'1.6rem'} height={'1.6rem'} />
+                    <Check height={token.size['1']} width={token.size['1']} />
                   ) : (
-                    <ChevronRight width={'1.6rem'} height={'1.6rem'} />
+                    <ChevronRight
+                      height={token.size['1']}
+                      width={token.size['1']}
+                    />
                   )
                 }
                 active={currentLyricID() === item.id}
+                as={Button}
+                description={item.artist}
+                onClick={() => onSelect(item)}
+                title={item.title}
+                variant={'secondary'}
               />
             </Tooltip>
           )}
         </For>
-      </Box>
+      </ScrollArea>
     </Box>
   );
 };

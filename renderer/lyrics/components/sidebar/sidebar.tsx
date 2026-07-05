@@ -1,5 +1,5 @@
 import { Trans } from '@jellybrick/solid-i18next';
-import { Box } from '@suis-ui/kit';
+import { Box, token } from '@suis-ui/kit';
 
 import LyricProgressBar from '../../../main/components/LyricProgressBar';
 import { CurrentLyricCard } from '../current-lyric-card';
@@ -16,14 +16,14 @@ export const Sidebar = () => {
       overflow="hidden"
       p="lg"
       style={{ 'flex-shrink': 0 }}
-      w="312px"
+      w={`calc(${token.size['9']} * 4 + ${token.size['4']} + ${token.size['3']})`}
     >
-      <Box style={{ 'font-size': '20px', 'line-height': '1.3' }}>
+      <Box text="title">
         <Trans key="lyrics.current-playing-track" />
       </Box>
       {/* eslint-disable-next-line solid/style-prop */}
-      <LyricProgressBar style="width: 280px !important;" />
-      <Box mt="lg" style={{ 'font-size': '20px', 'line-height': '1.3' }}>
+      <LyricProgressBar style="width: 100% !important;" />
+      <Box mt="lg" text="title">
         <Trans key="lyrics.current-applied-lyric" />
       </Box>
       <CurrentLyricCard />
