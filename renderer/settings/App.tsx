@@ -19,16 +19,18 @@ import {
 import { For, type JSX, type Setter } from 'solid-js';
 import { Transition } from 'solid-transition-group';
 
-import ListView, { type ListItemData } from './components/ListView';
-import GameContainer from './containers/GameContainer';
-import GameListContainer from './containers/GameListContainer';
-import GeneralContainer from './containers/GeneralContainer';
-import InfoContainer from './containers/InfoContainer';
-import PluginContainer from './containers/PluginContainer';
-import PluginSettingsContainer from './containers/PluginSettingsContainer';
-import ThemeContainer from './containers/ThemeContainer';
-import ThemeListContainer from './containers/ThemeListContainer';
-import { ViewContainer } from './containers/ViewContainer';
+import { ListView, type ListItemData } from './components/list-view';
+import {
+  AboutPage,
+  GameListPage,
+  GameOverlayPage,
+  GeneralPage,
+  PluginPage,
+  PluginSettingsPage,
+  ThemeListPage,
+  ThemePage,
+  ViewPage,
+} from './pages';
 
 import Layout from '../components/Layout';
 import usePluginsCSS from '../hooks/usePluginsCSS';
@@ -44,22 +46,22 @@ const TAB_LIST = (() => {
     {
       id: 'general',
       icon: <Settings size={18} />,
-      container: GeneralContainer,
+      container: GeneralPage,
     },
     {
       id: 'view',
       icon: <LayoutGrid size={18} />,
-      container: ViewContainer,
+      container: ViewPage,
     },
     {
       id: 'theme',
       icon: <Palette size={18} />,
-      container: ThemeListContainer,
+      container: ThemeListPage,
     },
     {
       id: 'plugin',
       icon: <Puzzle size={18} />,
-      container: PluginContainer,
+      container: PluginPage,
     },
   );
 
@@ -67,14 +69,14 @@ const TAB_LIST = (() => {
     result.push({
       id: 'game-overlay',
       icon: <Gamepad2 size={18} />,
-      container: GameContainer,
+      container: GameOverlayPage,
     });
   }
 
   result.push({
     id: 'about',
     icon: <Info size={18} />,
-    container: InfoContainer,
+    container: AboutPage,
   });
 
   return result;
@@ -128,9 +130,9 @@ const App = () => (
     <For each={TAB_LIST}>
       {(tab) => <Route component={tab.container} path={tab.id} />}
     </For>
-    <Route component={GameListContainer} path={'/game-overlay/list'} />
-    <Route component={PluginSettingsContainer} path={'/plugin/:id'} />
-    <Route component={ThemeContainer} path={'/theme/:name'} />
+    <Route component={GameListPage} path={'/game-overlay/list'} />
+    <Route component={PluginSettingsPage} path={'/plugin/:id'} />
+    <Route component={ThemePage} path={'/theme/:name'} />
     <Route
       component={() => <Navigate href={`/${TAB_LIST[0].id}`} />}
       path={'*'}

@@ -1,0 +1,1 @@
+export { ViewPage } from './page';
