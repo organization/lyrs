@@ -64,7 +64,7 @@
     "font-list": "2.1.0",
     "hono": "4.12.28",
     "html-parse-string": "0.0.9",
-    "i18next": "26.3.4",
+    "i18next": "26.3.5",
     "node-forge": "1.4.0",
     "semver": "7.8.5",
     "solid-floating-ui": "0.3.1",
