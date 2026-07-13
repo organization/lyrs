@@ -62,7 +62,7 @@
     "electron-progressbar": "2.2.1",
     "electron-updater": "6.8.9",
     "font-list": "2.1.0",
-    "hono": "4.12.29",
+    "hono": "4.12.30",
     "html-parse-string": "0.0.9",
     "i18next": "26.3.6",
     "node-forge": "1.4.0",
