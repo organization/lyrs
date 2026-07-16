@@ -80,7 +80,7 @@
   "devDependencies": {
     "@babel/runtime": "8.0.0",
     "@stylistic/eslint-plugin": "5.10.0",
-    "@tailwindcss/vite": "4.3.2",
+    "@tailwindcss/vite": "4.3.3",
     "@total-typescript/ts-reset": "0.6.1",
     "@types/color": "4.2.1",
     "@types/electron-progressbar": "2.2.0",
@@ -103,7 +103,7 @@
     "oxlint": "1.74.0",
     "oxlint-tsgolint": "0.24.0",
     "patch-package": "8.0.1",
-    "tailwindcss": "4.3.2",
+    "tailwindcss": "4.3.3",
     "type-fest": "5.8.0",
     "typescript": "6.0.3",
     "utf-8-validate": "6.0.6",
