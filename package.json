@@ -108,7 +108,7 @@
     "typescript": "6.0.3",
     "utf-8-validate": "6.0.6",
     "vite": "8.1.5",
-    "vite-plugin-solid": "2.11.12"
+    "vite-plugin-solid": "2.11.13"
   },
   "optionalDependencies": {
     "@asdf-overlay/core": "1.2.5",
