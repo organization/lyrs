@@ -49,7 +49,7 @@
     "@codemirror/state": "6.7.1",
     "@codemirror/view": "6.43.6",
     "@floating-ui/dom": "1.8.0",
-    "@hono/node-server": "2.0.11",
+    "@hono/node-server": "2.0.12",
     "@jellybrick/glasstron": "0.2.1",
     "@jellybrick/solid-i18next": "1.2.2",
     "@solid-codemirror/codemirror": "1.0.4",
