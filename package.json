@@ -119,7 +119,7 @@
   },
   "overrides": {
     "@electron/get": "5.1.0",
-    "axios": "1.18.1",
+    "axios": "1.19.0",
     "electron": "43.2.0",
     "http-errors": "2.0.1",
     "node-abi": "4.33.0",
