@@ -98,7 +98,7 @@
     "eslint-plugin-perfectionist": "5.10.1",
     "eslint-plugin-solid": "0.14.5",
     "node-abi": "4.33.0",
-    "node-addon-api": "8.9.1",
+    "node-addon-api": "8.9.2",
     "oxfmt": "0.57.0",
     "oxlint": "1.74.0",
     "oxlint-tsgolint": "0.24.0",
