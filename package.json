@@ -105,7 +105,7 @@
     "patch-package": "8.0.1",
     "tailwindcss": "4.3.3",
     "type-fest": "5.8.0",
-    "typescript": "6.0.3",
+    "typescript": "7.0.2",
     "utf-8-validate": "6.0.6",
     "vite": "8.2.2",
     "vite-plugin-solid": "2.11.14"
