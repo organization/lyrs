@@ -53,7 +53,7 @@
     "@jellybrick/glasstron": "0.2.1",
     "@jellybrick/solid-i18next": "1.2.2",
     "@solid-codemirror/codemirror": "1.0.4",
-    "@solidjs/router": "0.16.1",
+    "@solidjs/router": "1.0.0",
     "@suyongs/solid-utility": "0.4.4",
     "@uiw/codemirror-theme-github": "4.25.11",
     "codemirror": "6.0.2",
