@@ -101,7 +101,7 @@
     "node-addon-api": "8.9.2",
     "oxfmt": "0.57.0",
     "oxlint": "1.74.0",
-    "oxlint-tsgolint": "0.24.0",
+    "oxlint-tsgolint": "0.25.0",
     "patch-package": "8.0.1",
     "tailwindcss": "4.3.3",
     "type-fest": "5.8.0",
