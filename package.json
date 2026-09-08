@@ -96,7 +96,7 @@
     "electron-builder": "26.15.3",
     "electron-vite": "6.0.0-beta.1",
     "eslint-plugin-perfectionist": "5.10.1",
-    "eslint-plugin-solid": "0.14.5",
+    "eslint-plugin-solid": "0.18.0",
     "node-abi": "4.33.0",
     "node-addon-api": "8.9.2",
     "oxfmt": "0.57.0",
